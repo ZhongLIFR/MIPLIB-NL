@@ -1,0 +1,22 @@
+{
+  "abstract_problem": "An asset management firm is constructing a robust investment portfolio. The portfolio is composed of M distinct investment sectors (e.g., Technology, Healthcare, Energy, Real Estate, Consumer Goods, Emerging Markets, Bonds). For each sector, the analysis team has identified several candidate assets (specific stocks or funds), and exactly one asset must be selected from the available options for each sector to ensure diversification (mutual exclusion constraint). Portfolio managers must choose precisely one asset from each sector to form the final portfolio. Meanwhile, the risk management department has simulated N potential future economic scenarios (market conditions). These N constraints represent the performance models for N different market environments. The return of the portfolio in each scenario depends on the linear combination of the predicted returns of the selected assets. If the combined portfolio return in a specific scenario exceeds a required benchmark return, the portfolio is deemed 'resilient' in that scenario; otherwise, it is deemed 'underperforming'. The goal is to maximize the number of resilient scenarios.",
+  "parameters": {
+    "M": 10,
+    "N": 100
+  },
+  "files": {
+    "files_0": {
+      "path": "data/system.csv",
+      "description": "Each row of Table system represents an investment sector, followed by the tickers/names of different candidate assets available for that sector. Exactly one asset must be selected from the several options of each sector (mutually exclusive constraint)."
+    },
+    "files_1": {
+      "path": "data/test.csv",
+      "description": "The first row of Table test lists the candidate assets for all sectors. Starting from the second row, each row represents a simulated economic scenario, presenting the coefficients (predicted returns or weights) for the linear combination of each asset in that scenario. The sum of this linear combination must exceed a specific benchmark for the portfolio to be deemed resilient in that scenario."
+    },
+    "files_2": {
+      "path": "data/test2.csv",
+      "description": "Each row of Table test2 represents a simulated economic scenario, followed by the benchmark return threshold that the portfolio needs to meet. For the portfolio to be deemed resilient, the sum of the linear combination of the selected assets in that scenario must exceed this threshold."
+    }
+  },
+  "optimal_value": 62
+}

@@ -1,0 +1,43 @@
+{
+  "abstract_problem": "A media operator plans a tightly regulated schedule over {T} periods and {J} channels.\n\nIn each period, exactly one channel receives the headline placement, and each channel must receive the headline placement exactly {headline_quota_per_channel} times over the whole horizon.\n\nIn addition, each period must include exactly {support_quota_per_period} channels that act as \"support hosts\". For every (period, channel) pair, the operator must pick exactly one action: either the channel takes the headline, or it becomes a support host, or it sends a directed cross-channel promotion to exactly one other channel.\n\nWhich directed promotions are allowed is defined by the set of (sender_channel_id, target_channel_id) pairs listed in the promotion-requirement file. Any directed pair not listed there is not an allowed option.\n\nCross-channel promotions are tightly controlled: whenever a channel promotes into another channel in a period, the destination channel must be a support host in that same period, and each channel can receive at most one incoming promotion per period.\n\nOver the full horizon, each allowed directed pair must be used exactly the required number of times (in this instance it is exactly once for every pair of distinct channels, so each channel sends {K} promotions in total).\n\nTo keep the plan realistic and evenly paced, the schedule must satisfy strict cadence rules expressed as time-window bounds. These rules limit how concentrated or how sparse a channel's support hosting can be over time, limit how headline and hosting actions can cluster, and also limit how frequently a channel can spend periods sending promotions.\n\nThe objective is to avoid placing the headline on channel {penalized_channel} in period {penalized_period} unless it is unavoidable, while still meeting all operational rules.",
+  "parameters": {
+    "T": "18",
+    "J": "9",
+    "K": "8",
+    "headline_quota_per_channel": "2",
+    "support_quota_per_period": "4",
+    "penalized_period": "1",
+    "penalized_channel": "1"
+  },
+  "files": {
+    "periods": {
+      "path": "data/periods.csv",
+      "description": "Planning periods in chronological order. Period IDs serve as the shared time index referenced by all other data files. Period IDs are expected to be integers on a consistent scale so arithmetic time windows can be defined.\n\nData format: | period_id |\n|:--|\n| <int> |\n| ... |"
+    },
+    "channels": {
+      "path": "data/channels.csv",
+      "description": "Channels or parallel tracks used in the schedule. Channel IDs serve as the shared channel index referenced by all other data files.\n\nData format: | channel_id |\n|:--|\n| <int> |\n| ... |"
+    },
+    "headline_quota": {
+      "path": "data/headline_quota.csv",
+      "description": "How many headline placements each channel must receive over the whole horizon. Each row defines the total required count of headline periods for one channel. The file is expected to contain exactly one row for each channel.\n\nData format: | channel_id | headline_quota |\n|:--|:--|\n| <int> | <int> |\n| ... | ... |"
+    },
+    "support_quota": {
+      "path": "data/support_quota.csv",
+      "description": "How many channels must act as support hosts in each period. Each row defines the required number of support-host channels for one period. The file is expected to contain exactly one row for each period.\n\nData format: | period_id | support_quota |\n|:--|:--|\n| <int> | <int> |\n| ... | ... |"
+    },
+    "promo_requirements": {
+      "path": "data/promo_requirements.csv",
+      "description": "Required counts for directed cross-channel promotions over the whole horizon. Each row describes a sender_channel_id that must promote into a target_channel_id a specified number of times.\n\nInterpretation notes:\n- sender_channel_id and target_channel_id are channel IDs from channels.csv.\n- A row always represents a directed relationship (sender -> target). The reverse direction, if required, appears as a separate row.\n- Promotions to the same channel are not allowed; such rows should not appear.\n- The set of allowed promotion options is exactly the set of (sender_channel_id, target_channel_id) pairs present in this file. Pairs not present are treated as not allowed.\n\nData format: | sender_channel_id | target_channel_id | required_count |\n|:--|:--|:--|\n| <int> | <int> | <int> |\n| ... | ... | ... |"
+    },
+    "penalized_headline": {
+      "path": "data/penalized_headline.csv",
+      "description": "Headline placements that are discouraged. Each row specifies a (period, channel) location and a nonnegative penalty weight. The optimization objective is the sum of these weights for every discouraged location that is chosen as a headline.\n\nData format: | period_id | channel_id | penalty_weight |\n|:--|:--|:--|\n| <int> | <int> | <float> |\n| ... | ... | ... |"
+    },
+    "cadence_rules": {
+      "path": "data/cadence_rules.csv",
+      "description": "Time-window rules that control how actions can cluster over time within a channel. Each row defines one rule of the form “sum over a window” compared to a bound.\n\nThe window is the sequence of period IDs: start_period + step * s for s = 0..(length-1). All referenced period IDs must exist in periods.csv.\n\nAllowed strings:\n- target:\n  - B: counts how many periods in the window the channel is a support host.\n  - AB: counts how many periods in the window the channel is either the headline or a support host.\n  - Csum: counts how many periods in the window the channel chooses the promotion-sending action (i.e., sends an outgoing promotion).\n- sense:\n  - LE: the window sum must be less than or equal to rhs.\n  - GE: the window sum must be greater than or equal to rhs.\n\nrule_id is an arbitrary identifier for traceability; it does not change the mathematics.\n\nData format: | rule_id | target | sense | channel_id | start_period | step | length | rhs |\n|:--|:--|:--|:--|:--|:--|:--|:--|\n| <int> | <str> | <str> | <int> | <int> | <int> | <int> | <float> |\n| ... | ... | ... | ... | ... | ... | ... | ... |"
+    }
+  },
+  "optimal_value": "0.0"
+}

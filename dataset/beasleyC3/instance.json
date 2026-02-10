@@ -1,0 +1,27 @@
+{
+  "abstract_problem": "A telecommunications giant is undergoing a massive infrastructure overhaul to optimize data transmission across its sprawling regional network. The primary objective is to streamline the active topology of the grid, deciding which fiber-optic links to light up and which to leave dark. This decision is driven by the need to handle data traffic efficiently while adhering to strict budget controls regarding operational overhead.\n\nThe network operates under physical constraints where every active connection possesses a uniform, standardized bandwidth limit that cannot be breached. Consequently, the engineering team must solve a complex puzzle: they need to route data streams from various source nodes to destination terminals—passing through intermediate relays—such that the integrity of the flow is preserved at every point. The ultimate goal is to design a lean, cost-effective network configuration that fulfills all transmission requirements by activating the most strategic combination of links, thereby minimizing the cumulative fixed costs associated with maintaining active connections.",
+  "parameters": {
+    "num_nodes": 500,
+    "num_arcs": 1250,
+    "capacity_per_arc": 82
+  },
+  "files": {
+    "parameter": {
+      "path": "data/parameter.csv",
+      "description": "System parameters in key-value format. Columns: parameter, value. Data format: | parameter | value |\n|---|---|\n| num_nodes | 500 |\n| ... | ... |"
+    },
+    "arcs": {
+      "path": "data/arcs.csv",
+      "description": "Network connections information with columns: arc_id, start_node, end_node. Data format: | arc_id | start_node | end_node |\n|---|---|---|\n| a0001 | n498 | n255 |\n| ... | ... | ... |"
+    },
+    "costs": {
+      "path": "data/costs.csv",
+      "description": "Fixed operational costs information with columns: arc_id, x_var, y_var, fixed_cost. Data format: | arc_id | x_var | y_var | fixed_cost |\n|---|---|---|---|\n| a0001 | x...0001 | y...0001 | 7.155 |\n| ... | ... | ... | ... |"
+    },
+    "flow_balance": {
+      "path": "data/flow_balance.csv",
+      "description": "Facility requirements information with columns: node_id, flow_balance. Data format: | node_id | flow_balance |\n|---|---|\n| n001 | 0.0 |\n| ... | ... |"
+    }
+  },
+  "optimal_value": 753.975
+}

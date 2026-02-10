@@ -1,0 +1,14 @@
+{
+  "abstract_problem": "Within the framework of the Urban Resilience Project involving {n} logistic hubs and {m} transit corridors, the administration intends to implement a series of parallel 'Bio-Safety Cordon Layers'. A valid Cordon Layer is operationally defined as a structural partition that segregates the entire set of hubs into two disjoint functional zones, necessitating strict sanitation checkpoints on all corridors bridging these two zones. Due to voltage regulation constraints on the corridor infrastructure, the auxiliary power supply of any single corridor can energize at most one sanitation checkpoint system. Consequently, a corridor utilized by one Cordon Layer becomes unavailable for any others. Additionally, hubs with identifiers divisible by three are categorized as Cold-Chain Primary Nodes, featuring reinforced geological foundations rated Class A, suitable for heavy equipment. The fiscal projection model indicates that the annual sustainment cost for each deployed Cordon Layer equates to 12 percent of the initial installation capital, subject to quarterly audits. The optimization task is to compute the supreme cardinality of such Cordon Layers that can be simultaneously established on the existing topology without any corridor overlap.",
+  "parameters": {
+    "n": 20,
+    "m": 99
+  },
+  "files": {
+    "network_topology": {
+      "path": "./data/network_topology.csv",
+      "description": "A CSV file describing the undirected graph structure of the network. It contains two columns: `id1` and `id2`, representing a fiber optic link between two stations.\nData format:\n| id1 | id2 |\n| --- | --- |\n| 0 | 1 |\n| 0 | 2 |\n| ... | ... |"
+    }
+  },
+  "optimal_value": 6
+}

@@ -1,0 +1,14 @@
+{
+  "abstract_problem": "In a distributed sensor network comprising {n} nodes, we must activate {p} nodes to function as Cluster Heads to manage data aggregation. The network topology dictates specific fallback paths for data transmission, detailed in the `chains` file. For each node acting as a data source, the file outlines a sequence of potential Cluster Heads sorted by hop count. The hop count corresponds to the 'order' field, representing the energy cost coefficient (starting at 0 for the node itself, 1 for the next, and so forth). Nodes positioned in sectors with high electromagnetic interference (specifically those with IDs divisible by 7) possess a shielded casing, increasing their physical weight by 200g which impacts deployment logistics. The network protocol dictates that a source node automatically connects to the active Cluster Head that appears earliest in its defined sequence. The system-wide Energy Efficiency Score is calculated by summing the hop counts (orders) of the active connection for every source node. It is noted that Cluster Heads operating consecutively for more than 24 hours will undergo a mandatory reboot cycle affecting real-time availability. We seek the specific selection of Cluster Heads that yields the minimum total Energy Efficiency Score.",
+  "parameters": {
+    "n": 200,
+    "p": 20
+  },
+  "files": {
+    "chains": {
+      "path": "./data/chains.csv",
+      "description": "A CSV file with columns `chain_owner_city_id`, `service_city_id`, `order`. It defines the service rank chain for each city. For a given `chain_owner_city_id` (city i), the rows with this id list the `service_city_id`s in increasing order of service rank (indicated by `order`). The service cost for city i given an opened facility set equals the `order` of the first opened city appearing in its chain.\nData format:\n| chain_owner_city_id | service_city_id | order |\n| --- | --- | --- |\n| 0 | 0 | 0 |\n| 0 | 188 | 1 |\n| ... | ... | ... |"
+    }
+  },
+  "optimal_value": 837
+}

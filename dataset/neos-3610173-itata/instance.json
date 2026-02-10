@@ -1,0 +1,29 @@
+{
+  "abstract_problem": "Assume you are a hydraulic engineer designing a pressure control plan for a large-scale chemical liquid transport network. The network consists of $N_1$ pressure nodes connected by $N_3$ pipe segments. Fluid flows from upstream to downstream, incurring specific pressure losses due to friction. To ensure flow stability, the pressure difference (Downstream - Upstream) across any segment must not exceed a specific natural limit defined by the pipe's physical properties. However, you have the option to utilize $N_2$ types of booster pump resources. Activating a specific pump resource incurs a fixed installation cost, but it provides a fixed pressure boost of $P_{boost}$ to all pipe segments associated with that resource, effectively relaxing the pressure drop constraint. Additionally, each node has a specific maximum allowable pressure limit. The project also incurs a fixed base construction cost of $C_{base}$. Your goal is to select which pump resources to activate to minimize the total cost (Base Cost + Installation Costs) while satisfying all pressure limits.",
+  "parameters": {
+    "N1": 766,
+    "N2": 77,
+    "N3": 746,
+    "P_boost": 4.0,
+    "C_base": 80.0
+  },
+  "files": {
+    "files_1": {
+      "path": "data/nodes.csv",
+      "description": "Table 1: Node Definitions. \n- Column 1: Node ID (Continuous Variables for Pressure). \n- Column 2: Maximum Pressure Upper Bound."
+    },
+    "files_2": {
+      "path": "data/pump_resources.csv",
+      "description": "Table 2: Pump Resource Definitions. \n- Column 1: Pump Resource ID (Binary Decision Variables). \n- Column 2: Activation Cost (Coefficients from the Objective Function)."
+    },
+    "files_3": {
+      "path": "data/network_segments.csv",
+      "description": "Table 3: Network Topology and Constraints. \n- Column 1: Segment ID (Constraint Identifiers). \n- Column 2: Upstream Node ID. \n- Column 3: Downstream Node ID. \n- Column 4: Max Natural Pressure Difference (RHS constant of the constraint). \n- Column 5: Linked Pump Resource ID (The binary variable affecting this segment, if any. Else 'None'). \n- Column 6: Pump Boost Capacity (Coefficient of the binary variable)."
+    },
+    "files_4": {
+      "path": "data/global_params.csv",
+      "description": "Table 4: Global Parameters. Contains the Fixed Base Cost constant ($C_{base}$)."
+    }
+  },
+  "optimal_value": 148
+}

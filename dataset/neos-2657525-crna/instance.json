@@ -1,0 +1,26 @@
+{
+  "abstract_problem": "This is a multi-period production planning problem with T periods and N decision variables. The system is modeled using four sets of periodic constraints and one set of structural logic constraints.\n\n1. **Resource Capacity Constraints**: In each period t, the weighted sum of variable activities (using irregular positive/negative coefficients defined in Table C3) must not exceed a resource upper bound L_t (Table C1).\n2. **Demand Satisfaction Constraints**: The total production output (using capacity rates defined in Table C3) must meet the cumulative demand D_t (Table C1).\n3. **Minimum Production Constraints**: The system must maintain a minimum activity level P_min_t (Table C1), calculated using specific coefficients in Table C3.\n4. **Inventory Capacity Constraints**: The inventory usage (using coefficients defined in Table C3) must not exceed the storage limit I_max_t (Table C1).\n5. **Structural & Logic Constraints**: A complex set of non-periodic constraints enforcing flow balance, mutual exclusivity, and setup logic (Big-M constraints) defined explicitly in Table C4.\n\nThe objective is to minimize total operational costs based on coefficients in Table C2.If there are no feasible decisions that satisfy the conditions, output \"infeasible\"; if a feasible solution exists, output the minimized cost.",
+  "parameters": {
+    "T": 15,
+    "N": 524
+  },
+  "files": {
+    "files_1": {
+      "path": "data/period_parameters.csv",
+      "description": "Table C1: Periodic Constraint Bounds (RHS). Columns: Period_ID, Resource_Limit_L_t, Cumulative_Demand_D_t, Min_Production_P_min_t, Max_Inventory_I_max_t. This file defines the constant limits for the four groups of periodic constraints for each period."
+    },
+    "files_2": {
+      "path": "data/variable_attributes.csv",
+      "description": "Table C2: Variable Attributes. Columns: Variable_Name, Variable_Type, Lower_Bound, Upper_Bound, Objective_Coefficient. This table fully defines the decision variables properties and the cost minimization objective function."
+    },
+    "files_3": {
+      "path": "data/periodic_coefficient_matrix.csv",
+      "description": "Table C3: Sparse Coefficient Matrix for Periodic Constraints. Columns: Constraint_Group_Type (Resource/Demand/MinProd/MaxInv), Period_ID, Variable_Name, Coefficient. This file maps the Left-Hand Side of the periodic constraints, capturing the specific variable coefficients for Resource, Demand, Min Production, and Inventory constraints."
+    },
+    "files_4": {
+      "path": "data/structural_logic_matrix.csv",
+      "description": "Table C4: General Matrix for Structural Logic. Columns: Logic_Constraint_ID, Variable_Name, Coefficient, RHS_Value, Sense (<=, =, >=). This file defines all non-periodic constraints, including flow balance equations, logic switches, and Big-M constants."
+    }
+  },
+  "optimal_value": "1.810748"
+}

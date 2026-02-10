@@ -1,0 +1,19 @@
+{
+  "abstract_problem": "The Municipal Grid Oversight Committee is finalizing the 2025 infrastructure resilience roadmap involving {n_tasks} discrete service sectors. The engineering division has pre-certified {n_packages} integration bundles, detailed in the file `package_task` regarding their sectoral coverage capabilities. Sectors located in the northern district, specifically those with IDs ending in an odd digit, are prioritized for Q3 deployment, whereas the remaining sectors are scheduled for Q4 to balance the workforce load. In the `package_difficulty` registry, bundles are classified based on their hardware complexity: 'easy' represents Gen-1 hardware with a capital expenditure (CapEx) of 1 unit, and 'hard' represents Gen-2 hardware with a CapEx of 2 units. The Gen-2 hardware integrates auxiliary neural processing units which require specialized firmware updates every month. Due to a strict import quota on the neural chips used in Gen-2 units, the strategic plan strictly caps the deployment of 'hard' bundles at {hard_packages_limit}. Additionally, the projected operational expenditure (OpEx) for Gen-1 units is estimated at 0.05 units annually, compared to 0.12 units for Gen-2. The committee seeks a comprehensive allocation plan that ensures every service sector is covered by at least one bundle. Identify the minimum total CapEx required for this allocation.",
+  "parameters": {
+    "n_packages": 63009,
+    "n_tasks": 507,
+    "hard_packages_limit": 9256
+  },
+  "files": {
+    "package_task": {
+      "path": "./data/package_task.csv",
+      "description": "A table where each row (`package_id`, `task_id`) indicates that the crew package `package_id` covers the train task `task_id`.\nData format:\n| package_id | task_id |\n| --- | --- |\n| 20668 | 1 |\n| 10385 | 2 |\n| ... | ... |"
+    },
+    "package_difficulty": {
+      "path": "./data/package_difficulty.csv",
+      "description": "A table of size 63009*2. The first column `package_id` is the unique identifier for each crew package. The second column `difficulty` is a string, either 'easy' (representing a cost of 1) or 'hard' (representing a cost of 2).\nData format:\n| package_id | difficulty |\n| --- | --- |\n| 1 | hard |\n| 2 | hard |\n| ... | ... |"
+    }
+  },
+  "optimal_value": 174
+}

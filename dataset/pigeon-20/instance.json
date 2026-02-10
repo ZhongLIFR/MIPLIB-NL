@@ -1,0 +1,22 @@
+{
+  "abstract_problem": "A cross-dock warehouse is preparing a single rectangular loading unit for a tight departure window. There are {N} candidate shipment boxes waiting at the gate. Each box carries a known business value, recorded in the data as `profit`: this is an additive benefit score (for example expected revenue, priority points, or avoided delay penalties) gained if and only if that box is successfully loaded. Boxes left behind contribute zero.\n\nIf a box is loaded, it must be placed fully inside the container and must not overlap any other loaded box. Placement is axis-aligned: a box is not tilted; its faces stay parallel to the container walls. Some boxes can be turned only in certain allowed axis-aligned ways (for example due to labeling, fragile contents, or stacking rules). The set of allowed orientation options for each box is listed explicitly in the data.\n\nThe decision is therefore a combined selection-and-placement plan: choose which boxes to load, pick one allowed orientation for each chosen box, and assign a 3D position so that all physical loading rules are satisfied in {A} perpendicular directions. The objective is to maximize the total loaded business value (the sum of `profit` over all loaded boxes).",
+  "parameters": {
+    "N": "20",
+    "A": "3"
+  },
+  "files": {
+    "container": {
+      "path": "data/container.csv",
+      "description": "Container geometry definition. This table specifies the inner usable dimensions of the container that the planner is trying to fill. The container is modeled as a single axis-aligned rectangular box, and all placements must lie within these dimensions.\n\nData format:\n- Header: container_id,length,width,height\n- container_id: integer identifier\n- length,width,height: positive numbers (typically integers) giving the inner dimensions along the three orthogonal axes\nExample:\ncontainer_id,length,width,height\n0,11,190,11"
+    },
+    "items": {
+      "path": "data/items.csv",
+      "description": "Candidate shipment boxes to choose from. Each row represents one box that may be loaded. The `profit` column is a per-box business value earned if that box is loaded (and therefore all packing rules are satisfied). It is an additive score: the total value of a loading plan is the sum of `profit` over all loaded boxes. Boxes that are not loaded contribute zero.\n\nData format:\n- Header: item_id,item_name,profit\n- item_id: integer identifier used consistently across all data files\n- item_name: human-readable label\n- profit: nonnegative number (value units)\nExample:\nitem_id,item_name,profit\n0,Box000,1000\n1,Box001,250"
+    },
+    "orientations": {
+      "path": "data/orientations.csv",
+      "description": "Allowed axis-aligned orientations for each box. Each row enumerates one allowed way to place a box without tilting it, meaning the box edges remain parallel to the container axes. The dimensions in this table are the box extents under that orientation. If an item has only one allowed row here, it effectively cannot be rotated. If it has multiple rows, the plan may choose exactly one of them when the item is loaded.\n\nData format:\n- Header: item_id,orientation_id,length,width,height\n- item_id: integer identifier\n- orientation_id: integer (unique per item)\n- length,width,height: positive numbers giving the oriented dimensions\nExample:\nitem_id,orientation_id,length,width,height\n0,0,10,10,10\n0,1,10,10,10"
+    }
+  },
+  "optimal_value": "19000"
+}

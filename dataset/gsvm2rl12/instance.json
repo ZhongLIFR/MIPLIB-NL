@@ -1,0 +1,23 @@
+{
+  "abstract_problem": "We are engineering a high-dimensional linear discriminator for a precision oncology screening program involving {n_samples} clinical subjects. The dataset includes {n_features} gene expression markers per subject. The cohort is divided into {n_pos} confirmed pathology cases and {n_neg} control subjects. Due to potential thermal fluctuations during the PCR amplification cycles, particularly in batches processed during peak hours, the modeling framework must incorporate a noise-rejection mechanism. This mechanism allows the solver to categorize specific subjects as 'conforming' or 'deviant' via a binary decision variable. The optimization goal is to minimize a composite cost function consisting of three components. First, to enforce model sparsity and identify biomarker signatures, the L1 norm of the feature weight vector u is minimized. Second, for subjects categorized as 'conforming', the model incurs a weighted Hinge Loss relative to a standard classification margin of 1. Third, subjects flagged as 'deviant' bypass the standard margin requirement but incur a fixed 'manual review' penalty cost. This fixed penalty is calculated as {cost_ratio_outlier} times the class-specific importance weight of the subject. The importance weights are derived by distributing a global regularization intensity {C_global} inversely proportional to the number of samples in each class to ensure actuarial fairness. A saturation parameter {M} is introduced to mathematically relax the constraints for deviant samples. It is important to note that due to the finite nature of this saturation limit, any margin violation that geographically exceeds {M} will still contribute residual penalties to the objective function, even if the sample is flagged as deviant. The top 5% of samples with the highest decision values will be prioritized for longitudinal follow-up studies next year. The solver must determine the optimal weights u and bias b.",
+  "parameters": {
+    "n_samples": 500,
+    "n_features": 500,
+    "n_pos": 267,
+    "n_neg": 233,
+    "C_global": 25.0,
+    "M": 100.0,
+    "cost_ratio_outlier": 2.0
+  },
+  "files": {
+    "labels": {
+      "path": "./data/patient_labels.csv",
+      "description": "A CSV table with columns `id` (Patient ID) and `label` (Diagnosis, +1 or -1).\nData format:\n| id | label |\n| --- | --- |\n| 1 | 1 |\n| 2 | -1 |\n| ... | ... |"
+    },
+    "expressions": {
+      "path": "./data/gene_expressions.csv",
+      "description": "A CSV table in long format with columns `id` (Patient ID), `gene_id` (Gene Index, 1 to 60), and `value` (Expression Level).\nData format:\n| id | gene_id | value |\n| --- | --- | --- |\n| 1 | 1 | 10.004232 |\n| 1 | 2 | 3.570444 |\n| ... | ... | ... |"
+    }
+  },
+  "optimal_value": 21.90385635871968
+}

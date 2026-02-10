@@ -1,0 +1,27 @@
+{
+  "abstract_problem": "Assume you are the fleet manager of an automated logistics center. Your electric vehicles need to traverse a route consisting of N_steps segments. Along the route, there are N_chargers potential charging stations. The battery capacity limit at each segment node is provided in Table C1. The energy dynamics between sequential nodes are strictly defined by the inequality: (Energy_Next - Energy_Prev) <= (Charging_Gain_Coeff * Charging_Decision) + Baseline_Flux_Limit. These parameters are detailed in Table C2. The service cost for using each charging station is listed in Table C3. Additionally, the route is divided into multiple stages, and the energy continuity rules between stages are defined in Table C4. There is a fixed system operating cost of C_fixed. Your goal is to determine the charging strategy that minimizes the total cost while ensuring the battery level never drops below zero and strictly adheres to all consumption and continuity rules.",
+  "parameters": {
+    "N_steps": 332,
+    "N_chargers": 88,
+    "C_fixed": 37.0
+  },
+  "files": {
+    "files_1": {
+      "path": "data/C1.csv",
+      "description": "Table C1: The first column is the Segment Node ID, and the second column is the maximum battery capacity allowed for the vehicle at that specific node."
+    },
+    "files_2": {
+      "path": "data/C2.csv",
+      "description": "Table C2: Defines the segment energy constraints formatted as 'C_next - C_prev - (Coeff * Bin_Var) <= RHS'. Columns: 1. Preceding Node ID (C_prev), 2. Current Node ID (C_next), 3. Charging Binary Variable ID (optional, 0 if none), 4. Charging Gain Coefficient (coefficient for binary variable, e.g., 4.0), 5. Baseline Flux Limit (RHS value, e.g., 2.06 or -2.31). This structure allows reconstructing both consumption segments (negative RHS) and transition/recovery segments (positive RHS)."
+    },
+    "files_3": {
+      "path": "data/C3.csv",
+      "description": "Table C3: The first column is the Charging Option ID (corresponding to the Binary Variable in Table C2), and the second column is the service cost coefficient in the objective function (e.g., 4.0, 3.0)."
+    },
+    "files_4": {
+      "path": "data/C4.csv",
+      "description": "Table C4: Defines linking constraints strictly as '-C_prev_end + C_next_start <= 0'. Columns: 1. Ending Node ID of Previous Stage, 2. Starting Node ID of Next Stage."
+    }
+  },
+  "optimal_value": 119
+}

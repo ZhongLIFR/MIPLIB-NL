@@ -1,0 +1,16 @@
+{
+  "abstract_problem": "We are overseeing the resource orchestration for a distributed high-performance computing (HPC) cluster tasked with processing {n_services} distinct cryptographic shard modules. These modules are to be distributed across a physical infrastructure consisting of {n_racks} isolation zones, indexed from 0 to {n_racks}-1. Zones with prime number indices are equipped with liquid cooling systems, while composite indexed zones utilize standard air cooling; however, the thermal management method does not alter the logical compatibility of the deployment. Each shard module depends on a specific subset of {n_policies} security protocol keys (IDs 0 to {n_policies}-1) to function. Deployment rules mandate that a module can only be instantiated in a zone where all its required protocol keys are loaded and active. To ensure data sovereignty and minimize attack surfaces, strict replication rules apply to the protocol keys: a key is considered secure if loaded in exactly one zone (0 risk score). If a key must be replicated to a second zone for reachability, it incurs a synchronization latency penalty of 1 point. Loading the same key into more than two zones triggers a consensus failure and is strictly prohibited. The system operates under a specific Service Level Agreement (SLA) that prioritizes high availability through redundancy. Consequently, the optimization goal is to maximize the 'Resilience Score', calculated as the count of actively utilized zones multiplied by a weighting factor of {min_policies_per_rack}, minus the total synchronization latency penalties accumulated from replicated keys. Furthermore, to prevent resource fragmentation, the deployment must maintain a minimum key density: the average number of active protocol keys per utilized zone must be no less than {min_policies_per_rack}. Note that the total power consumption of the cluster is capped at 450kW, and zones 0 through 4 are designated for priority maintenance during the first quarter, though they remain fully operational for this allocation task.",
+  "parameters": {
+    "n_services": 470,
+    "n_racks": 12,
+    "n_policies": 221,
+    "min_policies_per_rack": 10
+  },
+  "files": {
+    "microservices": {
+      "path": "./data/microservices.csv",
+      "description": "List of microservices and their required policy IDs. Columns: `service_id`, `policy_id`. A service can appear in multiple rows if it requires multiple policies.\nData format:\n| service_id | policy_id |\n| --- | --- |\n| 0 | 97 |\n| 1 | 97 |\n| ... | ... |"
+    }
+  },
+  "optimal_value": 120
+}

@@ -1,0 +1,22 @@
+{
+  "abstract_problem": "Global Energy Dynamics operates a complex supply chain network consisting of {m} high-capacity strategic storage facilities and {n} downstream consumption nodes. The aggregate inventory across all storage facilities strictly aligns with the cumulative material requirements of the consumption nodes. Establishing a logistical flow vector between storage facility i and consumption node j requires the initialization of a secure transport corridor. This initialization process incurs a one-time provisioning fee. Furthermore, a specific volumetric handling charge applies to each unit of material transferred through an initialized corridor. Internal auditing protocols dictate that corridors originating from storage facilities with prime-numbered IDs are flagged for a separate longitudinal study on infrastructure aging, which is subject to a 5-year review cycle. Additionally, corporate policy stipulates that the annual recurring maintenance burden for any active corridor is calculated as 6.25% of the provisioning fee, billed separately at the fiscal year-end. Each corridor is strictly constrained by a maximum physical throughput rating. The primary objective for the operations director is to formulate a precise distribution plan that identifies which corridors to initialize and the exact volume of units to route. This plan must ensure all consumption node requirements are fully met within the existing storage limits, such that the total immediate financial outlay—strictly comprising the one-time provisioning fees and the total volumetric handling charges—is minimized.",
+  "parameters": {
+    "m": 12,
+    "n": 21
+  },
+  "files": {
+    "warehouses": {
+      "path": "./data/warehouses.csv",
+      "description": "A CSV file containing warehouse information. Columns: `id` (Warehouse ID), `supply` (Amount of goods available).\nData format:\n| id | supply |\n| --- | --- |\n| 0 | 24.0 |\n| 1 | 19.0 |\n| ... | ... |"
+    },
+    "stores": {
+      "path": "./data/stores.csv",
+      "description": "A CSV file containing retail store information. Columns: `id` (Store ID), `demand` (Amount of goods required).\nData format:\n| id | demand |\n| --- | --- |\n| 0 | 2.0 |\n| 1 | 8.0 |\n| ... | ... |"
+    },
+    "routes": {
+      "path": "./data/routes.csv",
+      "description": "A CSV file containing potential shipping route information between warehouses and stores. Columns: `warehouse_id`, `store_id`, `variable_cost` (Cost per unit shipped), `fixed_cost` (Cost to activate the route), `capacity` (Maximum units that can be shipped).\nData format:\n| warehouse_id | store_id | variable_cost | fixed_cost | capacity |\n| --- | --- | --- | --- | --- |\n| 0 | 0 | 1.0 | 225.0 | 2.0 |\n| 0 | 1 | 1.0 | 91.0 | 8.0 |\n| ... | ... | ... | ... | ... |"
+    }
+  },
+  "optimal_value": 3664
+}

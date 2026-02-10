@@ -1,0 +1,28 @@
+{
+  "abstract_problem": "We are playing a script-based murder mystery game where I play the owner of a freight company with a total market value of W billion. I have been assigned a task: transport goods from N1 factories to N2 customers. We must select specific routes to open from N1*N2 possible options and determine the quantity of goods transported on each route (which does not have to be an integer). When selecting routes, I must communicate with at least N game DMs. Opening each route requires paying a fixed cost, as shown in Table C1. Additionally, transporting one unit of cargo on each route incurs a shipping fee, as shown in Table C2. The quantity of goods produced by each factory is fixed, as shown in Table C3; the quantity transported out of a factory must equal its production volume. The quantity of goods required by each customer is also fixed, as shown in Table C4; the quantity received by each customer must equal their demand. Our objective is to determine the minimum cost to be paid while satisfying all conditions.",
+  "parameters": {
+    "W": 100,
+    "N": 7,
+    "N1": 4,
+    "N2": 6
+  },
+  "files": {
+    "files_1": {
+      "path": "data/C1.csv",
+      "description": "The first column of Table C₁ lists factory numbers, and the first row lists customer numbers. The value at each row-column intersection represents the fixed cost for opening the transportation route from the corresponding factory to the corresponding customer.\n"
+    },
+    "files_2": {
+      "path": "data/C2.csv",
+      "description": "The first column of Table C₂ lists factory numbers, and the first row lists customer numbers. The value at each row-column intersection represents the unit shipping cost for transporting goods via the route from the corresponding factory to the corresponding customer."
+    },
+    "files_3": {
+      "path": "data/C3.csv",
+      "description": "The first column of Table C₃ lists factory numbers, and the second column lists the production volume of each factory—all goods produced must be shipped out in full."
+    },
+    "files_4": {
+      "path": "data/C4.csv",
+      "description": "The first column of Table C₄ lists customer numbers, and the second column lists the demand volume of each customer—the quantity of goods received by the customer must exactly meet its demand."
+    }
+  },
+  "optimal_value": "202.35"
+}

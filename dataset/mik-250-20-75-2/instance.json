@@ -1,0 +1,30 @@
+{
+  "abstract_problem": "In the context of the definition of the Next-Generation Federated Edge Computing (FEC) architecture, we require a resource orchestration strategy for {n} geographically distributed computing nodes. Each node operates under a strict thermal design power (TDP) envelope, referred to as its base energy capacity. The orchestration involves a multi-layered decision process to optimize the Net Operational Yield (NOY). The first layer involves the optional deployment of high-frequency AI training kernels on specific nodes. Activating a kernel on a node generates significant computational revenue (lab_value) but permanently occupies a portion of the node's TDP (lab_load). Nodes with prime number IDs act as primary telemetry aggregators for the network log streams. The second layer involves the scheduling of {m} types of distributed microservice batches. Due to the mesh topology, instantiating one integer batch of a microservice type imposes a synchronous computational load on every single node in the network simultaneously, defined by the specific load profile of that product on that station. There is a global maximum production limit for each microservice type. These service workloads and the AI kernels compete for the same TDP headroom on each node. To mitigate thermal throttling, the system administrator can authorize capital expenditure in {k} categories of Global Infrastructure Upgrades. These are continuous investment variables; each unit of investment in a category universally raises the TDP capacity of all nodes by 1 unit, subject to category-specific technological ceilings (max_level). Furthermore, for localized thermal hotspots, you may lease modular auxiliary cooling units (generators) for individual nodes. Each unit provides {generator_capacity} additional TDP capacity at a leasing rate of {generator_cost}. A physical hard limit of {max_generators} cooling units applies per node due to floor space constraints. The auxiliary units consume an additional 500W of electricity which is billed directly to the facility management provider at the end of the fiscal year. The optimization objective is to maximize the NOY, defined as the sum of revenues from AI kernels and microservices, strictly subtracting the costs of Global Infrastructure Upgrades and auxiliary cooling unit leases. Note that the initial construction cost of the nodes was fully amortized in the previous decade.",
+  "parameters": {
+    "n": 75,
+    "m": 100,
+    "k": 20,
+    "generator_capacity": 100,
+    "generator_cost": 100,
+    "max_generators": 100
+  },
+  "files": {
+    "stations": {
+      "path": "./data/stations.csv",
+      "description": "Contains station details: `id`, `lab_value` (profit from activating lab), `lab_load` (capacity consumed by lab), `base_capacity` (initial capacity of station).\nData format:\n| id | lab_value | lab_load | base_capacity |\n| --- | --- | --- | --- |\n| 1 | 1111.0 | 1300.0 | 979.0 |\n| 2 | 1071.0 | 1100.0 | 997.0 |\n| ... | ... | ... | ... |"
+    },
+    "products": {
+      "path": "./data/products.csv",
+      "description": "Contains product details: `id`, `unit_value` (profit per batch), `max_batches` (global production limit).\nData format:\n| id | unit_value | max_batches |\n| --- | --- | --- |\n| 1 | 526.0 | 2 |\n| 2 | 797.0 | 2 |\n| ... | ... | ... |"
+    },
+    "production_consumption": {
+      "path": "./data/production_consumption.csv",
+      "description": "Defines the capacity consumption. Columns: `station_id`, `product_id`, `load`. Indicates that producing one batch of `product_id` consumes `load` capacity on `station_id`.\nData format:\n| station_id | product_id | load |\n| --- | --- | --- |\n| 1 | 1 | 961.0 |\n| 1 | 2 | 1520.0 |\n| ... | ... | ... |"
+    },
+    "global_systems": {
+      "path": "./data/global_systems.csv",
+      "description": "Contains global system details: `id`, `cost` (per unit level), `max_level` (upper bound). Each unit level increases all stations' capacity by 1.\nData format:\n| id | cost | max_level |\n| --- | --- | --- |\n| 1 | 190.0 | 9 |\n| 2 | 152.0 | 13 |\n| ... | ... | ... |"
+    }
+  },
+  "optimal_value": 50768
+}

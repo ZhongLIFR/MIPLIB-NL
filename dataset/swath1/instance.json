@@ -1,0 +1,65 @@
+{
+  "abstract_problem": "A radar surveillance center must assemble an operational surveillance plan for an airborne sensor platform. The plan is formed by assigning an activity level to each of {N_ACTIONS} candidate actions (identified by `action_id`). An action can represent, for example, dedicating effort to a specific track segment, committing to a particular operating pattern, or allocating a share of attention.\n\nThe goal is to minimize an overall mission cost, computed as a weighted sum of all action activity levels. The weights are provided in `data/objective_terms.csv`.\n\nActivity levels use three business interpretations:\n- Quantity-style effort for `action_id` in [{QUANTITY_ACTION_START}, {QUANTITY_ACTION_END}] (nonnegative, no preset upper bound).\n- Share-style allocation for `action_id` in [{SHARE_ACTION_START}, {SHARE_ACTION_END}] (between 0 and 1).\n- Commitment-style choices for `action_id` in [{COMMITMENT_ACTION_START}, {COMMITMENT_ACTION_END}] (0 or 1).\n\nSome actions are not available in this instance and must remain inactive (their activity level is fixed to 0). Unavailable actions are defined by two patterns:\n- A disabled tail range: `action_id` in [{DISABLED_TAIL_START_ACTION_ID}, {DISABLED_TAIL_END_ACTION_ID}].\n- A family of disabled 4-action blocks tied to continuity indexing, described in the checkpoint indexing rules below.\n\nThe plan must follow several families of operational policies:\n\n1) Coverage packages. There are {N_COVERAGE_PACKAGES} packages, each requiring exactly one coverage option to be chosen. The admissible options are listed in `data/coverage_package_options.csv`.\n\n2) Configuration packages. There are {N_CONFIGURATION_PACKAGES} packages, each requiring exactly one configuration option to be chosen. The admissible options are listed in `data/configuration_package_options.csv`. This table follows a regular lane/segment/offset pattern (also described in `parameters`) and can be regenerated, but the CSV is kept as a fallback.\n\n3) Route continuity checkpoints. There are {N_PATH_CHECKPOINTS} checkpoints. For each checkpoint, the total activity assigned to the entering side must equal the total activity assigned to the leaving side.\n\nCheckpoint indexing uses a repeating lane/offset structure:\n- `checkpoint_id` runs from 1 to {N_PATH_CHECKPOINTS}.\n- `checkpoint_index = checkpoint_id - 1`.\n- `lane_index = checkpoint_index // {CHECKPOINTS_PER_LANE}`.\n- `offset_in_lane = checkpoint_index % {CHECKPOINTS_PER_LANE}`.\n\nFor each checkpoint, the leaving-side action IDs are generated as follows:\n- Define `leave_window_start = {CHECKPOINT_LEAVE_WINDOW_FIRST_ACTION_ID} + checkpoint_index * {CHECKPOINT_LEAVE_WINDOW_STEP}`.\n- Define the raw leave window as the consecutive range `[leave_window_start, leave_window_start + {CHECKPOINT_LEAVE_WINDOW_LENGTH} - 1]`.\n- Remove exactly one disabled block of {DISABLED_BLOCK_SIZE} consecutive actions starting at `leave_window_start + lane_index * {DISABLED_BLOCK_SHIFT_PER_LANE}`.\n\nFor each checkpoint, the entering-side action IDs are generated as follows:\n- Include one checkpoint-specific action: `{CHECKPOINT_SINGLETON_FIRST_ACTION_ID} + checkpoint_index`.\n- Include a long arithmetic progression of length {CHECKPOINT_ENTER_AP_LENGTH} with step {CHECKPOINT_ENTER_AP_STEP}, starting at `{CHECKPOINT_ENTER_AP_FIRST_ACTION_ID} + checkpoint_index`.\n- For `lane_index >= 1`, remove a 4-term slice of that arithmetic progression (the slice associated with the current lane) and replace it with 4 arithmetic-progression terms starting at `{CHECKPOINT_ENTER_REPLACEMENT_BASE_ACTION_ID} + 4 * (lane_index - 1) + offset_in_lane`, using step {CHECKPOINT_ENTER_REPLACEMENT_STEP}.\n\nThe disabled 4-action blocks mentioned above are exactly the blocks removed from the leaving-side windows, plus the disabled tail range.\n\n4) Time-window budgets. There are {N_TIME_WINDOW_RULES} policies built from reusable time blocks. Each policy chooses a plus time block and a minus time block (two different blocks), and also includes a policy-specific companion set of coarse-weight terms.\n\nTime blocks are generated as:\n- `time_block_id` runs from 1 to {N_TIME_BLOCKS}.\n- Block actions are the consecutive range starting at `{TIME_BLOCK_FIRST_ACTION_ID} + (time_block_id - 1) * {TIME_BLOCK_STEP}`, of length {TIME_BLOCK_SIZE}.\n\nTime-window policies are generated as all ordered pairs `(plus_time_block_id, minus_time_block_id)` with `plus_time_block_id != minus_time_block_id`.\n\nFor each ordered pair, the coarse-weight companion set is generated as:\n- Define `coarse_base = {TIME_WINDOW_COARSE_BASE_ACTION_ID} + (minus_time_block_id - 1) * {TIME_BLOCK_SIZE} + (plus_time_block_id - 1) * {TIME_WINDOW_COARSE_PLUS_STRIDE}`.\n- For `coarse_block_index` from 0 to {TIME_WINDOW_COARSE_BLOCK_COUNT} - 1, include the consecutive block of length {TIME_WINDOW_COARSE_BLOCK_SIZE} starting at `coarse_base + coarse_block_index * {TIME_WINDOW_COARSE_BLOCK_STRIDE}`.\n\nEach time-window policy enforces a weighted budget: the weighted combination of (coarse companion set, plus block, minus block) must not exceed {TIME_WINDOW_RHS}, using weights {COARSE_WEIGHT} and {UNIT_WEIGHT}.",
+  "parameters": {
+    "N_ACTIONS": "6804",
+    "N_COVERAGE_PACKAGES": "2",
+    "N_CONFIGURATION_PACKAGES": "20",
+    "N_PATH_CHECKPOINTS": "80",
+    "N_TIME_BLOCKS": "20",
+    "N_TIME_WINDOW_RULES": "380",
+    "COARSE_WEIGHT": "20",
+    "UNIT_WEIGHT": "1",
+    "TIME_WINDOW_RHS": "19",
+    "QUANTITY_ACTION_START": "1",
+    "QUANTITY_ACTION_END": "80",
+    "SHARE_ACTION_START": "81",
+    "SHARE_ACTION_END": "4498",
+    "COMMITMENT_ACTION_START": "4499",
+    "COMMITMENT_ACTION_END": "6804",
+    "DISABLED_TAIL_START_ACTION_ID": "6723",
+    "DISABLED_TAIL_END_ACTION_ID": "6803",
+    "DISABLED_BLOCK_SIZE": "4",
+    "DISABLED_BLOCK_SHIFT_PER_LANE": "4",
+    "CHECKPOINTS_PER_LANE": "4",
+    "CHECKPOINT_SINGLETON_FIRST_ACTION_ID": "82",
+    "CHECKPOINT_LEAVE_WINDOW_FIRST_ACTION_ID": "164",
+    "CHECKPOINT_LEAVE_WINDOW_STEP": "82",
+    "CHECKPOINT_LEAVE_WINDOW_LENGTH": "81",
+    "CHECKPOINT_ENTER_AP_FIRST_ACTION_ID": "492",
+    "CHECKPOINT_ENTER_AP_STEP": "82",
+    "CHECKPOINT_ENTER_AP_LENGTH": "77",
+    "CHECKPOINT_ENTER_REPLACEMENT_BASE_ACTION_ID": "168",
+    "CHECKPOINT_ENTER_REPLACEMENT_STEP": "82",
+    "CONFIG_LANE_BASE_START_ACTION_ID": "82",
+    "CONFIG_LANE_BASE_STEP": "4",
+    "CONFIG_OFFSET_COUNT": "4",
+    "CONFIG_SEGMENT_COUNT_PER_LANE": "81",
+    "CONFIG_SEGMENT_STEP": "82",
+    "CONFIG_DISABLED_SEGMENT_BLOCK_FIRST_INDEX": "1",
+    "CONFIG_DISABLED_SEGMENT_BLOCK_SIZE": "4",
+    "CONFIG_DISABLED_SEGMENT_BLOCK_STRIDE": "4",
+    "TIME_BLOCK_FIRST_ACTION_ID": "1",
+    "TIME_BLOCK_SIZE": "4",
+    "TIME_BLOCK_STEP": "4",
+    "TIME_WINDOW_COARSE_BASE_ACTION_ID": "164",
+    "TIME_WINDOW_COARSE_BLOCK_COUNT": "4",
+    "TIME_WINDOW_COARSE_BLOCK_SIZE": "4",
+    "TIME_WINDOW_COARSE_BLOCK_STRIDE": "82",
+    "TIME_WINDOW_COARSE_PLUS_STRIDE": "328"
+  },
+  "files": {
+    "objective_terms": {
+      "path": "data/objective_terms.csv",
+      "description": "Mission cost weights with columns: `action_id`, `score_weight`. Each row assigns a nonnegative weight to an action, and the overall mission cost is the weighted sum of all action activity levels. Actions not listed have zero weight. Data format: | action_id | score_weight |\\n|----------|-------------|\\n| <int>    | <float>     |"
+    },
+    "coverage_package_options": {
+      "path": "data/coverage_package_options.csv",
+      "description": "Coverage-option catalog. Each row links a coverage package identifier to one admissible action that can serve as the package's chosen coverage option. The plan must pick exactly one option per package. Data format: | coverage_package_id | action_id |\\n|--------------------|----------|\\n| <int>              | <int>    |"
+    },
+    "configuration_package_options": {
+      "path": "data/configuration_package_options.csv",
+      "description": "Configuration-option catalog. Each row links a configuration package identifier to one admissible action that can serve as the package's chosen configuration option. The plan must pick exactly one option per package. Data format: | configuration_package_id | action_id |\\n|-------------------------|----------|\\n| <int>                   | <int>    |"
+    }
+  },
+  "optimal_value": "379.07129575"
+}

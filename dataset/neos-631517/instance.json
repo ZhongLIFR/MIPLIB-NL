@@ -1,0 +1,32 @@
+{
+  "abstract_problem": "Assume you are the production manager of a large manufacturing plant. You have N1 distinct production tasks (orders) that must be completed. For each task, there are several mutually exclusive 'execution modes' (e.g., different machine combinations, shifts, or processing methods), totaling N2 available mode options across all tasks. Selecting a specific mode for a task consumes two types of resources: Global Resources (e.g., total plant energy, raw material A) and Local Resources (e.g., specific workshop hours, machine B capacity). \n\nThere are N3 types of Global Resources and N4 types of Local Resources. The consumption of these resources by each mode is provided in the data tables. Both resource types have capacity limits, but they are 'soft constraints', meaning they can be exceeded at a cost. \n1. Exceeding Global Resource limits is critical: The excess is handled by a slack variable scaled by 1000 (i.e., Usage - 1000 * Slack <= Limit), and the penalty cost is 2000 per unit of Slack. \n2. Exceeding Local Resource limits is manageable: The excess is handled by a direct slack variable (i.e., Usage - Slack <= Limit), and the penalty cost is 10 per unit of Slack. \n\nPlease maximize efficiency by selecting exactly one mode for each task to minimize the total penalty cost from resource overages.",
+  "parameters": {
+    "N1_Tasks": 167,
+    "N2_Modes": 859,
+    "N3_GlobalResources": 18,
+    "N4_LocalResources": 166
+  },
+  "files": {
+    "files_1": {
+      "path": "data/Task_Modes.csv",
+      "description": "Table defining the relationship between Tasks and Modes. Column 1 is the Task ID (1 to N1), and Column 2 is the Mode ID (decision variable index). This table enforces the constraint that exactly one Mode must be chosen for each Task."
+    },
+    "files_2": {
+      "path": "data/Global_Resource_Limits.csv",
+      "description": "Table listing Global Resources. Column 1 is the Global Resource ID (1 to N3), Column 2 is the Capacity Limit for that resource."
+    },
+    "files_3": {
+      "path": "data/Local_Resource_Limits.csv",
+      "description": "Table listing Local Resources. Column 1 is the Local Resource ID (1 to N4), Column 2 is the Capacity Limit for that resource."
+    },
+    "files_4": {
+      "path": "data/Global_Consumption_Matrix.csv",
+      "description": "Sparse matrix defining consumption of Global Resources. Column 1 is the Mode ID, Column 2 is the Global Resource ID, and Column 3 is the amount consumed. If a pair is missing, consumption is 0."
+    },
+    "files_5": {
+      "path": "data/Local_Consumption_Matrix.csv",
+      "description": "Sparse matrix defining consumption of Local Resources. Column 1 is the Mode ID, Column 2 is the Local Resource ID, and Column 3 is the amount consumed. If a pair is missing, consumption is 0."
+    }
+  },
+  "optimal_value": 11490666.665
+}

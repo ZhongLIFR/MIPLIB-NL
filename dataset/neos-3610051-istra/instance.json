@@ -1,0 +1,30 @@
+{
+  "abstract_problem": "Assume you are a safety engineer at a chemical plant monitoring the pressure levels of a multi-stage reaction process. The process consists of a long sequence of time steps (Total Steps: N1). Under normal physical conditions, the pressure change between two consecutive time steps must fall within a specific natural drift range. However, external interventions allow the pressure to jump beyond these limits. Crucially, the system state at each step is also constrained by time-varying safety bounds (Table D5). You need to determine the sequence of pressure states that satisfies all drift, connectivity, and safety bound constraints while minimizing the total number of interventions.",
+  "parameters": {
+    "N1": 728,
+    "N2": 76
+  },
+  "files": {
+    "files_1": {
+      "path": "data/drift_limits.csv",
+      "description": "Table D1: Drift limits."
+    },
+    "files_2": {
+      "path": "data/intervention_config.csv",
+      "description": "Table D2: Intervention config."
+    },
+    "files_3": {
+      "path": "data/stage_links.csv",
+      "description": "Table D3: Stage links."
+    },
+    "files_4": {
+      "path": "data/objective_constants.csv",
+      "description": "Table D4: Objective constants."
+    },
+    "files_5": {
+      "path": "data/variable_bounds.csv",
+      "description": "Table D5: Defines the LowerBound and UpperBound for each state variable. These represent the strict physical operating corridor."
+    }
+  },
+  "optimal_value": 49.0
+}

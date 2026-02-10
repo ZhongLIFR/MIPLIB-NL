@@ -1,0 +1,20 @@
+{
+  "abstract_problem": "The Zenith Conglomerate is initiating the layout design for a high-throughput fluid distribution matrix, termed Project Alpha. The geospatial topology comprises {n} designated control points. Within this set, {num_sources} nodes act as Primary Injection Sites (positive net inventory), while exactly 1 node serves as the Terminal Aggregation Hub (negative net inventory, representing total system demand). The remaining {num_trans} nodes are designated as Transit Manifolds, maintaining a strict net-zero accumulation state. Detailed inventory metrics for each location are provided in the `nodes` dataset. The infrastructure planning division has identified {m} potential unidirectional linkage vectors (pipelines) connecting these points. The capital expenditure (CAPEX) required to commission each specific link is tabulated in the `edges` file. Under the Fiscal Policy 2025 guidelines, the operational expenditure (OPEX) for the network is projected at 6.5% of the total CAPEX annually. Furthermore, nodes are administratively categorized: those with even identification numbers fall under Zone A (requiring quarterly compliance audits), while odd-numbered nodes belong to Zone B. The selected conduit material supports a flow regime equivalent to infinite capacity, negating the need for Darcy-Weisbach friction loss calculations. The primary objective is to select a subset of these directed vectors to establish a fully connected flow from all Injection Sites to the Aggregation Hub. Determine the minimum total CAPEX required for the initial construction of this network.",
+  "parameters": {
+    "n": 200,
+    "m": 1188,
+    "num_sources": 6,
+    "num_trans": 193
+  },
+  "files": {
+    "nodes": {
+      "path": "./data/nodes.csv",
+      "description": "A table of size n*2. The first column `id` contains node indices (0 for refinery, 1-6 for oil fields, others for transshipment). The second column `value` contains numerical values indicating the net oil production of each node (positive for supply, negative for demand, 0 for transshipment).\nData format:\n| id | value |\n| --- | --- |\n| 0 | -3950.0 |\n| 1 | 3810.0 |\n| ... | ... |"
+    },
+    "edges": {
+      "path": "./data/edges.csv",
+      "description": "A table of size m*4. Columns are `id_edge`, `source_node` (start node), `target_node` (end node), and `cost` (construction cost of the pipeline).\nData format:\n| id_edge | source_node | target_node | cost |\n| --- | --- | --- | --- |\n| 1 | 1 | 2 | 3661.0 |\n| 2 | 3 | 2 | 2078.0 |\n| ... | ... | ... | ... |"
+    }
+  },
+  "optimal_value": 15078
+}

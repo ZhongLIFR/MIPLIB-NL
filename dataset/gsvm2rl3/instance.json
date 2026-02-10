@@ -1,0 +1,22 @@
+{
+  "abstract_problem": "In the context of a high-throughput bio-security screening system deployment, we are tasked with configuring a linear decision boundary (defined by feature weight vector u and offset b) to differentiate between pathogenic and non-pathogenic signatures based on {n_features} distinct spectral markers obtained from {n_samples} vials. The spectral sensors 1 through 5 operate at a higher frequency of 50Hz compared to the standard 20Hz for the remaining sensors, ensuring higher temporal resolution for those specific bands. The system utilizes a 'Dynamic Routing Protocol' to manage sample integrity. Under this protocol, the algorithm must assign each sample to one of two processing streams: the 'Automated Verification Stream' or the 'Manual Audit Stream'. For samples routed to the Automated Verification Stream, strict adherence to a separation margin is required to ensure statistical significance; any violation of this margin incurs a 'Compliance Risk Penalty' proportional to the magnitude of the violation. Conversely, samples routed to the Manual Audit Stream are removed from the automated classification queue, bypassing the margin check entirely. Routing a sample to the Manual Stream incurs a fixed 'Administrative Overhead'. The Administrative Overhead for a single sample is calculated as the cost of exactly two units of that sample's Base Priority Score. The system's objective is to minimize the 'Total Operational Burden', which is the sum of three components: 1. The Sensor Sparsity Cost (measured by the L1 norm of u to minimize bandwidth); 2. The total Compliance Risk Penalties from the Automated Stream; 3. The total Administrative Overheads from the Manual Stream. The Base Priority Score is derived from a global regulation constant {C_global}, distributed to correct for class prevalence: pathogenic samples carry a score of {C_global} divided by {n_pos}, while non-pathogenic samples carry a score of {C_global} divided by {n_neg}. The facility's total power consumption is capped at 1200W.",
+  "parameters": {
+    "n_samples": 60,
+    "n_features": 60,
+    "n_pos": 31,
+    "n_neg": 29,
+    "C_global": 0.3,
+    "cost_ratio_outlier": 2.0
+  },
+  "files": {
+    "labels": {
+      "path": "./data/patient_labels.csv",
+      "description": "A CSV table with columns `id` (Patient ID) and `label` (Diagnosis, +1 or -1).\nData format:\n| id | label |\n| --- | --- |\n| 1 | 1 |\n| 2 | 1 |\n| ... | ... |"
+    },
+    "expressions": {
+      "path": "./data/gene_expressions.csv",
+      "description": "A CSV table in long format with columns `id` (Patient ID), `gene_id` (Gene Index, 1 to 60), and `value` (Expression Level).\nData format:\n| id | gene_id | value |\n| --- | --- | --- |\n| 1 | 1 | 10.193632 |\n| 1 | 2 | 2.05618 |\n| ... | ... | ... |"
+    }
+  },
+  "optimal_value": 0.336527533962
+}

@@ -1,0 +1,13 @@
+{
+  "abstract_problem": "This is a {n}*{n} puzzle reconstruction problem. Each puzzle piece has 4 edges: top, right, bottom, and left. Each edge is either a boundary edge marked as 0 (imagine the straight edge of a real puzzle piece) or an internal edge marked with a specific positive integer. Pieces can be rotated. (This differs slightly from the interlocking tabs and blanks of real puzzles.) The puzzle rule requires that the touching edges of adjacent puzzle pieces must have the same integer mark. Based on geometric features, the pieces are classified into three categories: 4 corner pieces have two adjacent boundary edges; 4*{n}-8 edge (non-corner) pieces have one boundary edge; and the remaining ({n}-2)^2 internal pieces have no boundary edges. The file `numbers` provides the numbers marked on the four edges of all puzzle pieces. Please find a valid puzzle layout that satisfies the rules. The objective function is the number of successfully placed puzzle pieces.",
+  "parameters": {
+    "n": 10
+  },
+  "files": {
+    "numbers": {
+      "path": "./data/numbers.csv",
+      "description": "A table containing the edge values for each puzzle piece. The columns are `piece_id`, `top_edge`, `right_edge`, `bottom_edge`, and `left_edge`. `0` represents a boundary edge, while positive integers represent internal edge marks that must match with adjacent pieces.\nData format:\n| piece_id | top_edge | right_edge | bottom_edge | left_edge |\n| --- | --- | --- | --- | --- |\n| 0 | 5 | 14 | 14 | 1 |\n| 1 | 1 | 11 | 7 | 2 |\n| ... | ... | ... | ... | ... |"
+    }
+  },
+  "optimal_value": 100
+}

@@ -1,0 +1,16 @@
+{
+  "abstract_problem": "The Imperial Chronology Division manages a collection of {n} temporal artifacts recovered from {m} distinct timelines. The lineage of each artifact is documented in the file `project_teams` (note that a single artifact may possess quantum signatures linking it to multiple timelines). To prevent degradation, these artifacts can be stored in {k} Stasis Chambers. Due to the geometric constraints of the containment fields, each Stasis Chamber has a hard limit of holding at most {c} artifacts. Artifacts that are not assigned to a Stasis Chamber must remain in the 'Entropy Buffer' zone. To maintain the stability of the space-time continuum, the 'Isotopic Coherence Protocol' must be strictly enforced: For any given timeline, all artifacts from that timeline that are secured within the Stasis Chambers must be located in the exact same chamber. It is strictly forbidden to fragment a timeline's preserved artifacts across two or more different Stasis Chambers, as this causes a causality loop; however, artifacts remaining in the Entropy Buffer are considered inert and do not affect this coherence constraint. Additionally, artifacts with odd-numbered IDs emit Alpha radiation while even-numbered ones emit Beta radiation; Alpha emitters require the chamber's initialization sequence to run for 15 minutes longer than standard, but all chambers are equipped to handle both radiation types without capacity reduction. The facility operates on a strict energy budget where each active chamber consumes 450 Gigajoules per cycle. The primary objective is to determine the maximum total quantity of artifacts that can be successfully secured within the Stasis Chambers while adhering to the capacity limits and the Isotopic Coherence Protocol.",
+  "parameters": {
+    "n": 128,
+    "m": 89,
+    "k": 16,
+    "c": 9
+  },
+  "files": {
+    "project_teams": {
+      "path": "./data/project_teams.csv",
+      "description": "A CSV file with 2 columns. The first column `team_id` represents the project group (Hyperedge), and the second column `researcher_id` represents the researcher (Vertex). Each row indicates that the researcher belongs to the specified project group.\nData format:\n| team_id | researcher_id |\n| --- | --- |\n| 0 | 15 |\n| 0 | 20 |\n| ... | ... |"
+    }
+  },
+  "optimal_value": 97
+}

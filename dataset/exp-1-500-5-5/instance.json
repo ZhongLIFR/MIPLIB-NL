@@ -1,0 +1,25 @@
+{
+  "abstract_problem": "You are the Director of Operations for a specialized aerospace metallurgy facility responsible for casting {num_products} distinct high-entropy alloys over a fiscal planning horizon of {num_periods} discrete operational intervals. The facility utilizes a single, high-frequency induction furnace for all casting tasks. Due to strict chemical purity requirements and the risk of cross-contamination, the furnace is restricted to processing a single alloy type within any given interval. The thermodynamic properties of each alloy impose specific physical throughput limits, defined as {capacities} units per interval respectively. Initiating a production run for any alloy requires a specific thermal calibration and mold reconfiguration, incurring a one-time setup cost for that interval. Direct manufacturing expenses are recorded on a per-unit basis. Completed units not immediately shipped to the client are transferred to a secure, climate-controlled vault, accruing inventory holding costs per unit for each interval they remain in storage. Conversely, if the confirmed demand is not met within the current interval, the order is classified as a backlog. Per our Service Level Agreements, a penalty cost is charged for each backlogged unit for every interval it remains unfulfilled. Note that alloys with odd-numbered identifiers are designated for deep-space missions and require a secondary certification by an external agency after leaving our facility; this external process does not impact our internal scheduling flow. Additionally, the facility monitors 'Sustainability Credits', where each setup event consumes 5 credits from the annual allowance, tracked by the environmental department. The furnace liner degrades at a rate of 0.01% per production hour, but replacement costs are capitalized annually and excluded from this operational budget. By the conclusion of the final planning interval, all production accounts must be balanced, meaning no inventory remains in the vault and no backlogs are outstanding. Your objective is to determine the optimal production sequence that minimizes the total operational expenditure (comprising production, setup, inventory holding, and backlog penalty costs) based on the rates provided in the accounting files.",
+  "parameters": {
+    "num_products": 5,
+    "num_periods": 50,
+    "capacities": [
+      753.0,
+      763.0,
+      863.0,
+      712.0,
+      786.0
+    ]
+  },
+  "files": {
+    "demand": {
+      "path": "data/demand.csv",
+      "description": "A table with columns: `product_id` is the product identifier, `period` is the time period, and `demand` is the required quantity of the product for that period.\nData format:\n| product_id | period | demand |\n| --- | --- | --- |\n| 1 | 1 | 16.0 |\n| 1 | 2 | 17.0 |\n| ... | ... | ... |"
+    },
+    "costs": {
+      "path": "data/costs.csv",
+      "description": "A table with columns: `product_id` is the product identifier, `period` is the time period, `production_cost` is the cost per unit produced, `setup_cost` is the fixed cost to start production, `holding_cost` is the cost per unit held in inventory, and `backlog_cost` is the penalty cost per unit backlogged.\nData format:\n| product_id | period | production_cost | setup_cost | holding_cost | backlog_cost |\n| --- | --- | --- | --- | --- | --- |\n| 1 | 1 | 4.0 | 3000.0 | 1.0 | 1.0 |\n| 1 | 2 | 9.0 | 4000.0 | 5.0 | 6.0 |\n| ... | ... | ... | ... | ... | ... |"
+    }
+  },
+  "optimal_value": 65887
+}

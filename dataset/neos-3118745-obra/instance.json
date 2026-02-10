@@ -1,0 +1,32 @@
+{
+  "abstract_problem": "Assume you are the project manager of a large-scale construction project. The project is decomposed into N1 distinct sub-tasks (e.g., foundation, wiring, or plumbing for specific structures). You have N2 different subcontractors available to perform these tasks. Each subcontractor has a maximum global capacity for resources (e.g., total available equipment hours or workforce). Assigning a specific subcontractor to execute a specific task consumes a certain amount of this global resource.\n\nAdditionally, the construction site is spatially or temporally divided into M distinct zones (or phases). Each zone comprises a specific block of consecutive tasks. Within each zone, there is a strict limit on local resource usage (e.g., physical storage space or local power load). Assigning a subcontractor to perform a task within a specific zone consumes a specific amount of this local resource. Furthermore, assigning a specific task to a specific subcontractor yields a defined profit.\n\nThe total potential value of the project is fixed at {r0124_constant}. The objective variable represents the 'unrealized profit' (or opportunity cost), calculated as the total potential value minus the sum of profits from all assigned tasks. Therefore, minimizing this unrealized profit is mathematically equivalent to maximizing the total profit obtained from task assignments.\n\nYour goal is to assign each task to at most one subcontractor to maximize the total project profit (or minimize the unrealized profit), while ensuring that no subcontractor exceeds their global resource capacity and no zone exceeds its local resource limit. Output the value of the minimized unrealized profit.",
+  "parameters": {
+    "N1": 113,
+    "N2": 10,
+    "M": 20,
+    "Y": 1616.0
+  },
+  "files": {
+    "files_1": {
+      "path": "data/C1.csv",
+      "description": "Table C1: The first column lists the Subcontractor IDs (1 to N2). The second column shows the maximum global resource capacity available for each subcontractor. This represents the total work or equipment hours each subcontractor can handle across the entire project."
+    },
+    "files_2": {
+      "path": "data/C2.csv",
+      "description": "Table C2: A matrix where rows represent Task IDs (1 to N1) and columns represent Subcontractor IDs (1 to N2). The value at each intersection represents the profit obtained if the specific task is assigned to that specific subcontractor."
+    },
+    "files_3": {
+      "path": "data/C3.csv",
+      "description": "Table C3: A matrix where rows represent Task IDs (1 to N1) and columns represent Subcontractor IDs (1 to N2). The value at each intersection represents the amount of global resources consumed by the subcontractor to perform that specific task."
+    },
+    "files_4": {
+      "path": "data/C4.csv",
+      "description": "Table C4: A matrix where rows represent Task IDs (1 to N1) and columns represent Subcontractor IDs (1 to N2). The value represents the amount of local resources (e.g., space) consumed if the task is performed by that subcontractor. This consumption applies against the limit of the specific zone the task belongs to."
+    },
+    "files_5": {
+      "path": "data/C5.csv",
+      "description": "Table C5: Defines the project zones. The first column is the Zone ID (1 to M). The second column is the Start Task ID, and the third column is the End Task ID, defining the range of tasks included in this zone. The fourth column specifies the maximum limit of local resources available for this zone."
+    }
+  },
+  "optimal_value": 255
+}

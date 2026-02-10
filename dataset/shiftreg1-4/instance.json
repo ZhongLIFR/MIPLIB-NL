@@ -1,0 +1,43 @@
+{
+  "abstract_problem": "A service organization is planning staffing for a single day that is divided into {N_time_slots} equal time slots (each slot is {time_granularity_minutes} minutes). There are {N_employees} employees available, identified as employee_id = 0..{N_employees_minus_1}.\n\nThe operation is open only during a service window of time slots (from time_id {work_window_start_time_id} to {work_window_end_time_id}, inclusive). For each time slot in this window, the business sets a target staffing level: how many employees should be actively working in that slot.\n\nIf the schedule assigns fewer working employees than the target in a given time slot, the shortfall is called understaffing. If the schedule assigns more working employees than the target, the surplus is called overstaffing. Both are allowed but create a cost. The costs are time-dependent: each time slot has its own understaffing and overstaffing penalty rates. A penalty rate is charged per person-slot of deviation (one person-slot means one missing or extra employee in one time slot).\n\n**Crucially, the organization does not need to utilize all available employees.** Each employee can either be assigned a shift or remain completely unassigned for the day. If an employee is unassigned, they do not work in any time slot, do not follow the rulebook described below, and incur zero labor cost. If an employee is assigned a shift, their day is described as a sequence of statuses over time defined by a compact rulebook, and due to the minimum work requirement ({min_work_slots} slots), assigned employees will necessarily work at least that amount.\n\nThe allowed sequences for assigned employees are defined by a compact rulebook (a small graph of states and labeled transitions). The business meaning is that the rulebook encodes what can happen next in an employee's day: remaining off duty, starting to work, continuing to work, taking a short break, taking a longer meal break, and ending the shift and staying off duty afterwards.\n\nThe rulebook is combined with shift policy rules for assigned employees:\n- If an employee works at all, their total number of working time slots must be between {min_work_slots} and {max_work_slots}.\n- Based on total working time, the employee is treated as either a short shift (at most {short_shift_max_work_slots} working slots) or a long shift (at least {long_shift_min_work_slots} working slots).\n- A short shift must include exactly {short_break_slots_short_shift} time slot of short break, while a long shift must include exactly {short_break_slots_long_shift} time slots of short break.\n- A long shift must additionally include a meal break that lasts exactly {meal_break_slots_long_shift} consecutive time slots. (A short shift has no meal break.)\n\nThe goal is to choose which employees to assign and their daily status sequences to minimize the total daily operating cost, which includes labor cost for working time and the time-slot-specific penalties for understaffing and overstaffing.",
+  "parameters": {
+    "N_employees": "12",
+    "N_employees_minus_1": "11",
+    "N_time_slots": "96",
+    "time_granularity_minutes": "15",
+    "work_window_start_time_id": "32",
+    "work_window_end_time_id": "67",
+    "break_window_start_time_id": "36",
+    "break_window_end_time_id": "63",
+    "min_work_slots": "12",
+    "max_work_slots": "32",
+    "short_shift_max_work_slots": "23",
+    "long_shift_min_work_slots": "24",
+    "short_break_slots_short_shift": "1",
+    "short_break_slots_long_shift": "2",
+    "meal_break_slots_long_shift": "4"
+  },
+  "files": {
+    "demand": {
+      "path": "data/demand.csv",
+      "description": "Service window requirements and deviation penalties. Each row corresponds to one time slot when the operation is open. required_staff is the target number of employees actively working in that slot.\n\nIf fewer employees are working than required_staff, the missing headcount is understaffing. If more employees are working than required_staff, the extra headcount is overstaffing. The two penalty columns define how much cost is charged per person-slot of deviation, and they may differ across time slots. One person-slot means 1 employee of deviation in 1 time slot.\n\nData format:\n- Header: time_id,required_staff,under_penalty,over_penalty\n- time_id: integer time slot index (only open slots appear)\n- required_staff: nonnegative integer target headcount\n- under_penalty: nonnegative number (cost per missing person-slot)\n- over_penalty: nonnegative number (cost per extra person-slot)\nExample:\ntime_id,required_staff,under_penalty,over_penalty\n32,2,1000000,1.725729\n36,3,1.899245,1.355638"
+    },
+    "work_cost": {
+      "path": "data/work_cost.csv",
+      "description": "Labor cost for assigning a specific employee to actively work in a specific time slot. Costs are only provided for time slots in the service window, and the objective adds this cost whenever the schedule assigns that employee to work in that slot.\n\nData format:\n- Header: employee_id,time_id,cost\n- employee_id: integer identifier\n- time_id: integer time slot index\n- cost: nonnegative number (cost for that employee to work one slot)\nExample:\nemployee_id,time_id,cost\n0,32,1.725729\n0,36,1.355638\n11,67,1.242506"
+    },
+    "label_time_windows": {
+      "path": "data/label_time_windows.csv",
+      "description": "Inclusive time windows for each status label used by the rulebook. A label is allowed only within its [start_time_id, end_time_id] window.\n\nThe window applies globally: outside that range the label is not allowed anywhere in an employee's daily sequence.\n\nData format:\n- Header: label,start_time_id,end_time_id\n- label: one of off, work, short_break, meal_break\n- start_time_id,end_time_id: inclusive integer indices\nExample:\nlabel,start_time_id,end_time_id\nwork,32,67\nshort_break,36,63\nmeal_break,36,63\noff,0,95"
+    },
+    "automaton_transitions": {
+      "path": "data/automaton_transitions.csv",
+      "description": "Base transitions of the compact rulebook (time-independent template). Each row defines one allowed next step: if the current state is from_state and the chosen status label is label, then the next state becomes to_state.\n\nNote: For modeling, use rulebook_edges.csv instead, which contains the time-specific expansion of these rules with temporal constraints applied.\n\nData format:\n- Header: from_state,to_state,label\n- from_state,to_state: string state identifiers\n- label: one of off, work, short_break, meal_break\nExample:\nfrom_state,to_state,label\nq0,q0,off\nq0,a1_1,work\na1_4,br,short_break\na1_4,l_1,meal_break"
+    },
+    "rulebook_edges": {
+      "path": "data/rulebook_edges.csv",
+      "description": "Time-layered rulebook transitions (use this file for modeling). Each row indicates that at a given time slot, a specific label choice is allowed from a given state and leads to a given next state. This is a pruned time expansion of automaton_transitions.csv with temporal constraints applied.\n\nImportant: This graph is pruned such that certain transitions may not exist at all time slots. For example, the 'off' self-loop from the initial state q0 is only available until time 63, after which employees in q0 must transition to work states. This reflects the original problem's shift timing constraints.\n\nFor assigned employees, model their path through this time-layered graph. Unassigned employees bypass this graph entirely.\n\nData format:\n- Header: time_id,from_state,to_state,label\n- time_id: integer time slot index\n- from_state,to_state: string state identifiers\n- label: one of off, work, short_break, meal_break\nExample:\ntime_id,from_state,to_state,label\n32,q0,a1_1,work\n44,a1_4,l_1,meal_break\n63,a1_4,br,short_break"
+    }
+  },
+  "optimal_value": "132.66969396"
+}

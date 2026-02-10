@@ -1,0 +1,26 @@
+{
+  "abstract_problem": "A venture capital firm is finalizing the composition of its flagship 'Equilibrium Fund,' designed to offer investors a perfectly balanced exposure across fifteen distinct market sectors. The firm has shortlisted a pool of candidate startups, each of which brings a unique multi-sector impact profile-contributing to growth in areas ranging from fintech and biotech to sustainable energy and AI. The fund's mandate is strict: it aims to hit a precise cumulative exposure target for every single sector simultaneously.\n\nUnlike traditional funds that maximize total return, the Equilibrium Fund's primary directive is consistency. The investment committee must select a subset of startups such that the aggregated market presence in each of the fifteen sectors aligns as closely as possible with the fund's strategic benchmarks. The ultimate measure of success is the portfolio's stability, defined by minimizing the 'sector drift'-specifically, the largest deviation found in any single sector between the achieved exposure and the ideal target. This requires a sophisticated selection strategy that treats the portfolio as a cohesive ecosystem, where adding or removing a single startup ripples across all sector metrics, necessitating a holistic approach to minimize the most significant outlier in the entire diversification profile.",
+  "parameters": {
+    "num_projects": "55",
+    "num_dimensions": "15",
+    "target_value": "731",
+    "contribution_range": "[5, 55]",
+    "average_contribution": "30.2",
+    "matrix_density": "100%"
+  },
+  "files": {
+    "items": {
+      "path": "data/items.csv",
+      "description": "Project information with columns: item_id (unique identifier), item_name (name of the project), description (text description). Data format: | item_id | item_name | description |\n|---|---|---|\n| 1 | Project_1 | Candidate project 1 for selection |\n| ... | ... | ... |"
+    },
+    "dimensions": {
+      "path": "data/dimensions.csv",
+      "description": "Resource dimension information with columns: dimension_id (unique identifier), dimension_name (name of dimension), target_value (target requirement), description (text description). Data format: | dimension_id | dimension_name | target_value | description |\n|---|---|---|---|\n| 1 | Resource_1 | 731.0 | Target requirement for resource dimension 1 |\n| ... | ... | ... | ... |"
+    },
+    "contributions": {
+      "path": "data/contributions.csv",
+      "description": "Project contributions information with columns: item_id (project identifier), dimension_id (dimension identifier), contribution (contribution value). Data format: | item_id | dimension_id | contribution |\n|---|---|---|\n| 1 | 1 | 14.0 |\n| ... | ... | ... |"
+    }
+  },
+  "optimal_value": 11.0
+}

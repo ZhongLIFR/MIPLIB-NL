@@ -1,0 +1,28 @@
+{
+  "abstract_problem": "We are tasked with optimizing the workforce planning for a naval retrofitting initiative. The project comprises {n} distinct operations, each requiring a specific type of specialist—either a Mechaniker or a Techniker—to be executed. Operations are subject to strict sequential dependencies and can be performed in one of three intensity modes (utilizing 1, 2, or 3 specialists), which inversely affects their duration. The project operates under a global rhythmic timeline divided into 25-unit 'Tidal Cycles'. Operations are restricted to commence only within specific 'safe entry windows' relative to the start of these cycles. While the project must be fully delivered within {time_limit} time units, management differentiates between 'Deck' (odd-numbered) and 'Hull' (even-numbered) tasks for post-project environmental auditing, which incurs separate filing fees. The objective is to determine the optimal standing headcount of Mechanikers and Technikers to hire at the project's onset to ensure feasibility. With hiring costs of {cost_mechaniker} and {cost_techniker} respectively, and excluding separate logistical subsistence charges accrued per cycle, the goal is to minimize the total personnel acquisition budget.",
+  "parameters": {
+    "n": 30,
+    "time_limit": 212,
+    "cost_mechaniker": 100,
+    "cost_techniker": 51
+  },
+  "files": {
+    "durations": {
+      "path": "./data/duration.csv",
+      "description": "A table with columns `job_id`, `duration_1`, `duration_2`, `duration_3`. It specifies the duration of each job under Mode 1 (1 person), Mode 2 (2 persons), and Mode 3 (3 persons). An empty value indicates that the corresponding mode is not available for that job.\nData format:\n| job_id | duration_1 | duration_2 | duration_3 |\n| --- | --- | --- | --- |\n| 1 | 9 | 6 | 5 |\n| 2 | 11 | 7 | 6 |\n| ... | ... | ... | ... |"
+    },
+    "time_windows": {
+      "path": "./data/time_windows.csv",
+      "description": "A table with columns `job_id`, `mode`, `allowed_start_offset_limit`. It specifies the maximum allowed value for `start_time % 25` for each job and mode.\nData format:\n| job_id | mode | allowed_start_offset_limit |\n| --- | --- | --- |\n| 1 | 1 | 11 |\n| 1 | 2 | 14 |\n| ... | ... | ... |"
+    },
+    "precedence": {
+      "path": "./data/precedence.csv",
+      "description": "A table with columns `predecessor_id` and `successor_id`. Each row indicates that the job `successor_id` cannot start until the job `predecessor_id` has finished.\nData format:\n| predecessor_id | successor_id |\n| --- | --- |\n| 1 | 5 |\n| 1 | 17 |\n| ... | ... |"
+    },
+    "resources": {
+      "path": "./data/resources.csv",
+      "description": "A table with columns `job_id` and `resource_type`. It specifies whether a job requires a 'Mechaniker' or a 'Techniker'.\nData format:\n| job_id | resource_type |\n| --- | --- |\n| 1 | Techniker |\n| 2 | Mechaniker |\n| ... | ... |"
+    }
+  },
+  "optimal_value": 302
+}

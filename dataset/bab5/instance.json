@@ -1,0 +1,107 @@
+{
+  "abstract_problem": "A transportation provider plans a set of profitable vehicle operations while simultaneously building a feasible crew plan that can cover those operations. Both the vehicle side and the crew side are represented as discrete time-space transitions: selecting a transition means committing to a specific movement or linkage in the plan.\n\nDuring the planning horizon, there are {num_start_slots} independent starting requirements. For each requirement, exactly one starting option must be chosen so that a corresponding operational stream can begin.\n\nSome operational blocks are only meaningful if they are opened and properly “anchored” at both ends. The instance contains {num_packages} such blocks. When a block is opened, exactly two associated boundary choices must be selected, reflecting that the block must have a valid start and a valid end within the overall plan.\n\nOperational activity is also paced across {num_windows} windows. In each window, the number of selected vehicle-side transitions must remain within a window-specific band and must not exceed a hard limit. In addition, there are {num_mix_dimensions} policy dimensions that limit how concentrated certain vehicle-side attributes can be among the selected transitions.\n\nThe plan must also satisfy minimum coverage expectations across {num_coverage_groups} groups and avoid incompatible combinations captured by {num_conflict_groups} conflict groups. Finally, some choices only make sense when at least one supporting continuation is also chosen.\n\nEach selectable choice has a net cost that can be positive (expense) or negative (profit credit). The goal is to select a consistent set of choices that respects all operational rules and yields the minimum total net cost.",
+  "parameters": {
+    "num_decisions": "21600",
+    "num_flow_nodes": "988",
+    "num_start_slots": "21",
+    "num_packages": "320",
+    "num_windows": "20",
+    "num_mix_dimensions": "8",
+    "num_coverage_groups": "52",
+    "num_conflict_groups": "88",
+    "num_exact_choice_groups": "19",
+    "num_cardinality_cap_groups": "43",
+    "num_redundant_bounds": "18"
+  },
+  "files": {
+    "decisions": {
+      "path": "data/decisions.csv",
+      "description": "All selectable choices in the plan. Each row is one binary choice with its role label and its net cost contribution in the objective. The decision identifier uses a stable, cleaned format.\n\nPossible strings:\n- decision_id: 'd' followed by digits (zero-padded), e.g., d00000.\n- role: one of {vehicle_arc_or_trip, crew_block_or_vehicle_block, auxiliary_transition}.\n\nData format: | decision_id | role | cost |\n|:--|:--|:--|\n| <str> | <str> | <float> |\n| ... | ... | ... |"
+    },
+    "start_slots": {
+      "path": "data/start_slots.csv",
+      "description": "Independent starting requirements. Each row identifies a start slot that must select exactly one associated option.\n\nPossible strings:\n- start_slot_id: 'S' followed by digits (zero-padded), e.g., S00.\n\nData format: | start_slot_id |\n|:--|\n| <str> |\n| ... |"
+    },
+    "start_options": {
+      "path": "data/start_options.csv",
+      "description": "Allowed starting options for each start slot. The options listed for a slot are the choices among which exactly one must be selected.\n\nPossible strings:\n- start_slot_id: 'S' followed by digits (zero-padded), e.g., S00.\n- decision_id: 'd' followed by digits (zero-padded), e.g., d00000.\n\nData format: | start_slot_id | decision_id |\n|:--|:--|\n| <str> | <str> |\n| ... | ... |"
+    },
+    "flow_nodes": {
+      "path": "data/flow_nodes.csv",
+      "description": "Time-space balance nodes used to ensure internal consistency of vehicle and crew movement streams. Each node has a required net balance value.\n\nPossible strings:\n- node_id: 'c' followed by digits, e.g., c22. These identifiers label balance equations (nodes) in the time-space representation.\n\nData format: | node_id | rhs |\n|:--|:--|\n| <str> | <float> |\n| ... | ... |"
+    },
+    "flow_arcs": {
+      "path": "data/flow_arcs.csv",
+      "description": "Directed transitions between flow nodes for decisions that follow the standard ‘leave one node and enter another’ pattern. Selecting such a decision contributes positively at the origin node and negatively at the destination node.\n\nPossible strings:\n- decision_id: 'd' followed by digits (zero-padded), e.g., d00000.\n- from_node, to_node: 'c' followed by digits, e.g., c22.\n\nData format: | decision_id | from_node | to_node |\n|:--|:--|:--|\n| <str> | <str> | <str> |\n| ... | ... | ... |"
+    },
+    "flow_exceptions": {
+      "path": "data/flow_exceptions.csv",
+      "description": "Non-standard balance contributions for decisions that do not fit the simple directed-transition pattern. Each row adds an explicit coefficient to the specified node equation.\n\nPossible strings:\n- decision_id: 'd' followed by digits (zero-padded), e.g., d00000.\n- node_id: 'c' followed by digits, e.g., c22.\n\nData format: | decision_id | node_id | coef |\n|:--|:--|:--|\n| <str> | <str> | <float> |\n| ... | ... | ... |"
+    },
+    "packages": {
+      "path": "data/packages.csv",
+      "description": "Operational blocks that, when opened, must be anchored by selecting exactly two associated boundary choices. Each row links a block identifier to the decision that represents opening it.\n\nPossible strings:\n- package_id: 'P' followed by digits (zero-padded), e.g., P000.\n- package_decision_id: 'd' followed by digits (zero-padded), e.g., d00000.\n\nData format: | package_id | package_decision_id |\n|:--|:--|\n| <str> | <str> |\n| ... | ... |"
+    },
+    "package_candidates": {
+      "path": "data/package_candidates.csv",
+      "description": "Boundary choices associated with each operational block. These are the only choices that can be used to anchor the block.\n\nPossible strings:\n- package_id: 'P' followed by digits (zero-padded), e.g., P000.\n- candidate_id: 'd' followed by digits (zero-padded), e.g., d00000.\n\nData format: | package_id | candidate_id |\n|:--|:--|\n| <str> | <str> |\n| ... | ... |"
+    },
+    "windows": {
+      "path": "data/windows.csv",
+      "description": "Pacing windows that limit how much vehicle-side activity can be scheduled in the window. Each row provides the allowed band and a hard upper limit.\n\nPossible strings:\n- window_id: 'W' followed by digits (zero-padded), e.g., W00.\n\nData format: | window_id | min_count | max_count | hard_cap |\n|:--|:--|:--|:--|\n| <str> | <float> | <float> | <float> |\n| ... | ... | ... | ... |"
+    },
+    "window_members": {
+      "path": "data/window_members.csv",
+      "description": "Membership of decisions in each pacing window. A decision listed under a window contributes to that window’s activity count.\n\nPossible strings:\n- window_id: 'W' followed by digits (zero-padded), e.g., W00.\n- decision_id: 'd' followed by digits (zero-padded), e.g., d00000.\n\nData format: | window_id | decision_id |\n|:--|:--|\n| <str> | <str> |\n| ... | ... |"
+    },
+    "mix_targets": {
+      "path": "data/mix_targets.csv",
+      "description": "Share-limit targets for each policy dimension. These targets bound how concentrated certain vehicle-side attributes may be among selected vehicle-side decisions.\n\nPossible strings:\n- mix_dimension_id: 'D' followed by digits, e.g., D0.\n\nData format: | mix_dimension_id | max_share |\n|:--|:--|\n| <str> | <float> |\n| ... | ... |"
+    },
+    "mix_flags": {
+      "path": "data/mix_flags.csv",
+      "description": "Binary attribute flags for vehicle-side decisions under each policy dimension. These flags are used together with the share targets to enforce mix limits.\n\nPossible strings:\n- decision_id: 'd' followed by digits (zero-padded), e.g., d00000.\n- mix_dimension_id: 'D' followed by digits, e.g., D0.\n\nData format: | decision_id | mix_dimension_id | flag |\n|:--|:--|:--|\n| <str> | <str> | <int> |\n| ... | ... | ... |"
+    },
+    "coverage_groups": {
+      "path": "data/coverage_groups.csv",
+      "description": "Minimum coverage expectations. Each row defines a group and the minimum number of selected decisions required in that group.\n\nPossible strings:\n- coverage_group_id: 'G' followed by digits (zero-padded), e.g., G000.\n\nData format: | coverage_group_id | min_selected |\n|:--|:--|\n| <str> | <int> |\n| ... | ... |"
+    },
+    "coverage_members": {
+      "path": "data/coverage_members.csv",
+      "description": "Membership of decisions in each coverage group. A decision listed under a group counts toward that group’s minimum coverage.\n\nPossible strings:\n- coverage_group_id: 'G' followed by digits (zero-padded), e.g., G000.\n- decision_id: 'd' followed by digits (zero-padded), e.g., d00000.\n\nData format: | coverage_group_id | decision_id |\n|:--|:--|\n| <str> | <str> |\n| ... | ... |"
+    },
+    "conflict_groups": {
+      "path": "data/conflict_groups.csv",
+      "description": "Groups of mutually incompatible choices. For each group, at most one member decision may be selected.\n\nPossible strings:\n- conflict_group_id: 'C' followed by digits (zero-padded), e.g., C000.\n\nData format: | conflict_group_id |\n|:--|\n| <str> |\n| ... |"
+    },
+    "conflict_members": {
+      "path": "data/conflict_members.csv",
+      "description": "Membership of decisions in each incompatibility group.\n\nPossible strings:\n- conflict_group_id: 'C' followed by digits (zero-padded), e.g., C000.\n- decision_id: 'd' followed by digits (zero-padded), e.g., d00000.\n\nData format: | conflict_group_id | decision_id |\n|:--|:--|\n| <str> | <str> |\n| ... | ... |"
+    },
+    "dependencies": {
+      "path": "data/dependencies.csv",
+      "description": "Prerequisite links between choices. If a parent choice is selected, at least one of its listed child choices must also be selected.\n\nPossible strings:\n- parent_id, child_id: 'd' followed by digits (zero-padded), e.g., d00000.\n\nData format: | parent_id | child_id |\n|:--|:--|\n| <str> | <str> |\n| ... | ... |"
+    },
+    "exact_choice_groups": {
+      "path": "data/exact_choice_groups.csv",
+      "description": "Groups where an exact number of member choices must be selected. These encode small mutually exclusive selections or fixed-size selections of boundary choices for a block.\n\nPossible strings:\n- exact_group_id: 'X' followed by digits (zero-padded), e.g., X000.\n\nData format: | exact_group_id | required_selected |\n|:--|:--|\n| <str> | <int> |\n| ... | ... |"
+    },
+    "exact_choice_members": {
+      "path": "data/exact_choice_members.csv",
+      "description": "Membership of decisions in each exact-choice group.\n\nPossible strings:\n- exact_group_id: 'X' followed by digits (zero-padded), e.g., X000.\n- decision_id: 'd' followed by digits (zero-padded), e.g., d00000.\n\nData format: | exact_group_id | decision_id |\n|:--|:--|\n| <str> | <str> |\n| ... | ... |"
+    },
+    "cardinality_caps": {
+      "path": "data/cardinality_caps.csv",
+      "description": "Upper limits on how many member choices may be selected in a group.\n\nPossible strings:\n- cap_group_id: 'K' followed by digits (zero-padded), e.g., K000.\n\nData format: | cap_group_id | max_selected |\n|:--|:--|\n| <str> | <int> |\n| ... | ... |"
+    },
+    "cardinality_cap_members": {
+      "path": "data/cardinality_cap_members.csv",
+      "description": "Membership of decisions in each cardinality-cap group.\n\nPossible strings:\n- cap_group_id: 'K' followed by digits (zero-padded), e.g., K000.\n- decision_id: 'd' followed by digits (zero-padded), e.g., d00000.\n\nData format: | cap_group_id | decision_id |\n|:--|:--|\n| <str> | <str> |\n| ... | ... |"
+    },
+    "redundant_bounds": {
+      "path": "data/redundant_bounds.csv",
+      "description": "Optional traceability bounds that are implied by the binary nature of the decisions and therefore do not change feasibility. Keeping them allows exact auditing against the source model.\n\nPossible strings:\n- decision_id: 'd' followed by digits (zero-padded), e.g., d00000.\n\nData format: | decision_id | upper_bound |\n|:--|:--|\n| <str> | <int> |\n| ... | ... |"
+    }
+  },
+  "optimal_value": "-106411.8401"
+}

@@ -1,0 +1,21 @@
+{
+  "abstract_problem": "The Galactic Federation is currently restructuring its subspace communication grid to ensure seamless data synchronization across {n} star systems. These systems are categorized based on their data handling roles: {n_supply} systems serve as primary Archives broadcasting essential historical logs, {n_demand} systems are Colony Nodes requesting data packets, and the remaining {n_trans} systems function as passive Relays. The network topology supports {m} potential directional wormhole links connecting specific source systems to target systems. Each star system possesses a specific data flux rating found in the locations file; a negative rating indicates a net output of data (Archive), a positive rating indicates a net input requirement (Colony), and the aggregate flux across the entire galaxy is perfectly balanced at zero. To activate a wormhole link, a Subspace Stabilizer Unit (SSU) must be deployed. It is worth noting that star systems located in the erratic Sector 7 (identified by prime number indices) experience higher background radiation, necessitating that their local communication protocols operate at a phase shift of 45 degrees relative to standard systems to prevent signal degradation, though this protocol adjustment is handled automatically by the hardware. Additionally, once a link is established, the ongoing energy consumption for maintaining the wormhole is projected to be 12 percent of the initial SSU deployment energy annually. The Federation's current fiscal quarter priority is strictly capital expenditure minimization. Assuming each active wormhole, regardless of the volume of data flowing through it (which is theoretically unbounded due to quantum entanglement), requires exactly one SSU for activation, determine the strategy that satisfies all Colony data demands using the absolute minimum number of SSUs.",
+  "parameters": {
+    "n": 150,
+    "m": 300,
+    "n_supply": 18,
+    "n_demand": 33,
+    "n_trans": 99
+  },
+  "files": {
+    "locations": {
+      "path": "./data/locations.csv",
+      "description": "A table of size n*2. The first column `id` contains sequential numbers from 1 to n, representing location indices. The second column `net_demand` contains numerical values indicating the net supply demand of each location. Positive values represent demand, negative values represent supply, and zero represents a transshipment point.\nData format:\n| id | net_demand |\n| --- | --- |\n| 1 | 1914.0 |\n| 2 | -1348.0 |\n| ... | ... |"
+    },
+    "routes": {
+      "path": "./data/routes.csv",
+      "description": "A table of size m*3. Each row (id, source, target) represents a potential one-way transport route from the `source` location to the `target` location.\nData format:\n| id | source | target |\n| --- | --- | --- |\n| 1 | 2 | 6 |\n| 2 | 6 | 5 |\n| ... | ... | ... |"
+    }
+  },
+  "optimal_value": 69
+}

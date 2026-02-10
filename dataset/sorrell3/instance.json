@@ -1,0 +1,9 @@
+{
+  "abstract_problem": "In the advanced deployment of holographic secure supply chain tagging, unique digital artifacts are instantiated as binary sequences of length {n_bits}. The physical etching of these sequences consumes varying power levels, with the manufacturing cost of a sequence directly proportional to its Hamming weight plus a base overhead of 12 units. Post-generation, the registry divides the available artifacts into two service tiers based on the parity of their integer representation; odd-valued artifacts are routed to the expedited verification channel, while even-valued artifacts serve standard logistics. However, the critical limiter for the registry's capacity is the optical interference caused by scanner micro-jitter, which manifests as random bit deletions during readout. To ensure unambiguous identification, the system enforces a strict non-collision policy: the derived structural intersection of any two chosen artifacts—defined as the longest sequence obtainable from both by deleting bits—must remain strictly below a safety cap. Specifically, this common subsequence length is constrained to be strictly less than {lcs_threshold}. The ultimate objective is to maximize the total licensing revenue, which is a linear function of the total count of valid artifacts admitted into the registry, regardless of their service tier or manufacturing cost. Calculate this maximum number of artifacts.",
+  "parameters": {
+    "n_bits": 10,
+    "lcs_threshold": 8
+  },
+  "files": {},
+  "optimal_value": 16
+}

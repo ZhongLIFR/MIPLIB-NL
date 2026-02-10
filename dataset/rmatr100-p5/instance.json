@@ -1,0 +1,14 @@
+{
+  "abstract_problem": "In the context of the 'Nebula' distributed computing architecture strategic overhaul, we are currently evaluating a network consisting of {n} regional server clusters. The strategic committee has authorized the specific deployment of {p} primary acceleration nodes (PANs) to optimize the global data topology and reduce signal propagation overhead. The connectivity preference and backup routing logic for each cluster are strictly defined in the `chains` file, representing a 'Failover Sequence'. For a specific cluster acting as a sequence owner (the origin of the request), the sequence lists candidate service nodes in descending order of proximity and routing efficiency. The 'Network Latency Penalty' for any given cluster is defined mathematically as the zero-based index of the first activated PAN encountered in its specific Failover Sequence. For instance, if the cluster itself is activated as a PAN, the index is 0; if its first backup is activated, the index is 1. Clusters with an identification number exactly divisible by 3 are designated as 'High-Density Zones' and utilize advanced liquid cooling systems, whereas others utilize standard air cooling; the liquid cooling systems require a separate fluid dynamics simulation check post-deployment to ensure thermal stability. Additionally, the standard operating procedure mandates that any selected node must maintain an availability uptime of 99.99%, which incurs a fixed operational expenditure of approximately 500 resource units per node annually. The primary objective is to determine the optimal set of acceleration nodes that minimizes the aggregate Network Latency Penalty across the entire network topology.",
+  "parameters": {
+    "n": 100,
+    "p": 5
+  },
+  "files": {
+    "chains": {
+      "path": "./data/chains.csv",
+      "description": "A CSV file with columns `chain_owner_city_id`, `service_city_id`, `order`. It defines the service rank chain for each city. For a given `chain_owner_city_id` (city i), the rows with this id list the `service_city_id`s in increasing order of service rank (indicated by `order`). The service cost for city i given an opened facility set equals the `order` of the first opened city appearing in its chain.\nData format:\n| chain_owner_city_id | service_city_id | order |\n| --- | --- | --- |\n| 0 | 0 | 0 |\n| 0 | 95 | 1 |\n| ... | ... | ... |"
+    }
+  },
+  "optimal_value": 976
+}

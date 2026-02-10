@@ -1,0 +1,18 @@
+{
+  "abstract_problem": "Under the Strategic Logistics Modernization Roadmap, a trans-continental railway operator is finalizing the crew roster for the upcoming fiscal quarter. The operations research division has pre-computed {n_packages} compliant crew pairings (referred to as 'packages') that strictly adhere to union regulations regarding maximum duty hours and mandatory rest periods. These packages are designed to service a network comprising {n_tasks} essential transport legs (tasks). The explicit mapping between these potential packages and the specific tasks they service is defined in the `package_task` dataset. Financial constraints dictate a rigorous cost minimization strategy for the current scheduling phase. Packages are categorized into two tiers as listed in `package_difficulty`: 'easy' and 'hard'. An 'easy' package represents a standard day shift with a normalized operational cost of 1 unit. A 'hard' package involves complex inter-regional transfers and overnight lodging, resulting in a cost structure that is exactly double that of a standard 'easy' shift. Additionally, 'hard' packages are flagged for the company's Carbon Net-Zero dashboard as they contribute an estimated 4.5 tons of CO2 equivalent per instance, whereas 'easy' packages contribute 1.2 tons, affecting the annual sustainability rating. Upon final selection of the schedule, the legal department will conduct a compliance audit on the chosen roster, charging an administrative processing fee equal to 3% of the total schedule cost, which is payable in the subsequent financial year. The immediate objective is to determine the subset of packages that covers every single task at least once to ensure network continuity, minimizing the total direct operational cost (sum of package costs) for the current quarter.",
+  "parameters": {
+    "n_packages": 63009,
+    "n_tasks": 507
+  },
+  "files": {
+    "package_task": {
+      "path": "./data/package_task.csv",
+      "description": "A table where each row (`package_id`, `task_id`) indicates that the crew package `package_id` covers the train task `task_id`. `package_id` ranges from 1 to n_packages, and `task_id` ranges from 1 to n_tasks.\nData format:\n| package_id | task_id |\n| --- | --- |\n| 20668 | 1 |\n| 10385 | 2 |\n| ... | ... |"
+    },
+    "package_difficulty": {
+      "path": "./data/package_difficulty.csv",
+      "description": "A table of size n_packages*2. The first column `package_id` is the unique identifier for each crew package. The second column `difficulty` is a string, either 'easy' (representing a cost of 1) or 'hard' (representing a cost of 2).\nData format:\n| package_id | difficulty |\n| --- | --- |\n| 1 | hard |\n| 2 | hard |\n| ... | ... |"
+    }
+  },
+  "optimal_value": 174
+}

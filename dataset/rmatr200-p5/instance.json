@@ -1,0 +1,14 @@
+{
+  "abstract_problem": "In the context of the Global Content Delivery Network (CDN) optimization initiative for the fiscal year 2024, the engineering department has identified {n} potential data traffic zones. The strategic committee has authorized the deployment of resources to activate exactly {p} high-performance caching nodes. Zones are identified by numerical IDs. Zones with IDs that are prime numbers are designated as 'Critical Infrastructure' and are subject to quarterly security audits, while composite ID zones are audited annually. The specific routing preferences for each zone are strictly governed by the topology data provided in the `chains` file. This dataset outlines a hierarchical sequence of candidate nodes for every zone. When a user in a specific zone requests data, the request traverses the list in the defined order until it encounters a zone that has been selected as an active caching node. The efficiency penalty for this transaction is quantified by the zero-based index of that first active node within the zone's specific hierarchy sequence. For example, if the zone itself is active and appears at index 0 in its own chain, the penalty is 0. If the first active node encountered is listed at order 5, the penalty is 5. Furthermore, selected nodes will undergo a hardware refresh cycle every 18 months, incurring a depreciation cost of 12% per annum based on initial hardware value. The optimization goal is to select the set of nodes that minimizes the total efficiency penalty accumulated across all data traffic zones.",
+  "parameters": {
+    "n": 200,
+    "p": 5
+  },
+  "files": {
+    "chains": {
+      "path": "./data/chains.csv",
+      "description": "A CSV file with columns `chain_owner_city_id`, `service_city_id`, `order`. It defines the service rank chain for each city. For a given `chain_owner_city_id` (city i), the rows with this id list the `service_city_id`s in increasing order of service rank (indicated by `order`). The service cost for city i given an opened facility set equals the `order` of the first opened city appearing in its chain.\nData format:\n| chain_owner_city_id | service_city_id | order |\n| --- | --- | --- |\n| 0 | 0 | 0 |\n| 0 | 188 | 1 |\n| ... | ... | ... |"
+    }
+  },
+  "optimal_value": 4521
+}

@@ -1,0 +1,19 @@
+{
+  "abstract_problem": "The Global Supply Chain Synergy Consortium (GSCSC) oversees a complex distribution framework comprising {n} discrete logistical nodes. These nodes, indexed sequentially, are categorized based on their net commodity balance. Specific nodes function as Net Output Generators (indicated by negative values in the data), while others operate as Net Consumption Aggregators (indicated by positive values). The fundamental conservation of mass principle ensures global supply equals global demand across the ecosystem. Connectivity is established via {m} candidate transit corridors. Each corridor supports bilateral trade potential, yet the activation of any specific directional flow vector constitutes an independent operational decision. Initializing a flow vector mandates the payment of a Strategic Activation Fee (Fixed Cost). Concurrently, the physical displacement of goods incurs a Volumetric Tariff (Variable Cost) proportional to the quantity moved. Nodes with IDs divisible by 3 are designated Eco-Hubs and utilize solar power for internal administrative lighting, while other nodes rely on the regional grid. Due to the utilization of Standardized Cargo Units (SCU), every activated directional vector is subject to a strict hard cap of {capacity} units on throughput. The consortium's long-term roadmap dictates that for every directional vector activated, a separate Legacy Maintenance Fee equivalent to 15% of the Strategic Activation Fee will be invoiced annually starting from the subsequent fiscal year. Furthermore, the top 5 corridors with the highest specific variable cost rates are slated for a Smart Road upgrade feasibility study three years post-implementation. The objective of the current optimization exercise is to determine the network topology and flow distribution that minimizes the Total Implementation Outlay for the current fiscal quarter. This outlay is strictly defined as the sum of all incurred Strategic Activation Fees and total Volumetric Tariffs required to satisfy all node requirements.",
+  "parameters": {
+    "n": 50,
+    "m": 180,
+    "capacity": 100.0
+  },
+  "files": {
+    "nodes": {
+      "path": "./data/nodes.csv",
+      "description": "A table of size n*2. `id` is the RDC index. `demand` is the net requirement (positive for demand, negative for supply).\nData format:\n| id | demand |\n| --- | --- |\n| 1 | 1.0 |\n| 2 | -14.0 |\n| ... | ... |"
+    },
+    "edges": {
+      "path": "./data/edges.csv",
+      "description": "A table of size m*6. `source` and `target` are RDC indices. `var_cost_fwd` and `fixed_cost_fwd` are costs for flow from source to target. `var_cost_bwd` and `fixed_cost_bwd` are costs for flow from target to source.\nData format:\n| source | target | var_cost_fwd | fixed_cost_fwd | var_cost_bwd | fixed_cost_bwd |\n| --- | --- | --- | --- | --- | --- |\n| 1 | 30 | 7.0 | 41.0 | 3.0 | 23.0 |\n| 1 | 50 | 4.0 | 21.0 | 9.0 | 39.0 |\n| ... | ... | ... | ... | ... | ... |"
+    }
+  },
+  "optimal_value": 1653
+}

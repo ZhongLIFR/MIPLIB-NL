@@ -1,0 +1,33 @@
+{
+  "abstract_problem": "A media operator is planning a campaign window involving {G} clients. Each client proposes a shortlist of commercial packages; across all clients there are {P} candidate packages in total. For any given client, at most one package can be signed. A signed package serves as a \"key\" that enables a catalog of executable opportunities associated with that package.\n\nAcross the window there are {O} opportunities. When an opportunity is activated, it delivers a known profit of {profit}. However, each opportunity also requires a specific combination of scarce inventory units (for example, particular time slots, placements, or audience-quota units). There are {R} inventory units in total, and each unit can be allocated to at most one activated opportunity during the window.\n\nThe operator must choose which packages to sign (possibly none for some clients) and which opportunities to activate, so that inventory is never double-booked and the campaign profit is as large as possible.",
+  "parameters": {
+    "G": "22",
+    "P": "823",
+    "O": "11547",
+    "R": "99",
+    "profit": "profit value per opportunity (see data/options.csv)"
+  },
+  "files": {
+    "clients": {
+      "path": "data/clients.csv",
+      "description": "Client list. Each row identifies one client whose campaign must follow a single-package commitment rule.\n\nData format: | client_id |\n|:--|\n| <int> |\n| ... |"
+    },
+    "packages": {
+      "path": "data/packages.csv",
+      "description": "Candidate commercial packages and the client that each package belongs to. Packages represent alternative cooperation configurations proposed by clients.\n\nData format: | package_id | client_id |\n|:--|:--|\n| <int> | <int> |\n| ... | ... |"
+    },
+    "options": {
+      "path": "data/options.csv",
+      "description": "Executable opportunities unlocked by packages. Each opportunity belongs to exactly one package and yields a profit if activated.\n\nData format: | option_id | package_id | profit |\n|:--|:--|:--|\n| <int> | <int> | <float> |\n| ... | ... | ... |"
+    },
+    "resources": {
+      "path": "data/resources.csv",
+      "description": "Scarce inventory units that cannot be shared across opportunities. Each row defines one inventory unit and how many times it can be allocated within the window.\n\nData format: | resource_id | capacity |\n|:--|:--|\n| <int> | <int> |\n| ... | ... |"
+    },
+    "option_resources": {
+      "path": "data/option_resources.csv",
+      "description": "Opportunity-to-inventory usage links. Each row indicates that an opportunity requires the corresponding inventory unit.\n\nData format: | option_id | resource_id |\n|:--|:--|\n| <int> | <int> |\n| ... | ... |"
+    }
+  },
+  "optimal_value": "11608837352.473440"
+}

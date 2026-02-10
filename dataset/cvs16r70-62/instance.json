@@ -1,0 +1,16 @@
+{
+  "abstract_problem": "The 'Horizon-IX' deep-space outpost is currently managed by {n} specialists who are organized into {m} distinct functional mission clusters. The specific roster showing which specialist belongs to which cluster is provided in the file `project_teams` (note that cross-trained specialists may belong to multiple clusters). The outpost is equipped with {k} High-Security Habitation Modules (HSHMs). Due to the limitations of the CO2 scrubbing systems and emergency escape pod capacity, each HSHM can safely sustain a maximum of {c} specialists. The HSHMs are arranged in a ring structure surrounding the central core, with a travel time of approximately 45 seconds between adjacent modules, a factor often considered for emergency evacuation protocols. To optimize the station's operational security, the administration aims to accommodate the maximum possible number of specialists within these secure HSHMs. Specialists who cannot be accommodated in an HSHM must reside in the 'General Assembly Area', where water recycling efficiency is 15% lower than in the secure modules, leading to higher resource consumption per capita. A critical bio-security regulation known as the 'Unit Cohesion Protocol' dictates the assignment logic: for any given mission cluster, the subset of its members selected for HSHM residency must be consolidated within a single, identical HSHM to maintain quarantine integrity. It is strictly prohibited to fragment the HSHM-assigned members of a single cluster across two or more different HSHMs. Members of a cluster can be split between their designated HSHM and the General Assembly Area. Determine the maximum number of specialists that can be assigned to the HSHMs subject to these capacity and cohesion constraints.",
+  "parameters": {
+    "n": 70,
+    "m": 62,
+    "k": 16,
+    "c": 5
+  },
+  "files": {
+    "project_teams": {
+      "path": "./data/project_teams.csv",
+      "description": "A CSV file with 2 columns. The first column `team_id` represents the project group (Hyperedge), and the second column `researcher_id` represents the researcher (Vertex). Each row indicates that the researcher belongs to the specified project group.\nData format:\n| team_id | researcher_id |\n| --- | --- |\n| 0 | 12 |\n| 0 | 47 |\n| ... | ... |"
+    }
+  },
+  "optimal_value": 42
+}

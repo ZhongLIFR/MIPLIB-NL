@@ -1,0 +1,15 @@
+{
+  "abstract_problem": "Assume you are the operations manager of a thermal power plant. You need to create a generation schedule for the upcoming T time periods. For each time period, there is a specific minimum electricity demand that must be met, as detailed in Table D1. To reduce fuel waste, your objective is to minimize the total power generation over all periods while satisfying these demands. However, due to mechanical constraints and operational stability requirements, you are allowed to change the power output level (ramp up or down) at most K times throughout the entire schedule. In periods where no adjustment is made, the output must remain constant. Additionally, the generator is limited by a maximum power capacity of M.",
+  "parameters": {
+    "T": 144,
+    "K": 10,
+    "M": 167940.0
+  },
+  "files": {
+    "files_1": {
+      "path": "data/D1.csv",
+      "description": "Table D1: The first column lists the time period ID (from 1 to T), and the second column shows the minimum electricity demand required for that specific period."
+    }
+  },
+  "optimal_value": 11807698
+}

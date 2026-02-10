@@ -1,0 +1,22 @@
+{
+  "abstract_problem": "The Strategic Orbital Defense Initiative 'Aegis' is finalizing the procurement blueprint for its primary hull shielding construction. We have access to a supply chain of {n} composite laminate materials, listed with their base unit acquisition cost in table `materials`. The operational environment presents {m} distinct cosmic radiation hazard vectors, with minimum required cumulative suppression values listed in table `radiations`. The physical efficacy of a single layer of each material against each hazard vector is mapped in table `interactions`. Operational protocols dictate that materials with IDs divisible by 5 are sourced from deep-space miners and are subject to a mandatory 3-week quarantine delay upon arrival at the shipyard to prevent contamination, which impacts the project Gantt chart. Furthermore, to support the station's projected 20-year lifecycle, a fiscal sinking fund is established where an amount equal to 5% of the total acquisition cost is deposited annually to cover future micrometeoroid impact repairs. The engineering team requires a configuration specifying the integer quantity of layers for each material type. The optimization objective is to minimize the immediate base acquisition cost to secure the initial Phase 1 contract. The design must ensure the sum of attenuation factors for each radiation type is no less than the specified safety limits derived from the `radiations` table.",
+  "parameters": {
+    "n": 35,
+    "m": 28
+  },
+  "files": {
+    "materials": {
+      "path": "./data/materials.csv",
+      "description": "A table of size n*3. The first column `id` contains sequential numbers from 1 to n, representing material indices. The second column `name` contains the name of the material. The third column `cost` contains the unit cost of the material.\nData format:\n| id | name | cost |\n| --- | --- | --- |\n| 1 | Alpha Shielding | 67.283832988 |\n| 2 | Beta Shielding | 26.968888377 |\n| ... | ... | ... |"
+    },
+    "radiations": {
+      "path": "./data/radiations.csv",
+      "description": "A table of size m*3. The first column `id` contains sequential numbers from 1 to m, representing radiation indices. The second column `name` contains the name of the radiation. The third column `threshold` contains the minimum required attenuation for each radiation type.\nData format:\n| id | name | threshold |\n| --- | --- | --- |\n| 1 | Alpha Radiation | 79.6933538 |\n| 2 | Beta Radiation | 98.6532092 |\n| ... | ... | ... |"
+    },
+    "interactions": {
+      "path": "./data/interactions.csv",
+      "description": "A table where each row (`material_id`, `radiation_id`, `attenuation`) indicates the attenuation provided by one layer of a specific material against a specific radiation type.\nData format:\n| material_id | radiation_id | attenuation |\n| --- | --- | --- |\n| 1 | 1 | 4.37359431 |\n| 2 | 1 | 1.37191943 |\n| ... | ... | ... |"
+    }
+  },
+  "optimal_value": 2361.45419519
+}

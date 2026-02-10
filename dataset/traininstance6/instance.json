@@ -1,0 +1,37 @@
+{
+  "abstract_problem": "A regional railway operator manages a single rail corridor with {num_stations} stations served by {num_trains} trains. The goal is to schedule the trains to minimize the weighted sum of arrival (or departure) times at specific key stations, subject to strict deadlines and safety headway constraints. Each train has a specific weight reflecting its priority. Certain trains must depart from or arrive at specific stations before a given deadline. Additionally, for safety reasons, a minimum headway of {headway_minutes} minutes must be maintained between any two consecutive trains at every station.",
+  "parameters": {
+    "num_trains": "4",
+    "num_stations": "4",
+    "num_segments": "3",
+    "max_time_horizon": "1140",
+    "delay_time_step": "15",
+    "max_delayed_trains": "2",
+    "max_delay_steps_per_train": "5",
+    "train_capacity": "500",
+    "headway_minutes": "2.0"
+  },
+  "files": {
+    "parameters": {
+      "path": "data/parameters.csv",
+      "description": "Global instance parameters. Columns: `parameter`, `value`.\nData format: | parameter | value |\n|---|---|\n| num_trains | 4 |\n| num_stations | 4 |"
+    },
+    "distances": {
+      "path": "data/distances.csv",
+      "description": "Track segments between consecutive stations and their nominal running times. Columns: `segment_id`, `from_station`, `to_station`, `distance` (minutes).\nData format: | segment_id | from_station | to_station | distance |\n|---|---|---|---|\n| 1 | 1 | 2 | 5 |\n| 2 | 2 | 3 | 5 |"
+    },
+    "scheduled_timetable": {
+      "path": "data/scheduled_timetable.csv",
+      "description": "Base timetable with scheduled arrival and departure times. Columns: `train_id`, `station_id`, `scheduled_arrival_time`, `scheduled_departure_time`.\nData format: | train_id | station_id | scheduled_arrival_time | scheduled_departure_time |\n|---|---|---|---|\n| 1 | 1 | 0 | 0 |\n| 1 | 2 | 5 | 8 |"
+    },
+    "deadlines": {
+      "path": "data/deadlines.csv",
+      "description": "Hard deadlines for specific train events. Columns: `train_id`, `station_id`, `type` (departure/arrival), `deadline` (minutes).\nData format: | train_id | station_id | type | deadline |\n|---|---|---|---|\n| 4 | 2 | departure | 38.0 |\n| 4 | 3 | departure | 46.0 |"
+    },
+    "objective_weights": {
+      "path": "data/objective_weights.csv",
+      "description": "Specific objective function terms. Minimizes sum of (weight * time) for each train at specific stations. Columns: `train_id`, `station_id`, `weight`, `type` (arrival/departure).\nData format: | train_id | station_id | weight | type |\n|---|---|---|---|\n| 1 | 4 | 300 | arrival |\n| 4 | 1 | 240 | departure |"
+    }
+  },
+  "optimal_value": "28290"
+}

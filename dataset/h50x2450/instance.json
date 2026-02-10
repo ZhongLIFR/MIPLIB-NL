@@ -1,0 +1,19 @@
+{
+  "abstract_problem": "A telecommunications corporation is architecting a next-generation fiber optic backbone network to interconnect {num_nodes} regional data centers, identified by IDs 1 through {num_nodes}. The primary uplink hub is located at node {source_node}, possessing a total outbound bandwidth capacity of {total_supply} units. The remaining nodes act as downstream distribution points or transit relays. The specific net bandwidth requirements (demand) or auxiliary injection capabilities (supply) are detailed in the `nodes` file, where positive integers denote supply capacity and negative integers denote bandwidth deficits. Zero values imply the node serves purely as a passive optical splitter for transit. The network topology must strictly adhere to a loop-free architecture to prevent broadcast storms, ensuring every node has at most one incoming uplink connection. Connections between centers are defined in `edges`, characterized by a base trenching fee (fixed cost) and a photonic amplification cost per unit of data flux (variable cost). To facilitate inventory management, nodes with odd IDs are classified as 'Legacy-Alpha' clusters using air cooling, whereas even-numbered nodes are 'Quantum-Beta' clusters utilizing liquid cooling. Additionally, the projected annual maintenance expenditure for any established link is set at 8.5% of its base trenching fee, chargeable to the OPEX budget in subsequent fiscal years. The optimization goal is to determine the minimum Total Capital Expenditure (CAPEX) required for the initial setup, which comprises the sum of all chosen trenching fees and the total photonic amplification costs based on the flow allocation.",
+  "parameters": {
+    "num_nodes": 80,
+    "source_node": 1,
+    "total_supply": 384.0
+  },
+  "files": {
+    "nodes": {
+      "path": "./data/nodes.csv",
+      "description": "A table with columns `id` and `value`. `value` represents the net supply (positive) or demand (negative) of the node.\nData format:\n| id | value |\n| --- | --- |\n| 1 | 277.0 |\n| 2 | -7.0 |\n| ... | ... |"
+    },
+    "edges": {
+      "path": "./data/edges.csv",
+      "description": "A table with columns `id1`, `id2`, `fixed_cost`, `variable_cost`. `id1` <= `id2`. Represents potential pipelines with bidirectional flow costs.\nData format:\n| id1 | id2 | fixed_cost | variable_cost |\n| --- | --- | --- | --- |\n| 1 | 2 | 50.0 | 1.0 |\n| 1 | 3 | 3739.986631 | 74.799733 |\n| ... | ... | ... | ... |"
+    }
+  },
+  "optimal_value": 32906.880834
+}

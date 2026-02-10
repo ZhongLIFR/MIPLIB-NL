@@ -1,0 +1,43 @@
+{
+  "abstract_problem": "The University Resource Allocation Committee (URAC) requires a compliant optimization of the Semester Course Schedule. The scheduling horizon is defined as a standard academic week of {D} operational days, each subdivided into {P} instructional periods (so {T} time slots in total). The objective is to allocate temporal resources to a portfolio of {C} academic courses while strictly adhering to physical and policy constraints.\n\n**Resource Constraints:**\n1. **Physical Infrastructure**: The campus classroom inventory is provided in the associated data files. Capacity compliance is mandatory. Classroom capacity is managed through capacity thresholds (defined by the distinct capacities present in the inventory and penalty data). For each threshold, there is a limit on how many classes can use rooms that can accommodate at least that many seats. If a scheduled meeting cannot be accommodated at a given threshold and must rely on smaller rooms, it may still proceed but generates a 'Capacity Shortfall' penalty. The weight of this penalty depends on the course and the threshold (weights range from {penalty_min} to {penalty_max}). A missing (course, threshold) weight implies zero penalty; however, every scheduled meeting still consumes classroom resources and must respect the cumulative limits implied by the inventory. Note: The campus has a global safety limit of {max_rooms_per_slot} simultaneous classes per period. Time slots are labeled using the scheme 'D<day>P<period>' (e.g., 'D0P0' for the first period of the first day).\n2. **Temporal Availability**: Certain courses have restricted availability. These are documented as 'Blackout Periods' in the associated data files. Any slot not explicitly blackouted is considered viable.\n\n**Curricular Constraints:**\n1. **Conflict Avoidance**: To ensure degree progression, {CP} pairs of courses sharing student cohorts must not be scheduled concurrently. These mutual exclusions are pre-computed in the associated data files.\n2. **Distribution Requirements**: Each course requires a fixed number of weekly meetings and should be spread across at least a minimum number of distinct days. If it is taught on fewer days than desired, a per-missing-day penalty with weight {w_days_below} is incurred.\n3. **Cohort Continuity**: {Q} Academic programs (Curricula) should avoid 'fragmented schedules'. An additional penalty with weight {w_isolated} is incurred when a curriculum has an isolated occurrence within a day: the curriculum has teaching in a period but has no teaching in the adjacent period(s) of the same day. Isolation is evaluated for every period of a day; boundary periods (first and last) consider the single adjacent period.\n\n**Objective:** Minimize the weighted sum of all penalty points (Capacity Shortfalls + Distribution Failures + Schedule Fragmentation).",
+  "parameters": {
+    "C": 131,
+    "D": 5,
+    "P": 5,
+    "T": 25,
+    "Q": 77,
+    "CP": 380,
+    "max_rooms_per_slot": 20,
+    "w_days_below": 5,
+    "w_isolated": 2,
+    "penalty_min": 1,
+    "penalty_max": 60
+  },
+  "files": {
+    "courses": {
+      "path": "data/courses.csv",
+      "description": "A table defining the weekly requirements for each course. Each row specifies the course's unique identifier, its name, the number of lectures to be scheduled, and the minimum number of distinct days those lectures should be spread across.\n\nData format:\n- course_id: Unique integer identifier for the course.\n- course_name: Human-readable string name of the course. Values follow the pattern 'C' followed by the course identifier (e.g., 'C12').\n- lectures: Integer number of weekly meetings required.\n- min_days: Integer minimum number of distinct days the course should be taught."
+    },
+    "conflicts": {
+      "path": "data/conflicts.csv",
+      "description": "A list of course pairs that cannot be scheduled in the same time slot. Each row represents a single conflict relationship between two courses.\n\nData format:\n- course1: Integer identifier of the first course in the conflict pair.\n- course2: Integer identifier of the second course in the conflict pair."
+    },
+    "curricula": {
+      "path": "data/curricula.csv",
+      "description": "Definitions of curricula, which are groups of courses typically taken by the same set of students. This information is used to calculate curriculum isolation penalties.\n\nData format:\n- curriculum_id: Unique integer identifier for the curriculum.\n- course_ids: A comma-separated list of integer course identifiers, enclosed in quotes (e.g., \"1,5,12\"). Each identifier corresponds to a `course_id` in the courses table."
+    },
+    "blackout_periods": {
+      "path": "data/blackout_periods.csv",
+      "description": "A list of specific time slots during which certain courses cannot be scheduled. If a course-slot pair appears in this file, that course is unavailable at that time.\n\nData format:\n- course_id: Integer identifier of the course.\n- slot_label: String label identifying a specific time slot. Labels follow the pattern 'D<day>P<period>', where <day> is an integer from 0 to 4 and <period> is an integer from 0 to 4 (e.g., 'D0P1')."
+    },
+    "classroom_inventory": {
+      "path": "data/classroom_inventory.csv",
+      "description": "A detailed list of all available classrooms on campus and their respective seating capacities. This file defines the total resource pool for scheduling.\n\nData format:\n- room_id: Unique string identifier for the classroom. Values follow the pattern 'RM' followed by a three-digit sequence (e.g., 'RM001'). These strings serve as stable labels for individual rooms.\n- capacity: Integer seating capacity of the room."
+    },
+    "capacity_penalties": {
+      "path": "data/capacity_penalties.csv",
+      "description": "Penalty weights for courses when they cannot be accommodated in rooms meeting specific seating thresholds. A row indicates the penalty incurred per lecture if the course is not assigned a room with at least the specified capacity.\n\nData format:\n- course_id: Integer identifier of the course.\n- capacity: Integer seating threshold.\n- penalty_weight: Non-negative integer penalty weight."
+    }
+  },
+  "optimal_value": 6
+}

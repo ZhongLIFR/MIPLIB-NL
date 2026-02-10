@@ -1,0 +1,19 @@
+{
+  "abstract_problem": "The Regional Water Authority oversees a complex hydraulic network comprising {n} control stations. These stations are classified based on their net hydrological status, where distinct geological survey data indicates either a surplus (aquifer extraction points) or a deficit (municipal consumption zones). The hydrological cycle within this closed system is perfectly balanced. There are {m} potential subterranean pipeline corridors connecting these stations. Activating a specific flow direction within a corridor necessitates a one-time infrastructure commissioning fee to install pressure valves and sensors, alongside a volumetric pumping cost per kiloliter transported. Every pipeline corridor, regardless of flow direction, adheres to a strict maximum throughput limit of {capacity} kiloliters due to standard diameter constraints. Furthermore, corridors where the sum of the connecting station IDs is even are classified as 'Grade A' infrastructure requiring quarterly inspections, whereas 'Grade B' corridors are inspected biannually to ensure structural integrity. The authority also tracks an 'Eco-Efficiency Metric' where the operational pumping energy is logged for the subsequent year's sustainability audit. Additionally, the maintenance budget for the following fiscal year is projected at 12% of the total commissioning fees incurred. The primary objective for the current fiscal period is to determine the optimal flow configuration that satisfies all municipal water requirements while strictly minimizing the immediate aggregate expenditure comprising both commissioning fees and volumetric pumping costs.",
+  "parameters": {
+    "n": 400,
+    "m": 760,
+    "capacity": 187.0
+  },
+  "files": {
+    "nodes": {
+      "path": "./data/nodes.csv",
+      "description": "A table of size n*2. `id` is the center index. `demand` is the net requirement (positive for demand, negative for supply).\nData format:\n| id | demand |\n| --- | --- |\n| 0 | -187.0 |\n| 1 | 1.0 |\n| ... | ... |"
+    },
+    "edges": {
+      "path": "./data/edges.csv",
+      "description": "A table of size m*6. `source` and `target` are center indices. `var_cost_fwd` and `fixed_cost_fwd` are costs for flow from source to target. `var_cost_bwd` and `fixed_cost_bwd` are costs for flow from target to source.\nData format:\n| source | target | var_cost_fwd | fixed_cost_fwd | var_cost_bwd | fixed_cost_bwd |\n| --- | --- | --- | --- | --- | --- |\n| 0 | 1 | 0.0 | 40.0 | 0.0 | 40.0 |\n| 0 | 20 | 0.0 | 5.0 | 0.0 | 5.0 |\n| ... | ... | ... | ... | ... | ... |"
+    }
+  },
+  "optimal_value": 1566
+}

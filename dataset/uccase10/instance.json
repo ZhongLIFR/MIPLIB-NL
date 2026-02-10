@@ -1,0 +1,54 @@
+{
+  "abstract_problem": "A district heating and power operator manages a fleet of Combined Heat and Power (CHP) and thermal units to supply district energy demand. The planning horizon consists of T=168 consecutive time intervals (1 week). Each unit has specific operating modes with distinct thermal and electrical output capabilities. The operator must satisfy the district's energy demand while maintaining a thermal reserve margin. Operational constraints include minimum runtime/downtime and boiler ignition/shutdown logic. All cost data is provided in Euros (EUR), but the operator's financial reporting and objective function must be calculated in US Dollars (USD).",
+  "parameters": {
+    "unserved_energy_penalty": 2.0,
+    "currency_conversion_rate_eur_to_usd": 1.1
+  },
+  "files": {
+    "units": {
+      "path": "data/units.csv",
+      "description": "Registry of thermal assets. Contains string identifiers and metadata.\n- `unit_id`: Unique string identifier (e.g., 'DH_UNIT_001').\n- `manufacturer`: Asset manufacturer (decoy).\n- `commission_year`: Year of commissioning (decoy).\n- `thermal_efficiency_class`: Efficiency rating (decoy)."
+    },
+    "mode_specs": {
+      "path": "data/mode_specs.csv",
+      "description": "Technical specifications for asset operating modes.\n- `unit_id`: Asset identifier.\n- `mode_id`: Mode identifier.\n- `min_output`: Minimum power output (MW).\n- `max_output`: Maximum power output (MW)."
+    },
+    "mode_costs": {
+      "path": "data/mode_costs.csv",
+      "description": "Economic parameters for asset operating modes in EUR. Note: Marginal and fixed costs are zero here; actual production costs are modeled via `operating_cost_segments.csv`.\n- `unit_id`: Asset identifier.\n- `mode_id`: Mode identifier.\n- `marginal_cost`: Cost per unit of output (EUR/MW) (placeholder).\n- `fixed_cost`: Hourly fixed cost when active (EUR/h) (placeholder)."
+    },
+    "operating_cost_segments": {
+      "path": "data/operating_cost_segments.csv",
+      "description": "Piecewise linear production cost segments for units in EUR. Each row defines a cost segment: cost (EUR) >= slope * generation + intercept * mode_on.\n- `unit_id`: Asset identifier.\n- `mode_id`: Mode identifier.\n- `time_id`: Time interval index (1-168).\n- `segment_id`: Segment identifier.\n- `slope`: Marginal cost for this segment (EUR/MW).\n- `intercept`: Fixed cost component for this segment (EUR/h)."
+    },
+    "system_requirements": {
+      "path": "data/system_requirements.csv",
+      "description": "District energy demand and reserve requirements per time interval.\n- `time_id`: Time interval index (1-168).\n- `demand`: System load (MW).\n- `spinning_reserve_requirement`: Required thermal reserve (MW)."
+    },
+    "policy_rules": {
+      "path": "data/policy_rules.csv",
+      "description": "Operational policy rules defining constraints.\n- `rule_id`: Unique rule identifier.\n- `rule_family`: Business category of the rule. Possible values:\n  - `DISTRICT_HEAT_BALANCE`: Supply must equal demand.\n  - `THERMAL_RESERVE_REQ`: Reserve capacity requirement.\n  - `MINIMUM_RUNTIME_CONSTRAINT`: Minimum uptime constraint.\n  - `MINIMUM_COOLDOWN_CONSTRAINT`: Minimum downtime constraint.\n  - `BOILER_IGNITION_LOGIC`: Logic linking startup to online status.\n  - `BOILER_SHUTDOWN_LOGIC`: Logic linking shutdown to online status.\n  - `OPERATIONAL_STATE_TRANSITION`: Logic governing state transitions.\n  - `INITIAL_STATE_PATCH`: Initial condition constraints.\n- `time_id`: Time interval index.\n- `sense`: Comparison operator (`<=`, `=`, `>=`).\n- `rhs`: Right-hand side value."
+    },
+    "policy_rule_terms": {
+      "path": "data/policy_rule_terms.csv",
+      "description": "Detailed terms for policy rules.\n- `rule_id`: Link to `policy_rules.csv`.\n- `term_type`: Variable type. Possible values:\n  - `ONLINE`: Binary variable indicating unit is online.\n  - `START`: Binary variable indicating unit start.\n  - `STOP`: Binary variable indicating unit stop.\n  - `STOP_STAGE`: Binary variable for stop stage logic.\n  - `START_STAGE`: Binary variable for start stage logic.\n  - `STARTUP_COST`: Continuous variable for startup cost.\n  - `UNSERVED`: Continuous variable for unserved energy (load shedding).\n  - `GEN`: Continuous variable for power generation (implicit in some rules).\n  - `MODE_ON`: Binary variable indicating specific mode is active (implicit in some rules).\n- `time_id`: Time interval index.\n- `coef`: Coefficient."
+    },
+    "mode_unavailability_windows": {
+      "path": "data/mode_unavailability_windows.csv",
+      "description": "Periods where specific asset modes are unavailable."
+    },
+    "start_stop_event_cost_windows": {
+      "path": "data/start_stop_event_cost_windows.csv",
+      "description": "Time windows for activation/deactivation surcharges in EUR.\n- `event_cost`: Cost per event (EUR)."
+    },
+    "ambient_conditions": {
+      "path": "data/ambient_conditions.csv",
+      "description": "Environmental data (temperature, wind speed) for demand forecasting (decoy)."
+    },
+    "asset_registry": {
+      "path": "data/asset_registry.csv",
+      "description": "Additional asset metadata including location and maintenance (decoy)."
+    }
+  },
+  "optimal_value": "39133.58410997513"
+}

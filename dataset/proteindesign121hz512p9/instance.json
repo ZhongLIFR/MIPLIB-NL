@@ -1,0 +1,30 @@
+{
+  "abstract_problem": "A molecular redesign task considers {num_sites} interacting units. Each unit must be assigned exactly one microstate signature from a local catalog. For each interacting unit pair, exactly one interaction record must be selected from a catalog. An interaction record is valid only if its endpoint signatures match the selected signatures of the two units. The total stability score is computed by summing the contributions of the selected local and interaction records, and the goal is to minimize this total score.",
+  "parameters": {
+    "num_sites": 12,
+    "num_pairs": 66
+  },
+  "files": {
+    "sites": {
+      "path": "data/sites.csv",
+      "description": "Index of interacting units. Each row is one unit identifier that is used to connect records across files.\n\nString format: unit_id uses the pattern 'U' followed by digits.\n\nData format: | unit_id |\n|:--------|\n| <string> |\n| ...      |"
+    },
+    "pairs": {
+      "path": "data/pairs.csv",
+      "description": "Interacting unit pairs. Each row specifies one interaction bundle and its two endpoint units. Endpoints are stored as (left_unit, right_unit) with a consistent orientation.\n\nString format: bundle_id uses the pattern 'B' followed by digits. left_unit/right_unit are unit identifiers from sites.csv.\n\nData format: | bundle_id | left_unit | right_unit |\n|:---------|:----------|:-----------|\n| <string> | <string>  | <string>   |\n| ...      | ...       | ...        |"
+    },
+    "site_options": {
+      "path": "data/site_options.csv",
+      "description": "Candidate microstate signatures for each unit. Each row is one selectable local record.\n\nSignature format: the local signature is the pair (tag_a, tag_b). Either tag may repeat within a unit, but the combination (tag_a, tag_b) is unique within the same unit.\n\nString format: tag_a and tag_b use uppercase letters A-Z and digits 2-7. base_term/adj_term are term keys that must be looked up in energy_terms.csv.\n\nStatus format: status_code may appear as OK or REVIEW and is informational (it must not change feasibility). reported_score is an auxiliary screening score and must not be used as the optimization objective.\n\nData format: | unit_id | tag_a | tag_b | base_term | adj_term | status_code | reported_score |\n|:--------|:------|:------|:---------|:---------|:------------|--------------:|\n| <string> | <string> | <string> | <string> | <string> | <string> | <float> |\n| ...      | ...    | ...    | ...      | ...      | ...         | ... |"
+    },
+    "pair_options": {
+      "path": "data/pair_options.csv",
+      "description": "Candidate interaction records for each bundle. Each row is one selectable interaction record.\n\nEndpoint matching: for a given bundle_id, the selected row must match the two endpoint unit signatures via (left_tag_a,left_tag_b) for left_unit and (right_tag_a,right_tag_b) for right_unit.\n\nString format: tag fields use uppercase letters A-Z and digits 2-7. base_term/adj_term are term keys looked up in energy_terms.csv. status_code may appear as OK or REVIEW and is informational. reported_score is auxiliary and must not be used as the optimization objective.\n\nData format: | bundle_id | left_tag_a | left_tag_b | right_tag_a | right_tag_b | base_term | adj_term | status_code | reported_score |\n|:---------|:----------|:----------|:-----------|:-----------|:---------|:---------|:------------|--------------:|\n| <string> | <string>  | <string>  | <string>   | <string>   | <string> | <string> | <string>     | <float> |\n| ...      | ...       | ...       | ...        | ...        | ...      | ...      | ...          | ... |"
+    },
+    "energy_terms": {
+      "path": "data/energy_terms.csv",
+      "description": "Lookup table of term keys to numeric values. Any base_term or adj_term appearing in site_options.csv or pair_options.csv must appear exactly once in this file.\n\nObjective reconstruction: the true contribution of an option row is value(base_term) + value(adj_term) from this lookup. Rows with kind=DECOY are not referenced by any option and can be ignored.\n\nString format: term_key uses uppercase letters A-Z and digits 2-7 with a single-letter prefix. kind may appear as BASE, ADJ, or DECOY. Values can be negative.\n\nData format: | term_key | value | kind |\n|:---------|------:|:-----|\n| <string> | <float> | <string> |\n| ...      | ...   | ...  |"
+    }
+  },
+  "optimal_value": 1473
+}

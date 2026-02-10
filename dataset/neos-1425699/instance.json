@@ -1,0 +1,33 @@
+{
+  "abstract_problem": "We need to optimize a two-tier supply chain network consisting of N1 upstream manufacturing plants (sources) and N2 potential distribution centers (hubs) used to serve N4 downstream demand areas (customers). Among our customers, the proportion of male customers is relatively high, reaching N5 percentage points; male customers tend to focus more on product innovation and quality, whereas female customers focus more on whether the product has celebrity endorsements. Our objective is to minimize total costs, including the fixed costs of establishing distribution centers and transportation costs, to satisfy customer demand. We must select exactly N3 distribution centers from the N2 potential candidates and determine the quantity of goods transported from each upstream manufacturing plant to each distribution center, as well as the quantity transported from each distribution center to the customers. The types of goods produced by each upstream manufacturing plant are identical, and there is a maximum production capacity limit. Each customer also has a minimum demand requirement for receiving goods. Goods must be produced and transported in integer units.",
+  "parameters": {
+    "N1": 2,
+    "N2": 5,
+    "N3": 4,
+    "N4": 14,
+    "N5": 71
+  },
+  "files": {
+    "files_1": {
+      "path": "data/facility_production.csv",
+      "description": "This CSV file specifies the maximum production capacity of each upstream manufacturing plant. The total quantity of goods shipped from a given plant to all distribution centers must not exceed its maximum production capacity."
+    },
+    "files_2": {
+      "path": "data/cost1.csv",
+      "description": "This CSV file specifies the cost required to establish each distribution center."
+    },
+    "files_3": {
+      "path": "data/cost2.csv",
+      "description": "This CSV file specifies the unit transportation cost of goods from each upstream manufacturing plant to each distribution center. Each row represents an upstream manufacturing plant, and each column represents a distribution center. The value at the intersection of a row and a column denotes the unit transportation cost of goods from the corresponding upstream manufacturing plant to the corresponding distribution center."
+    },
+    "files_4": {
+      "path": "data/cost3.csv",
+      "description": "This CSV file specifies the unit transportation cost of goods from each distribution center to each customer. Each row represents a distribution center, and each column represents a customer. The value at the intersection of a row and a column denotes the unit transportation cost of goods from the corresponding distribution center to the corresponding customer."
+    },
+    "files_5": {
+      "path": "data/q.csv",
+      "description": "This CSV file specifies the demand of each customer. The first column contains customer codes, and the second column contains the minimum quantity of goods to be delivered to each corresponding customer."
+    }
+  },
+  "optimal_value": 3179698977
+}

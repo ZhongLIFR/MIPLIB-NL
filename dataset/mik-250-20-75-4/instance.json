@@ -1,0 +1,30 @@
+{
+  "abstract_problem": "The \"Horizon\" distributed computing network comprises {n} server nodes, administratively categorized into \"Alpha\" (odd IDs) and \"Beta\" (even IDs) zones for archival purposes. Each node operates with a defined base throughput capacity. The primary operational objective is to formulate a resource allocation schedule for {m} types of distributed consensus algorithms. Executing a single integer batch of any algorithm triggers a synchronous computational load across every node in the network due to the nature of the distributed ledger, subject to a global production cap for each algorithm type. Independently, distinct nodes may be selected for a \"Kernel Override\" (a binary activation decision); while these Overrides yield significant operational credits, they permanently occupy a portion of the local node's throughput capacity. Alpha zone Overrides require a specific initialization protocol, whereas Beta zone Overrides use a standard boot sequence. To augment the network's processing limits, administration authorizes investment in {k} classes of Global Bandwidth Expanders. Investment in these Expanders is treated as a continuous variable, where each unit of investment universally elevates the throughput capacity of all nodes by 1 unit. Furthermore, to mitigate localized bottlenecks, up to {max_generators} modular cooling units can be leased for any individual node. Each cooling unit effectively liberates {generator_capacity} units of throughput capacity at a leasing fee of {generator_cost}. It is noted that the thermal exhaust from Global Bandwidth Expanders increases the facility's ambient temperature by 0.02 degrees per unit installed, a metric tracked for the annual sustainability report. The goal is to determine the optimal configuration that maximizes the net fiscal efficiency, calculated as the total credits from Kernel Overrides and algorithm batches, minus the expenditures on Global Bandwidth Expanders and cooling unit leases.",
+  "parameters": {
+    "n": 75,
+    "m": 100,
+    "k": 20,
+    "generator_capacity": 100,
+    "generator_cost": 100,
+    "max_generators": 100
+  },
+  "files": {
+    "stations": {
+      "path": "./data/stations.csv",
+      "description": "Contains station details: `id`, `lab_value` (profit from activating lab), `lab_load` (capacity consumed by lab), `base_capacity` (initial capacity of station).\nData format:\n| id | lab_value | lab_load | base_capacity |\n| --- | --- | --- | --- |\n| 1 | 1185.0 | 1600.0 | 991.0 |\n| 2 | 1017.0 | 1200.0 | 959.0 |\n| ... | ... | ... | ... |"
+    },
+    "products": {
+      "path": "./data/products.csv",
+      "description": "Contains product details: `id`, `unit_value` (profit per batch), `max_batches` (global production limit).\nData format:\n| id | unit_value | max_batches |\n| --- | --- | --- |\n| 1 | 1210.0 | 3 |\n| 2 | 824.0 | 4 |\n| ... | ... | ... |"
+    },
+    "production_consumption": {
+      "path": "./data/production_consumption.csv",
+      "description": "Defines the capacity consumption. Columns: `station_id`, `product_id`, `load`. Indicates that producing one batch of `product_id` consumes `load` capacity on `station_id`.\nData format:\n| station_id | product_id | load |\n| --- | --- | --- |\n| 1 | 1 | 1433.0 |\n| 1 | 2 | 1762.0 |\n| ... | ... | ... |"
+    },
+    "global_systems": {
+      "path": "./data/global_systems.csv",
+      "description": "Contains global system details: `id`, `cost` (per unit level), `max_level` (upper bound). Each unit level increases all stations' capacity by 1.\nData format:\n| id | cost | max_level |\n| --- | --- | --- |\n| 1 | 165.0 | 18 |\n| 2 | 151.0 | 20 |\n| ... | ... | ... |"
+    }
+  },
+  "optimal_value": 52301
+}

@@ -1,0 +1,14 @@
+{
+  "abstract_problem": "A geological survey agency manages a seismic monitoring network comprising {n} observation outposts and {m} high-fidelity data transmission cables connecting them. To analyze deep crustal stress accumulation, the system needs to configure multiple parallel instances of 'Tectonic Stress Isolation Protocols'. Structurally, a single protocol instance requires the entire network of outposts to be partitioned into exactly two disconnected geological zones (Zone Alpha and Zone Beta), where the cables connecting these two zones are repurposed to transmit high-frequency interference signals. Several operational parameters are defined: First, outposts are classified based on their numerical ID: those with odd IDs are designated as 'Master Nodes' which process data throughput at 1.5 times the rate of the 'Slave Nodes' (even IDs) to facilitate regional aggregation. Second, due to the physical properties of the optical fiber cores, a cable utilized for interference signal transmission in one protocol becomes frequency-locked and cannot be reused by any other protocol instance. Third, the project's long-term sustainability assessment relies on annual maintenance fees, calculated as 12% of the initial installation cost for each active cable, while the initial installation costs are considered sunk. The objective is to determine the maximum theoretical number of independent Tectonic Stress Isolation Protocols that can be simultaneously active on the existing network topology, such that no two protocols share the same cable resource.",
+  "parameters": {
+    "n": 40,
+    "m": 275
+  },
+  "files": {
+    "network_topology": {
+      "path": "./data/network_topology.csv",
+      "description": "A CSV file describing the undirected graph structure of the network. It contains two columns: `id1` and `id2`, representing a fiber optic link between two stations.\nData format:\n| id1 | id2 |\n| --- | --- |\n| 0 | 1 |\n| 0 | 2 |\n| ... | ... |"
+    }
+  },
+  "optimal_value": 9
+}

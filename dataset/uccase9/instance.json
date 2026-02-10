@@ -1,0 +1,49 @@
+{
+  "abstract_problem": "An industrial cogeneration plant manager schedules a fleet of steam and power generation units to meet process demands. The planning horizon consists of T consecutive time intervals. Each unit has specific technical capabilities (min/max output) and fuel consumption characteristics. The plant must maintain a backup generation margin at all times. Operational constraints include process stability limits (min up/down times) and boiler ignition costs. The goal is to minimize the total cost of fuel and activation while satisfying all demand and stability requirements.",
+  "parameters": {
+    "unserved_energy_penalty": 15.0
+  },
+  "files": {
+    "units": {
+      "path": "data/units.csv",
+      "description": "Registry of cogeneration assets. Contains string identifiers and metadata.\n- `unit_id`: Unique string identifier (e.g., 'COGEN_014').\n- `turbine_type`: Type of turbine/engine (decoy).\n- `commission_date`: Date of commissioning (decoy).\n- `heat_rate_base`: Base heat rate (decoy)."
+    },
+    "mode_specs": {
+      "path": "data/mode_specs.csv",
+      "description": "Technical specifications for asset operating modes.\n- `unit_id`: Asset identifier.\n- `mode_id`: Mode identifier.\n- `min_output`: Minimum power output (MW).\n- `max_output`: Maximum power output (MW)."
+    },
+    "mode_costs": {
+      "path": "data/mode_costs.csv",
+      "description": "Economic parameters for asset operating modes. Note: Marginal cost is not directly provided and must be derived.\n- `unit_id`: Asset identifier.\n- `mode_id`: Mode identifier.\n- `fuel_consumption_rate_mmbtu_per_mwh`: Fuel consumption per unit of output (MMBtu/MWh).\n- `fuel_price_per_mmbtu`: Cost of fuel ($/MMBtu).\n- `fixed_cost`: Hourly fixed cost when active ($/h).\n**Calculation Rule**: The marginal cost of generation ($/MWh) is the product of `fuel_consumption_rate_mmbtu_per_mwh` and `fuel_price_per_mmbtu`."
+    },
+    "system_requirements": {
+      "path": "data/system_requirements.csv",
+      "description": "Process demand and backup requirements per time interval.\n- `time_id`: Time interval index.\n- `demand`: System load (MW).\n- `spinning_reserve_requirement`: Required backup margin (MW)."
+    },
+    "policy_rules": {
+      "path": "data/policy_rules.csv",
+      "description": "Operational policy rules defining constraints.\n- `rule_id`: Unique rule identifier.\n- `rule_family`: Business category of the rule. Values:\n    - `STEAM_POWER_BALANCE_CONSTRAINT`: Demand balance rules.\n    - `BACKUP_GENERATION_REQ`: Backup generation rules.\n    - `PROCESS_STABILITY_LIMIT_UP`: Minimum up-time logic.\n    - `PROCESS_STABILITY_LIMIT_DOWN`: Minimum down-time logic.\n    - `BOILER_IGNITION_COST_LOGIC`: Startup cost logic.\n    - `OPERATIONAL_STATE_LINK`: Logic linking online status to start/stop.\n    - `SHUTDOWN_RAMP_BOUND`: Shutdown trajectory logic.\n    - `STARTUP_RAMP_BOUND`: Startup trajectory logic.\n    - `INITIAL_STATE_PATCH`: Initial condition logic.\n    - `EXCLUSIVITY`: Mutually exclusive mode logic.\n    - `START_STAGE_LINK`: Startup stage logic.\n    - `STOP_STAGE_LINK`: Shutdown stage logic.\n- `time_id`: Time interval index.\n- `sense`: Comparison operator (`<=`, `=`, `>=`).\n- `rhs`: Right-hand side value."
+    },
+    "policy_rule_terms": {
+      "path": "data/policy_rule_terms.csv",
+      "description": "Detailed terms for policy rules.\n- `rule_id`: Link to `policy_rules.csv`.\n- `term_type`: Variable type. Values:\n    - `GEN`: Power output of an asset in a specific mode.\n    - `ONLINE`: Binary indicator for an online asset.\n    - `START`: Binary indicator for a startup event.\n    - `STOP`: Binary indicator for a shutdown event.\n    - `START_STAGE`: Binary indicator for a specific startup trajectory stage.\n    - `STOP_STAGE`: Binary indicator for a specific shutdown trajectory stage.\n    - `STARTUP_COST`: Continuous variable for accumulated startup costs.\n    - `UNSERVED`: Continuous variable for load curtailment.\n- `time_id`: Time interval index.\n- `coef`: Coefficient."
+    },
+    "mode_unavailability_windows": {
+      "path": "data/mode_unavailability_windows.csv",
+      "description": "Periods where specific asset modes are unavailable."
+    },
+    "start_stop_event_cost_windows": {
+      "path": "data/start_stop_event_cost_windows.csv",
+      "description": "Time windows for activation/deactivation surcharges.\n- `event_type`: Type of event. Values: `START`, `STOP`."
+    },
+    "ambient_conditions": {
+      "path": "data/ambient_conditions.csv",
+      "description": "Environmental data (temperature, steam demand) for process forecasting (decoy)."
+    },
+    "asset_registry": {
+      "path": "data/asset_registry.csv",
+      "description": "Additional asset metadata including location zones (decoy)."
+    }
+  },
+  "optimal_value": "10993.131409"
+}

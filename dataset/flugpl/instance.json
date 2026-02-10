@@ -1,0 +1,25 @@
+{
+  "abstract_problem": "A commercial aviation enterprise is charting its fleet operations strategy for the upcoming semi-annual cycle, facing a dynamic market where travel demand fluctuates month by month. The central challenge lies in orchestrating a fleet composition that remains responsive to these shifting needs without incurring excessive financial liabilities. Strategic planners must navigate a trade-off between leveraging their existing, high-capacity standard fleet and integrating temporary rental units that offer flexibility but come with different operational profiles.\n\nThe operational landscape is governed by strict resource constraints: while the core fleet provides a reliable baseline of flight hours, rental additions are available to bridge capacity gaps but require integration time, effectively offering fewer service hours upon induction. Furthermore, the workforce has limits-overtime can be utilized to squeeze more flight hours out of the existing lineup, but this comes at a premium and is capped to prevent burnout. Complicating matters is the natural attrition of the fleet and specific regulatory bounds on fleet size that kick in after the initial month. The objective is to devise a master schedule that dictates aircraft acquisition, retention, and utilization levels for each month, ensuring every hour of projected passenger demand is met. Success is measured by the ability to deliver this service continuity at the absolute lowest total cost, factoring in the expenses of operating standard units, commissioning rentals, and paying for overtime labor.",
+  "parameters": {
+    "num_periods": "6",
+    "initial_fleet": "60",
+    "standard_aircraft_cost": "2700",
+    "rental_aircraft_cost": "1500",
+    "overtime_cost": "30",
+    "standard_aircraft_hours": "150",
+    "rental_aircraft_hours": "100",
+    "aircraft_retention_rate": "0.9",
+    "flight_hour_requirements": "[8000, 9000, 8000, 10000, 9000, 12000]"
+  },
+  "files": {
+    "periods": {
+      "path": "data/periods.csv",
+      "description": "Monthly planning periods information with columns: period (month index), aircraft_balance (initial balance), min_flight_hours (required hours), max_overtime (maximum overtime allowed). Data format: | period | aircraft_balance | min_flight_hours | max_overtime |\n|---|---|---|---|\n| 1 | 60 | 8000 | 0 |\n| ... | ... | ... | ... |"
+    },
+    "parameters": {
+      "path": "data/parameters.csv",
+      "description": "Operating parameters in transposed format. First row contains parameter names: standard_aircraft_cost, rental_aircraft_cost, overtime_cost, standard_aircraft_hours, rental_aircraft_hours, max_rental_aircraft, aircraft_retention_rate, min_standard_aircraft_period_2_6, max_standard_aircraft_period_2_6. Second row contains their corresponding values. Data format: | standard_aircraft_cost | rental_aircraft_cost | ... |\n|---|---|---|\n| 2700 | 1500 | ... |"
+    }
+  },
+  "optimal_value": 1201500.0
+}

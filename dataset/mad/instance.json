@@ -1,0 +1,33 @@
+{
+  "abstract_problem": "Assume you are a quantitative fund manager responsible for constructing an investment portfolio to track a major market index. There are N1 candidate stocks available in the market. To ensure diversification and risk control, these stocks are classified into N2 distinct industries and N3 broad sectors. You must select exactly one stock from each industry. Additionally, for each broad sector, there is a maximum limit on the number of stocks that can be selected, as shown in Table C2. To ensure portfolio quality, the selected stocks must meet aggregate fundamental score thresholds for N4 different quality metrics (e.g., liquidity, ESG score), as detailed in Table C3. Finally, the portfolio aims to minimize the Mean Absolute Deviation (MAD) of its performance against the target index across N5 economic indicators. The sensitivity of each stock to these indicators is shown in Table C4, and the target index values are shown in Table C5. Please output the minimum total absolute deviation.",
+  "parameters": {
+    "N1": 200,
+    "N2": 20,
+    "N3": 10,
+    "N4": 10,
+    "N5": 10
+  },
+  "files": {
+    "files_1": {
+      "path": "data/C1.csv",
+      "description": "Table C1: The first column is the Stock ID, the second column is the Industry ID it belongs to (for the '1 per industry' constraint), and the third column is the Sector ID it belongs to."
+    },
+    "files_2": {
+      "path": "data/C2.csv",
+      "description": "Table C2: The first column is the Sector ID, and the second column is the maximum allowable number of stocks to be selected from that sector."
+    },
+    "files_3": {
+      "path": "data/C3.csv",
+      "description": "Table C3: The first column is the Quality Metric ID, the first row is the Stock ID, and the value at the intersection represents the weighted score of the stock for that specific quality metric (used for fundamental constraints)."
+    },
+    "files_4": {
+      "path": "data/C4.csv",
+      "description": "Table C4: The first column is the Economic Indicator ID, the first row is the Stock ID, and the value at the intersection represents the sensitivity (coefficient) of the stock to that indicator."
+    },
+    "files_5": {
+      "path": "data/C5.csv",
+      "description": "Table C5: The first column is the Economic Indicator ID, and the second column is the target value of the index for that indicator. The objective is to minimize the absolute difference between the portfolio's aggregated sensitivity and these target values."
+    }
+  },
+  "optimal_value": 0.0268
+}

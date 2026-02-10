@@ -1,0 +1,25 @@
+{
+  "abstract_problem": "There are I shipments and N transport trucks. We must assign a specific vehicle to each shipment. Among these N trucks, the proportion of heavy-duty trucks is P. Each shipment has a specific weight, and the weight data for each shipment is stored in the table weight.csv. The assignment is restricted by vehicle types (such as cold-chain trucks vs. ordinary trucks), and these restriction requirements are stored in table B1. More critically, the urban road network contains complex traffic bottlenecks: specific \"shipment-vehicle\" assignments determine the routes vehicles must take, which in turn leads to traffic flowing through specific road segments. In table B2, each row represents a specific road segment (or bridge), with a total of M segments. Following each segment is a list of \"shipment-vehicle\" assignments that pass through it, denoted as (i, j) where i represents the shipment and j represents the truck. If a \"shipment-vehicle\" assignment is fulfilled, it adds the transport load pressure of the corresponding shipment to that road segment. Different bridges and paths have different load capacities; in the city where we operate, the path with the highest load capacity is L times stronger than the one with the lowest. Our optimization goal is to find a loading scheme that, while satisfying vehicle type matching, minimizes the load on the most heavily pressured road segment in the entire urban network to prevent traffic paralysis or road damage.",
+  "parameters": {
+    "M": 49,
+    "P": 0.2,
+    "I": 18,
+    "N": 100,
+    "L": 2
+  },
+  "files": {
+    "files_1": {
+      "path": "data/B1.csv",
+      "description": "The first row of B1 represents the serial numbers of transport trucks, and the first column represents the serial numbers of cargo orders. If the value of a certain row and column is 1, it means the batch of cargo can be loaded onto that transport truck (matching vehicle type/refrigerated requirements); otherwise, the value is 0."
+    },
+    "files_2": {
+      "path": "data/B2.csv",
+      "description": "The first column of B2 represents the serial numbers of traffic road sections. If a certain \"cargo-vehicle\" assignment combination (i j) causes the vehicle to travel through the section, (i j) is added to the cell in the row corresponding to that section; Example of table content: Section 0 | (0 0) | (1 0) | …… Section 1 | (0 0) | (0 1) | ……"
+    },
+    "files_3": {
+      "path": "data/weight.csv",
+      "description": "The first column of weight is the serial number of cargo orders, and the second column is the weight of the corresponding batch of cargo."
+    }
+  },
+  "optimal_value": "472"
+}

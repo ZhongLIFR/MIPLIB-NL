@@ -1,0 +1,22 @@
+{
+  "abstract_problem": "A housekeeping service company needs to handle N1 tasks. To this end, the company must hire a certain number of employees from a pool of N2 candidates. The salary of each employee is provided in Table C1; some of these employees are interns who are willing to pay for the internship opportunity, hence their salaries are negative values.The contribution of each employee to each task is detailed in Table C2; some employees may have a negative impact on certain tasks, resulting in negative contribution values. Each task has a predefined completion threshold listed in Table C3. We need to help the company identify an optimal employee hiring plan that minimizes the total cost while ensuring all tasks meet their respective completion thresholds.Output the minimum cost.",
+  "parameters": {
+    "N1": 80,
+    "N2": 1600
+  },
+  "files": {
+    "files_1": {
+      "path": "data/C1.csv",
+      "description": "Table C1 has employee IDs in the first column and their corresponding salaries in the second column. As mentioned, some entries are negative because those employees are interns who pay to participate in the internship."
+    },
+    "files_2": {
+      "path": "data/C2.csv",
+      "description": "Table C2 has employee IDs in the first column and task IDs in the first row. The value at the intersection of a row and a column represents the contribution of the corresponding employee to the specified task; negative values indicate that the employee exerts a negative impact on that task."
+    },
+    "files_3": {
+      "path": "data/C3.csv",
+      "description": "Table C3 lists task IDs in the first column and the minimum threshold required to complete each task in the second column."
+    }
+  },
+  "optimal_value": 86679
+}

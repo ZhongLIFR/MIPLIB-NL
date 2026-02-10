@@ -1,0 +1,17 @@
+{
+  "abstract_problem": "Assume you are a delivery route planner for a courier service. You are responsible for planning the route for a single delivery vehicle that starts from a depot and must service N customer locations (including the depot itself as the start/end point). The cost (or distance) to travel between any two specific locations is provided in Table D. The goal is to determine the sequence of visits. The solution must satisfy three main conditions: 1) The vehicle must leave every location exactly once; 2) The vehicle must arrive at every location exactly once; 3) The route must form a single continuous loop, preventing any isolated sub-loops (subtours) where the vehicle cycles between a subset of locations without connecting to the rest. Specifically, auxiliary variables are used to enforce a strict visiting order to eliminate these sub-loops. Please output the minimum total travel cost to visit all locations and return to the start.",
+  "parameters": {
+    "N": 14
+  },
+  "files": {
+    "files_1": {
+      "path": "data/locations.csv",
+      "description": "Table L: The first column lists the unique ID for each location (from 1 to N, where N=14). This includes the depot and all customers."
+    },
+    "files_2": {
+      "path": "data/cost_matrix.csv",
+      "description": "Table D: This is a square matrix of size N x N. The first column represents the 'From' location ID, and the first row represents the 'To' location ID. The value at the intersection represents the travel cost to go from the row-location to the column-location. Note that the cost from a location to itself is set to a very large number (Big M) to prevent staying at the same location."
+    }
+  },
+  "optimal_value": 14393
+}

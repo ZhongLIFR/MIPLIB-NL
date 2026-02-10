@@ -1,0 +1,28 @@
+{
+  "abstract_problem": "The Global Quantum Transport Alliance is commissioning a network infrastructure overhaul involving {n_nodes} strategic logistics hubs and {n_links} candidate transmission corridors to support {n_demands} specific bandwidth transfer orders between varying origin and destination pairs. For each candidate corridor, engineers must decide whether to activate it by installing a Quantum Conduit, and if so, which single tier from the available technology options to utilize. Each conduit tier offers a distinct maximum throughput capacity from the set {capacities} and incurs a specific one-time deployment fee. Operational protocols dictate that active data transmission incurs a variable routing expense proportional to the flow volume and the corridor's specific impedance factor. Hubs with identifiers strictly less than 10 are designated as 'Core Clusters' and will require special color-coding in the post-optimization topology map. Additionally, any corridor equipped with the largest capacity module is subject to a 7% annual environmental maintenance levy, payable starting the fiscal year following the initial deployment. The network architecture explicitly permits flow bifurcation, allowing traffic for a single order to be distributed across multiple pathways. To maintain signal integrity, the aggregate traffic flow summing both forward and reverse directions on any active link must not exceed the installed conduit's rated capacity. The primary objective is to determine the network configuration that minimizes the Total Launch Cost, defined strictly as the summation of all one-time conduit deployment fees and the immediate active routing expenses required to satisfy all transfer orders.",
+  "parameters": {
+    "n_nodes": 37,
+    "n_links": 57,
+    "n_demands": 1296,
+    "capacities": [
+      7560.0,
+      30240.0,
+      120960.0
+    ]
+  },
+  "files": {
+    "nodes": {
+      "path": "./data/nodes.csv",
+      "description": "A table with columns `id` and `name`, representing the cities in the network.\nData format:\n| id | name |\n| --- | --- |\n| 1 | Amsterdam |\n| 2 | Athens |\n| ... | ... |"
+    },
+    "links": {
+      "path": "./data/links.csv",
+      "description": "A table describing the potential links. Columns: `id`, `source` (node id), `target` (node id), `routing_cost` (cost per unit flow), and `fixed_cost_{cap}` for each capacity type (cost to install the module).\nData format:\n| id | source | target | routing_cost | fixed_cost_7560 | fixed_cost_30240 | fixed_cost_120960 |\n| --- | --- | --- | --- | --- | --- | --- |\n| 1 | 8 | 1 | 2.59 | 23310.0 | 69930.0 | 209790.0 |\n| 2 | 14 | 1 | 10.67 | 96030.0 | 288090.0 | 864270.0 |\n| ... | ... | ... | ... | ... | ... | ... |"
+    },
+    "demands": {
+      "path": "./data/demands.csv",
+      "description": "A table describing traffic requirements. Columns: `source` (node id), `target` (node id), `value` (required bandwidth).\nData format:\n| source | target | value |\n| --- | --- | --- |\n| 6 | 8 | 1770.0 |\n| 6 | 14 | 7256.0 |\n| ... | ... | ... |"
+    }
+  },
+  "optimal_value": 25148940.56
+}

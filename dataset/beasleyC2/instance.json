@@ -1,0 +1,27 @@
+{
+  "abstract_problem": "A logistics operator is redesigning a regional backbone to move a standardized commodity between sites. The backbone contains {num_nodes} sites and {num_arcs} candidate directed links. Activating a link requires a fixed operating fee, and only activated links can carry shipments.\n\nDemand pressure is summarized as a net surplus or shortage at each site. The plan must route shipments across the activated links so that every site is balanced according to these net requirements. Each activated link can carry at most {capacity_per_arc} units of shipment. The goal is to choose which links to activate (and how to route the shipments) to satisfy all site requirements while keeping the total fixed operating cost as low as possible.",
+  "parameters": {
+    "num_nodes": 500,
+    "num_arcs": 1250,
+    "capacity_per_arc": 9
+  },
+  "files": {
+    "parameter": {
+      "path": "data/parameter.csv",
+      "description": "Global scalar settings stored as key-value pairs. The file is intended to be read as a small dictionary.\nData format:\n| parameter | value |\n|---|---|\n| <text> | <number> |\n"
+    },
+    "arcs": {
+      "path": "data/arcs.csv",
+      "description": "Candidate directed links in the backbone. Each row defines one link and its direction. The arc_id is the primary identifier and is used to join with other files.\nData format:\n| arc_id | start_node | end_node |\n|---|---|---|\n| a0001 | n001 | n002 |\n| ... | ... | ... |\n"
+    },
+    "costs": {
+      "path": "data/costs.csv",
+      "description": "Fixed operating fee for enabling each candidate link. The arc_id column links back to arcs.csv. The x_var and y_var fields provide human-friendly labels that can be used in an implementation, without relying on names from the source MPS file.\nData format:\n| arc_id | x_var | y_var | fixed_cost |\n|---|---|---|---|\n| a0001 | flow_a0001 | open_a0001 | <number> |\n| ... | ... | ... | ... |\n"
+    },
+    "flow_balance": {
+      "path": "data/flow_balance.csv",
+      "description": "Net requirement at each site: positive means net supply, negative means net demand, and zero means pure transshipment.\nData format:\n| node_id | flow_balance |\n|---|---|\n| n001 | <number> |\n| ... | ... |\n"
+    }
+  },
+  "optimal_value": "144"
+}

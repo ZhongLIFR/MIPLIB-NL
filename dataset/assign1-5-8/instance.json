@@ -1,0 +1,33 @@
+{
+  "abstract_problem": "Service organizations must coordinate the allocation of incoming requests across multiple processing units with heterogeneous capabilities and limited resources. The complexity arises from the interplay between varying task demands, agent-specific efficiency profiles, and capacity constraints that govern feasible assignments. The operational objective centers on achieving cost-efficient resource utilization while ensuring comprehensive service coverage, requiring careful balance between workload distribution and resource expenditure. Assignment strategies must account for the dynamic relationship between task characteristics and agent capabilities, where the effective resource consumption depends on the specific pairing of requests with processing units. The fundamental challenge lies in determining an allocation configuration that satisfies all service obligations without violating the inherent capacity limitations of available resources.",
+  "parameters": {
+    "num_tasks": 26,
+    "num_agents": 5,
+    "max_capacity": 20,
+    "max_cost": 37,
+    "max_resource": 6
+  },
+  "files": {
+    "parameter": {
+      "path": "data/parameter.csv",
+      "description": "Each row contains a parameter name and its corresponding value. Parameter Descriptions: num_tasks: Total number of tasks to be assigned. num_agents: Total number of available agents. max_capacity: Maximum capacity an agent can handle. max_cost: Maximum assignment cost between any task-agent pair. max_resource: Maximum resource requirement for any task-agent pair. Data format: | parameter_name | value |\n|----------------|-------|\n| num_tasks      | 26    |\n| num_agents     | 5     |\n| max_capacity   | 20    |\n| max_cost       | 37    |\n| max_resource   | 6     |"
+    },
+    "tasks": {
+      "path": "data/tasks.csv",
+      "description": "Task information containing resource requirements and priority levels. Each task has unique characteristics that affect its assignment. Data format: | task_id | demand | priority |\n|---------|--------|----------|\n| T001    | 1      | 1        |\n| T002    | 2      | 2        |\n| ...     | ...    | ...      |"
+    },
+    "agents": {
+      "path": "data/agents.csv",
+      "description": "Agent information containing capacity limits and efficiency factors that affect costs and resource consumption. Data format: | agent_id | capacity | efficiency |\n|----------|----------|------------|\n| A001     | 20       | 0.90       |\n| A002     | 18       | 0.95       |\n| ...      | ...      | ...        |"
+    },
+    "cost": {
+      "path": "data/cost.csv",
+      "description": "Cost matrix showing the operational cost for each task-resource combination. Costs may vary based on agent capabilities and task requirements. First column is 'task_id' (string values: T001, T002, ..., T026), remaining columns are agent IDs (A001, A002, A003, A004, A005) as column headers. Each cell (i,j) represents the operational cost for task i when assigned to agent j. Data format: | task_id | A001 | A002 | A003 | A004 | A005 |\n|---------|------|------|------|------|------|\n| T001    | 2    | 1    | 1    | 1    | 1    |\n| T002    | 3    | 4    | 2    | 3    | 2    |\n| ...     | ...  | ...  | ...  | ...  | ...  |"
+    },
+    "resource": {
+      "path": "data/resource.csv",
+      "description": "Resource requirement matrix showing the actual resources consumed by each task when assigned to each agent. This varies based on agent efficiency and task characteristics. First column is 'task_id' (string values: T001, T002, ..., T026), remaining columns are agent IDs (A001, A002, A003, A004, A005) as column headers. Each cell (i,j) represents the resources consumed by task i when assigned to agent j. Data format: | task_id | A001 | A002 | A003 | A004 | A005 |\n|---------|------|------|------|------|------|\n| T001    | 1    | 1    | 1    | 1    | 1    |\n| T002    | 2    | 2    | 2    | 1    | 1    |\n| ...     | ...  | ...  | ...  | ...  | ...  |"
+    }
+  },
+  "optimal_value": 211.0
+}

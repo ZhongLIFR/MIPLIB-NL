@@ -1,0 +1,32 @@
+{
+  "abstract_problem": "An organization is selecting a bundle from {num_options} candidate actions. Each action is either adopted or not adopted (partial adoption is not allowed). Actions are pre-arranged into {num_groups} menus, where each action belongs to exactly one menu and the organization can choose at most {max_choices_per_group} actions from each menu. If an action is adopted, it incurs a cost given per action. At the same time, the organization must hit {num_targets} organization-wide performance targets (for example, service outcomes, capability milestones, coverage levels, or compliance requirements). Each adopted action contributes some amount toward these targets, and contributions add up across adopted actions. For every target, the total contribution from the chosen actions must meet or exceed the required level given in the data. The goal is to satisfy all targets while keeping total cost as low as possible.",
+  "parameters": {
+    "num_options": 11099,
+    "num_groups": 437,
+    "num_targets": 155,
+    "max_choices_per_group": 1
+  },
+  "files": {
+    "options": {
+      "path": "data/options.csv",
+      "description": "Candidate action catalog. Each row is one action that may be adopted. Columns: `option_id` is the internal identifier used across all data files (unique per row); `unit_cost` is the cost incurred if the action is adopted. Data format: | option_id | unit_cost |\\n|----------|-----------|\\n| <int>    | <float>   |"
+    },
+    "groups": {
+      "path": "data/requirements.csv",
+      "description": "Menu (group) index. Each row is one menu that actions can belong to. The instance enforces a fixed per-menu selection limit (not stored in this file). Columns: `requirement_id` is the internal identifier referenced by `option_requirement.csv` (unique per row). Data format: | requirement_id |\\n|----------------|\\n| <int>          |"
+    },
+    "option_requirement": {
+      "path": "data/option_requirement.csv",
+      "description": "Mapping from actions to menus. Each row assigns one action to exactly one menu (so every `option_id` should appear exactly once in this file). Use this mapping to count how many actions are chosen in each menu and enforce the per-menu selection limit defined at the instance level. Columns: `option_id` references `options.csv`; `requirement_id` references `requirements.csv`. Data format: | option_id | requirement_id |\\n|----------|----------------|\\n| <int>    | <int>          |"
+    },
+    "targets": {
+      "path": "data/resources.csv",
+      "description": "Organization-wide target list and required levels. Each row is one target. Columns: `resource_id` is the internal identifier referenced by `resource_usage.csv` (unique per row); `minimum_required` is the required total level that must be met or exceeded. Data format: | resource_id | minimum_required |\\n|------------|------------------|\\n| <int>      | <float>          |"
+    },
+    "contributions": {
+      "path": "data/resource_usage.csv",
+      "description": "Per-action contributions to targets (sparse list). Each row indicates that if an action is adopted, it contributes `contribution` units toward a target. Rows omitted from this file should be treated as zero contribution. To enforce targets, sum contributions of all adopted actions for each `resource_id` and ensure the total meets or exceeds the corresponding required level from `resources.csv`. Columns: `resource_id` references `resources.csv`; `option_id` references `options.csv`; `contribution` is the contributed amount. Data format: | resource_id | option_id | contribution |\\n|------------|----------|--------------|\\n| <int>      | <int>    | <int>        |"
+    }
+  },
+  "optimal_value": 404077441.12
+}

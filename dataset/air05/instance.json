@@ -1,0 +1,18 @@
+{
+  "abstract_problem": "BlueSky Air Cargo is finalizing its logistical framework for a complex network comprising {n} specific flight legs scheduled for the upcoming fiscal quarter. The operations research department has synthesized {m} candidate crew rotations, technically referred to as pairings, based on current fleet availability and crew domicile constraints. These candidate pairings have already been validated against fatigue risk management systems (FRMS) and standard union agreements regarding duty periods. Each pairing maps to a unique sequence of flights and carries a distinct operational cost, which aggregates fuel, crew wages, and layover expenses. For internal administrative tracking, pairings with a `pairing_id` that is an odd number are flagged as 'Senior-Lead' assignments intended for a separate post-optimization performance review. The corporate objective is to maximize the net operational margin. Since the total cargo revenue is fixed and pre-determined for this specific block of flights, this financial goal is mathematically equivalent to minimizing the aggregate operational cost of the activated pairings. The scheduling solution must strictly adhere to the set partition principle: the union of flights contained within the selected pairings must equal the exact set of all {n} flights, and the intersection of flight sets between any two selected pairings must be empty to prevent crew scheduling conflicts. Determine the minimum total cost of the selected subset of pairings.",
+  "parameters": {
+    "n": 426,
+    "m": 7195
+  },
+  "files": {
+    "pairing_costs": {
+      "path": "./data/pairing_costs.csv",
+      "description": "A CSV file containing the cost information for each candidate pairing. It contains two columns: `pairing_id` representing the unique identifier of the pairing, and `cost` representing the cost associated with this pairing.\nData format:\n| pairing_id | cost |\n| --- | --- |\n| 1 | 708.0 |\n| 2 | 454.0 |\n| ... | ... |"
+    },
+    "pairing_flights": {
+      "path": "./data/pairing_flights.csv",
+      "description": "A CSV file mapping flights to pairings. It contains two columns: `pairing_id` representing the pairing identifier, and `flight_id` representing the flight identifier, indicating that this flight belongs to this pairing.\nData format:\n| pairing_id | flight_id |\n| --- | --- |\n| 1 | 1 |\n| 1 | 2 |\n| ... | ... |"
+    }
+  },
+  "optimal_value": 26374
+}

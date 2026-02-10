@@ -1,0 +1,18 @@
+{
+  "abstract_problem": "Global Horizon Airlines is currently optimizing its crew resource management strategy for a complex network comprising {n} scheduled flight sectors for the upcoming fiscal quarter. The logistics division has successfully validated and pre-compiled {m} candidate crew pairings. Each pairing represents a specific sequence of flight sectors legally performable by a single crew unit without violating international maximum duty period regulations or union rest agreements. The provided dataset links these pairings to their constituent flight sectors. Operationally, it is noted that flight sectors with identifiers divisible by 5 are designated as high-density commuter routes requiring specific rapid-turnaround protocols, whereas other sectors are standard long-haul or regional connectors; however, the necessary crew certifications for these specific route types have already been embedded into the generation logic of the candidate pairings. Each pairing carries a specific operational cost value derived from a weighted aggregate of historical fuel consumption, crew hourly wages, and overnight accommodation fees. For internal auditing purposes, any selected pairing with a cost strictly lower than the median of all candidate costs will be categorized as a 'Green' efficiency tier contribution, while those above will be flagged as 'Red' tier contributions for the annual sustainability report. The scheduling algorithm must construct a final roster by selecting a subset of these candidate pairings. The fundamental constraint for network integrity is the disjoint coverage requirement: every single one of the {n} flight sectors must be assigned to exactly one active pairing in the final selection to ensure zero service cancellations and eliminate crew redundancy. Calculate the minimum total operational cost for this schedule.",
+  "parameters": {
+    "n": 124,
+    "m": 10757
+  },
+  "files": {
+    "pairing_costs": {
+      "path": "./data/pairing_costs.csv",
+      "description": "A CSV file containing the cost information for each candidate pairing. It contains two columns: `pairing_id` representing the unique identifier of the pairing, and `cost` representing the cost associated with this pairing.\nData format:\n| pairing_id | cost |\n| --- | --- |\n| 1 | 3952.0 |\n| 2 | 13724.0 |\n| ... | ... |"
+    },
+    "pairing_flights": {
+      "path": "./data/pairing_flights.csv",
+      "description": "A CSV file mapping flights to pairings. It contains two columns: `pairing_id` representing the pairing identifier, and `flight_id` representing the flight identifier, indicating that this flight belongs to this pairing.\nData format:\n| pairing_id | flight_id |\n| --- | --- |\n| 1 | 1 |\n| 2 | 1 |\n| ... | ... |"
+    }
+  },
+  "optimal_value": 340160
+}

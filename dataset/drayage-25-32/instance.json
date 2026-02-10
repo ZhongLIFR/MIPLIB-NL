@@ -1,0 +1,46 @@
+{
+  "abstract_problem": "This instance describes dispatch planning for short-haul container moves around a terminal and its nearby transfer points. There are {N} transport orders and {M} available chassis. The planner must decide a one-to-one pairing so that every order is covered and every chassis is used exactly once. Pairing is allowed for any order-chassis combination; the data provide explicit cost entries for some pairings and all other pairings use an implicit baseline cost of {baseline_assignment_cost}. The plan also tracks {num_time_vars} event timestamps for key visits or handoffs. Operational policies are given as standardized rule records that link pairing choices to timing consistency requirements and to shared-facility limits aggregated over a single referenced order set (the set may cover only a subset of orders). In this instance, each order has a designated primary chassis option that shares the same identifier as the order, and timing-shift rules describe how the required time gap changes when switching from that primary option to an alternative. Each rule table uses a uniform comparison direction code, given by {pair_time_link_default_sense} for timing-shift rules and {chassis_time_default_sense} for group-aggregation rules. Timing-shift rules also rely on a shared large adjustment constant {pair_time_link_big_m}. All identifiers in the data files are zero-based. The goal is to find a feasible plan with minimum total cost.",
+  "parameters": {
+    "N": "105",
+    "M": "105",
+    "num_time_vars": "65",
+    "num_constraints_in_mps_core": "4290",
+    "num_modeled_rules": "4225",
+    "num_dropped_redundant_rules": "65",
+    "num_pair_time_link_rules": "4160",
+    "num_chassis_time_rules": "65",
+    "num_residual_rules": "0",
+    "baseline_assignment_cost": "0",
+    "pair_time_link_default_sense": "G",
+    "pair_time_link_big_m": "60000",
+    "chassis_time_default_sense": "G",
+    "chassis_time_default_rhs": "0"
+  },
+  "files": {
+    "assignment_costs": {
+      "path": "data/assignment_costs.csv",
+      "description": "Cost entries associated with pairing an order and a chassis. Pairing is allowed for any order-chassis combination; this file only lists explicit cost entries. Any pairing not listed should be treated as having the baseline (implicit) cost contribution. Identifiers are zero-based integers. Data format: | order_id | chassis_id | cost |\n| <int> | <int> | <float> |"
+    },
+    "time_bounds": {
+      "path": "data/time_bounds.csv",
+      "description": "Allowed ranges for event timestamps. Each row provides a lower and upper limit for one timestamp identifier. Identifiers are zero-based integers. Data format: | time_id | lower_bound | upper_bound |\n| <int> | <float> | <float> |"
+    },
+    "pair_time_link_rules": {
+      "path": "data/pair_time_link_rules.csv",
+      "description": "Rule records that connect an order's chassis choice to the allowed time gap between two event timestamps. Each row references one order, one alternative chassis option for that order, and two timestamps. The designated primary chassis for an order is the chassis with the same identifier as the order. The comparison direction and the large adjustment constant are uniform across all rows and are provided in problem_structure.csv. Identifiers are zero-based integers. Data format: | rhs | order_id | chassis_alternative | time_from | time_to | fixed_choice_coefficient |\n| <float> | <int> | <int> | <int> | <int> | <float> |"
+    },
+    "chassis_time_rules": {
+      "path": "data/chassis_time_rules.csv",
+      "description": "Aggregate rule records that connect how a specific chassis is used across the referenced order set in order_groups.csv with one event timestamp. The comparison direction and the threshold are uniform across all rows and are provided in problem_structure.csv. Identifiers are zero-based integers. Data format: | chassis_id | time_id | assignment_coefficient |\n| <int> | <int> | <float> |"
+    },
+    "order_groups": {
+      "path": "data/order_groups.csv",
+      "description": "Orders referenced by the aggregate rules in chassis_time_rules.csv. Each row lists one order identifier that belongs to the single aggregate set used by this instance (the set may cover only a subset of all orders). Identifiers are zero-based integers. Data format: | order_id |\n| <int> |"
+    },
+    "problem_structure": {
+      "path": "data/problem_structure.csv",
+      "description": "Instance-level scalar metadata including dimensions and uniform default constants used by the rule tables. Data format: | parameter | value |\n| <string> | <string> |"
+    }
+  },
+  "optimal_value": "91395.84915"
+}

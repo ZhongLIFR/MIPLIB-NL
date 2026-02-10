@@ -1,0 +1,36 @@
+{
+  "abstract_problem": "A media operator must build a highly constrained operational plan by selecting discrete options across a collection of decision slots.\n\nEach slot requires choosing exactly one option from its allowed menu. Options are interconnected: selecting one option can force other options to be selected, and additional global rules restrict how many options may be chosen from certain collections.\n\nAll decisions are binary and all rules are linear. The objective is to avoid selecting one particular undesirable option unless it is unavoidable, while still satisfying all slot-level choices and all inter-option rules.\n\nThe instance data provides: (1) the option list and objective penalties, (2) the slot menus (exact-one choice groups), (3) implication links between options, and (4) capped groups with upper/lower/equality bounds.",
+  "parameters": {
+    "num_options": "1339",
+    "num_choice_groups": "244",
+    "num_implications": "1649",
+    "num_cap_groups": "1159"
+  },
+  "files": {
+    "options": {
+      "path": "data/options.csv",
+      "description": "Discrete options available to the planner. Each row defines one option identifier and its objective penalty coefficient.\n\nData format: | option_id | objective_penalty |\n|:--|:--|\n| <int> | <float> |\n| ... | ... |"
+    },
+    "choice_groups": {
+      "path": "data/choice_groups.csv",
+      "description": "Decision slots represented as choice groups. Each group requires selecting exactly one of its member options.\n\nData format: | group_id |\n|:--|\n| <int> |\n| ... |"
+    },
+    "choice_group_members": {
+      "path": "data/choice_group_members.csv",
+      "description": "Membership of options in each choice group. Each row links one option to one group.\n\nData format: | group_id | option_id |\n|:--|:--|\n| <int> | <int> |\n| ... | ... |"
+    },
+    "implication_edges": {
+      "path": "data/implication_edges.csv",
+      "description": "Prerequisite-style links between options. Each row encodes the rule: if from_option_id is selected, then to_option_id must also be selected.\n\nData format: | from_option_id | to_option_id |\n|:--|:--|\n| <int> | <int> |\n| ... | ... |"
+    },
+    "cap_groups": {
+      "path": "data/cap_groups.csv",
+      "description": "Group-level bounds over option selections. Each row defines one bound on the number of selected options within a group.\n\nAllowed strings:\n- sense:\n  - LE: the number of selected member options must be less than or equal to rhs.\n  - GE: the number of selected member options must be greater than or equal to rhs.\n  - EQ: the number of selected member options must be equal to rhs.\n\nData format: | cap_group_id | sense | rhs |\n|:--|:--|:--|\n| <int> | <str> | <float> |\n| ... | ... | ... |"
+    },
+    "cap_group_members": {
+      "path": "data/cap_group_members.csv",
+      "description": "Membership of options in each cap group. Each row links one option to one cap group.\n\nData format: | cap_group_id | option_id |\n|:--|:--|\n| <int> | <int> |\n| ... | ... |"
+    }
+  },
+  "optimal_value": "0.0"
+}

@@ -1,0 +1,25 @@
+{
+  "abstract_problem": "A domestic service company needs to process N1 tasks, with each task yielding a revenue of R. To achieve this, the company needs to hire a certain number of employees from a pool of N2 candidates. The salary for each employee is provided in Table C1; some of these employees are interns willing to pay for the internship, resulting in negative salaries. The contribution of each employee to each task is provided in Table C2; some employees may have a negative impact on certain tasks, resulting in negative contribution values. Within the workforce, the maximum age is Y1 and the minimum age is Y2. The completion threshold required for each task is provided in Table C3. We need to help the company determine an employee selection scheme that minimizes costs while ensuring all tasks are completed. Output the minimum cost value.",
+  "parameters": {
+    "N1": 40,
+    "R": 3,
+    "Y1": 61,
+    "Y2": 19,
+    "N2": 400
+  },
+  "files": {
+    "files_1": {
+      "path": "data/C1.csv",
+      "description": "Table C1 has employee IDs in the first column and their corresponding salaries in the second column. As mentioned, some entries are negative because those employees are interns who pay to participate in the internship."
+    },
+    "files_2": {
+      "path": "data/C2.csv",
+      "description": "Table C2 has employee IDs in the first column and task IDs in the first row. The value at the intersection of a row and a column represents the contribution of the corresponding employee to the specified task; negative values indicate that the employee exerts a negative impact on that task."
+    },
+    "files_3": {
+      "path": "data/C3.csv",
+      "description": "Table C3 lists task IDs in the first column and the minimum threshold required to complete each task in the second column."
+    }
+  },
+  "optimal_value": 20772
+}

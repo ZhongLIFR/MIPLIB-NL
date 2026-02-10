@@ -1,0 +1,33 @@
+{
+  "abstract_problem": "Assume that you are the Chief Operations Officer in charge of managing a complex production and logistics network. Your company pays you a monthly salary of s1 US dollars, while the average salary in Singapore is s2 Singapore dollars, using the current exchange rate. In a specific task, the network includes Nflow distinct flow paths (representing material transportation or production processes) and Nfac control facilities (representing production lines or switches).Your objective is to minimize the net cost. Each flow path has a specific unit operating cost or revenue coefficient Cobj, with the exact values provided in the parameter list.To maintain operations, the following constraints must be satisfied:Flow conservation constraints: At each intermediate node, the total inflow volume must equal the total outflow volume. The specific network topology is defined in Table T2.Connection and capacity constraints: A flow path can only be used if its corresponding control facility is activated. Activating a control facility may require highly skilled workers; if a control facility is activated, the flow volume of the corresponding path is limited by the maximum capacity Kmax (i.e., the big-M parameter). The correspondence between flow paths and facilities is shown in Table T3.Aggregate capacity constraints: Certain groups of flow paths share a common resource pool, which has a total capacity limit as defined in Table T4.Fixed demand constraints: Specific destination nodes require a fixed quantity of goods Dreq, and such demand must be strictly met. The exact demand values are provided in the parameter list.",
+  "parameters": {
+    "s1": 10000,
+    "S2": 12220,
+    "N_flow": 545,
+    "N_fac": 460,
+    "K_max": 1000.0
+  },
+  "files": {
+    "files_1": {
+      "path": "data/T1_Variable_Properties.csv",
+      "description": "Table T1: Defines the properties for all decision variables. The columns include Variable ID, Type (Continuous for flows / Binary for facilities), Physical Upper Bounds (if any, separate from logic capacity), and the Unit Cost/Revenue coefficient ($C_{obj}$)."
+    },
+    "files_2": {
+      "path": "data/T2_Network_Topology.csv",
+      "description": "Table T2: Defines the Flow Conservation constraints. Each row represents a balance node or equation where sum(Inflow) - sum(Outflow) = 0. It maps Constraint IDs to the specific Flow Variables involved."
+    },
+    "files_3": {
+      "path": "data/T3_Linking_Logic.csv",
+      "description": "Table T3: Defines the Linking constraints. It maps a Flow Variable to its controlling Facility Variable (Binary). The parameter $K_{max}$ implies that Flow <= $K_{max}$ * Binary."
+    },
+    "files_4": {
+      "path": "data/T4_Aggregated_Capacity.csv",
+      "description": "Table T4: Defines Aggregated Capacity constraints. It lists groups of Flow Variables that consume a shared capacity provided by a group of Facilities."
+    },
+    "files_5": {
+      "path": "data/T5_Fixed_Demand.csv",
+      "description": "Table T5: Defines Fixed Demand constraints. It lists the specific nodes or variable combinations that must sum to a fixed constant value ($D_{req}$)."
+    }
+  },
+  "optimal_value": -14610731.01
+}

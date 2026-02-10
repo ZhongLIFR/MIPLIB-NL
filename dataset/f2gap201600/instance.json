@@ -1,0 +1,25 @@
+{
+  "abstract_problem": "A fund company had an annual income of R last year. The current task is to cover N1 risk exposures (each has been confirmed N times). To achieve this, the company needs to select and hold a certain number of financial products from N2 available options. The holding cost for each product is provided in Table C1; some products are arbitrage tools that generate fixed interest income (exceeding management fees), resulting in negative costs. The coverage capability of each product for each risk exposure is provided in Table C2; some products are inversely linked to certain exposures (increasing risk exposure), resulting in negative coverage capabilities. The coverage threshold required for each risk exposure is provided in Table C3. The company requires our assistance in selecting products and achieving the strategic goal of a T percentage point increase in yield by the next milestone. We need to help the company determine a product selection scheme that minimizes costs while ensuring all risk exposures are covered. Output the minimum cost value.",
+  "parameters": {
+    "N1": 20,
+    "R": 123333,
+    "N": 5,
+    "T": 12,
+    "N2": 1600
+  },
+  "files": {
+    "files_1": {
+      "path": "data/C1.csv",
+      "description": "Table C1's first column is the Product ID, and the second column is the holding cost of that product. Here, some products are arbitrage tools, and holding them generates fixed interest income, so the cost is negative."
+    },
+    "files_2": {
+      "path": "data/C2.csv",
+      "description": "Table C2's first column is the Product ID, and the first row is the Exposure ID. The intersection is the coverage value of that product for that exposure; some products are inversely linked to certain exposures, so the coverage capability is negative."
+    },
+    "files_3": {
+      "path": "data/C3.csv",
+      "description": "able C3's first column is the Exposure ID, and the second column is the threshold required to cover that exposure."
+    }
+  },
+  "optimal_value": 76453
+}

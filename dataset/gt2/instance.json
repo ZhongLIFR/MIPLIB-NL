@@ -1,0 +1,28 @@
+{
+  "abstract_problem": "Suppose you are the Dispatch Director of a large logistics company with an annual salary of W. A company mission requires transporting goods to N1 different destinations. The company possesses N2 different types of vehicles, with heavy-duty vehicles accounting for a proportion of L. The quantity of each vehicle type is shown in Table C1; however, these are all freight trucks and cannot compare to the Rolls-Royce at your home, which is valued at M. The cost for each vehicle type to transport to different locations is shown in Table C2, and the quantity of goods each vehicle type can transport to different locations is shown in Table C3. The goods required by each destination are shown in Table C4. Please output the minimum cost to complete the requirements.",
+  "parameters": {
+    "N1": 12,
+    "W": 300000,
+    "M": 120000,
+    "N2": 17
+  },
+  "files": {
+    "files_1": {
+      "path": "data/C1.csv",
+      "description": "Table C1: The first column lists vehicle type IDs, and the second column shows the quantity of each corresponding vehicle type."
+    },
+    "files_2": {
+      "path": "data/C2.csv",
+      "description": "Table C2: The first column lists vehicle type IDs, the first row lists location IDs, and the value at the intersection of a row and a column represents the transportation cost of the specified vehicle type to the corresponding location."
+    },
+    "files_3": {
+      "path": "data/C3.csv",
+      "description": "Table C3: The first column lists vehicle type IDs, the first row lists location IDs, and the value at the intersection of a row and a column represents the quantity of goods that the specified vehicle type can transport to the corresponding location."
+    },
+    "files_4": {
+      "path": "data/C4.csv",
+      "description": "Table C4: The first column lists location IDs, and the second column shows the quantity of goods required by each corresponding location."
+    }
+  },
+  "optimal_value": 21166
+}

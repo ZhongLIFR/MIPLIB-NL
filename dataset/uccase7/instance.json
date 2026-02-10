@@ -1,0 +1,49 @@
+{
+  "abstract_problem": "A sustainable energy grid operator manages a portfolio of generation assets to meet demand while ensuring grid stability. The planning horizon consists of T consecutive time intervals. Each asset has specific technical capabilities (min/max output) and economic parameters (marginal/fixed costs). The grid must maintain a reliability margin (spinning reserve) at all times. Operational constraints include thermal stress limits (min up/down times) and activation surcharges. The goal is to minimize the total cost of operation and activation while satisfying all demand and stability requirements.",
+  "parameters": {
+    "unserved_energy_penalty": 2.0
+  },
+  "files": {
+    "units": {
+      "path": "data/units.csv",
+      "description": "Registry of generation assets. Contains string identifiers and metadata.\n- `unit_id`: Unique string identifier (e.g., 'GEN_019').\n- `manufacturer`: Asset manufacturer (decoy).\n- `installation_date`: Date of installation (decoy).\n- `efficiency_rating`: Efficiency metric (decoy)."
+    },
+    "mode_specs": {
+      "path": "data/mode_specs.csv",
+      "description": "Technical specifications for asset operating modes.\n- `unit_id`: Asset identifier.\n- `mode_id`: Mode identifier.\n- `min_output`: Minimum power output (MW).\n- `max_output`: Maximum power output (MW)."
+    },
+    "mode_costs": {
+      "path": "data/mode_costs.csv",
+      "description": "Economic parameters for asset operating modes.\n- `unit_id`: Asset identifier.\n- `mode_id`: Mode identifier.\n- `marginal_cost`: Cost per unit of output ($/MW).\n- `fixed_cost`: Hourly fixed cost when active ($/h)."
+    },
+    "system_requirements": {
+      "path": "data/system_requirements.csv",
+      "description": "Grid demand and reliability requirements per time interval.\n- `time_id`: Time interval index (**0-based**, i.e., 0 to T-1).\n- `demand`: System load (MW).\n- `spinning_reserve_requirement`: Required reliability margin (MW)."
+    },
+    "policy_rules": {
+      "path": "data/policy_rules.csv",
+      "description": "Operational policy rules defining constraints.\n- `rule_id`: Unique rule identifier.\n- `rule_family`: Business category of the rule. Values:\n    - `GRID_STABILITY_CONSTRAINT`: Demand balance rules.\n    - `RELIABILITY_MARGIN_REQ`: Spinning reserve rules.\n    - `THERMAL_STRESS_LIMIT_TYPE_A`: Minimum up-time logic.\n    - `THERMAL_STRESS_LIMIT_TYPE_B`: Minimum down-time logic.\n    - `ACTIVATION_SURCHARGE_LOGIC`: Startup cost logic.\n    - `OPERATIONAL_STATUS_LINK`: Logic linking online status to start/stop.\n    - `SHUTDOWN_TRAJECTORY_BOUND`: Shutdown trajectory logic.\n    - `STARTUP_TRAJECTORY_BOUND`: Startup trajectory logic.\n    - `INITIAL_STATE_PATCH`: Initial condition logic.\n    - `EXCLUSIVITY`: Mutually exclusive mode logic.\n    - `START_STAGE_LINK`: Startup stage logic.\n    - `STOP_STAGE_LINK`: Shutdown stage logic.\n- `time_id`: Time interval index (**1-based**, i.e., 1 to T). Note the index difference compared to `system_requirements.csv`. To map requirements to rules, use `rule_time_id = req_time_id + 1`.\n- `sense`: Comparison operator (`<=`, `=`, `>=`).\n- `rhs`: Right-hand side value."
+    },
+    "policy_rule_terms": {
+      "path": "data/policy_rule_terms.csv",
+      "description": "Detailed terms for policy rules.\n- `rule_id`: Link to `policy_rules.csv`.\n- `term_type`: Variable type. Values:\n    - `GEN`: Power output of an asset in a specific mode.\n    - `ONLINE`: Binary indicator for an online asset.\n    - `START`: Binary indicator for a startup event.\n    - `STOP`: Binary indicator for a shutdown event.\n    - `START_STAGE`: Binary indicator for a specific startup trajectory stage.\n    - `STOP_STAGE`: Binary indicator for a specific shutdown trajectory stage.\n    - `STARTUP_COST`: Continuous variable for accumulated startup costs.\n    - `UNSERVED`: Continuous variable for load curtailment.\n- `time_id`: Time interval index (**1-based**).\n- `coef`: Coefficient."
+    },
+    "mode_unavailability_windows": {
+      "path": "data/mode_unavailability_windows.csv",
+      "description": "Periods where specific asset modes are unavailable."
+    },
+    "start_stop_event_cost_windows": {
+      "path": "data/start_stop_event_cost_windows.csv",
+      "description": "Time windows for activation/deactivation surcharges.\n- `event_type`: Type of event. Values: `START`, `STOP`."
+    },
+    "ambient_conditions": {
+      "path": "data/ambient_conditions.csv",
+      "description": "Environmental data (solar irradiance, wind speed) for renewable forecasting (decoy)."
+    },
+    "asset_registry": {
+      "path": "data/asset_registry.csv",
+      "description": "Additional asset metadata including grid connection points (decoy)."
+    }
+  },
+  "optimal_value": "26836.21634"
+}

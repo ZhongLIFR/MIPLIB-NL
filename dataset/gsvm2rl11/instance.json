@@ -1,0 +1,23 @@
+{
+  "abstract_problem": "We are deploying a High-Precision Stratified Diagnostic System for a clinical trial involving {n_samples} participants, each characterized by {n_features} transcriptomic markers. The primary objective is to construct a linear decision boundary (characterized by coefficient vector u and intercept b) that enforces sparsity to identify key biomarkers. Participants are indexed sequentially; those with IDs 1 through 250 constitute the derivation cohort, while the remainder form the validation cohort, though the optimization is performed jointly on the full dataset. The system operates under a 'Hybrid-Triage' protocol. For each participant, the model determines whether to issue an automated diagnosis or to flag the case for Manual Expert Review. Automated diagnoses are subject to a strict safety margin; any violation of this margin results in a penalty proportional to the magnitude of the violation (Hinge Loss). Alternatively, the model may opt to flag a case (setting a binary indicator z=1), which incurs a fixed 'Administrative Cost' rather than the standard error penalty. This Administrative Cost is strictly calculated as {cost_ratio_outlier} times the specific class weight of the participant. The class weights are defined as {C_global} divided by the class count ({n_pos} for positive, {n_neg} for negative) to ensure risk parity. Crucially, the flagging mechanism provides a relaxation of the safety margin by a magnitude of {M} (the Capacity Parameter). Should the margin violation exceed {M}, the surplus error is deemed a 'Critical Failure' and is added to the loss function even for flagged cases. The optimization goal is to minimize the total structural risk, defined as the sum of the L1 norm of u (for feature selection), the cumulative penalties for automated diagnosis errors, and the total Administrative Costs for flagged cases. Note that selected biomarkers with non-zero coefficients will undergo wet-lab PCR validation costing 150 currency units per marker in a subsequent phase, and the Manual Expert Review board has a maximum throughput of 50 cases per week, necessitating a strategic balance in the modeling phase.",
+  "parameters": {
+    "n_samples": 500,
+    "n_features": 500,
+    "n_pos": 289,
+    "n_neg": 211,
+    "C_global": 25000.0,
+    "M": 100.0,
+    "cost_ratio_outlier": 2.0
+  },
+  "files": {
+    "labels": {
+      "path": "./data/patient_labels.csv",
+      "description": "A CSV table with columns `id` (Patient ID) and `label` (Diagnosis, +1 or -1).\nData format:\n| id | label |\n| --- | --- |\n| 1 | 1 |\n| 2 | 1 |\n| ... | ... |"
+    },
+    "expressions": {
+      "path": "./data/gene_expressions.csv",
+      "description": "A CSV table in long format with columns `id` (Patient ID), `gene_id` (Gene Index, 1 to 60), and `value` (Expression Level).\nData format:\n| id | gene_id | value |\n| --- | --- | --- |\n| 1 | 1 | 3.981664 |\n| 1 | 2 | -0.972359 |\n| ... | ... | ... |"
+    }
+  },
+  "optimal_value": 18121.63800478
+}

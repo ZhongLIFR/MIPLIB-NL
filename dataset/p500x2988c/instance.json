@@ -1,0 +1,21 @@
+{
+  "abstract_problem": "Global Logistics Solutions is currently restructuring the distribution network for a specialized industrial solvent, designated as 'Compound Sigma', across {n} strategic zones. The network topology comprises {num_sources} primary production facilities, {num_refineries} downstream processing plants, and {num_trans} intermediate cross-docking terminals. The specific inventory balance for each zone is detailed in the `nodes` file, where positive values indicate surplus supply (production) and negative values indicate demand requirements. Engineering teams have surveyed {m} potential unidirectional transport corridors connecting these zones. The financial breakdown provided in the `edges` file lists the `fixed_cost` (Initial Capital Expenditure or CAPEX for commissioning the corridor) and `flow_cost` (Operational Expenditure or OPEX per unit of volume moved). For administrative compliance, zones with IDs divisible by 5 are designated as 'High-Security Sectors' requiring strictly documented digital entry logs during operations. Additionally, the infrastructure strategic plan accounts for a 10-year operational horizon, where the annual maintenance budget is strictly projected at 3.5% of the total CAPEX. Once a corridor is commissioned (incurring the fixed CAPEX), its throughput capacity is theoretically unconstrained for the purpose of this phase. The objective is to determine the optimal network configuration and flow distribution that fully satisfies the demand at all processing centers using the available supply. Calculate the minimum Total Acquisition Cost, which is strictly defined as the sum of the initial CAPEX for all commissioned corridors plus the OPEX for the complete transport of the material volume.",
+  "parameters": {
+    "n": 500,
+    "m": 2928,
+    "num_sources": 1,
+    "num_trans": 493,
+    "num_refineries": 6
+  },
+  "files": {
+    "nodes": {
+      "path": "./data/nodes.csv",
+      "description": "A table of size n*2. The first column `id` contains node indices. The second column `value` contains numerical values indicating the net oil production of each node (positive for supply, negative for demand, 0 for transshipment).\nData format:\n| id | value |\n| --- | --- |\n| 0 | -1359.0 |\n| 1 | -326.0 |\n| ... | ... |"
+    },
+    "edges": {
+      "path": "./data/edges.csv",
+      "description": "A table of size m*5. Columns are `id_edge`, `source_node`, `target_node`, `flow_cost` (cost per unit flow), and `fixed_cost` (construction cost).\nData format:\n| id_edge | source_node | target_node | flow_cost | fixed_cost |\n| --- | --- | --- | --- | --- |\n| 0 | 1 | 194 | 10.0 | 314.0 |\n| 1 | 0 | 50 | 8.0 | 208.0 |\n| ... | ... | ... | ... | ... |"
+    }
+  },
+  "optimal_value": 15215
+}

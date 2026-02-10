@@ -1,0 +1,9 @@
+{
+  "abstract_problem": "In the context of tactical drone swarm networks operating under heavy electronic warfare jamming, reliable command transmission is paramount. The communication protocol utilizes a fixed-length binary pulse modulation scheme where each command frame consists of exactly {n_bits} time slots. Due to the stochastic nature of jamming, random time-slot dropouts occur, effectively deleting bits from the stream. To prevent command aliasing, the cryptographic design requires a rigorous distinctness metric between any pair of valid code words in the dictionary. Specifically, the Signal Overlap Factor, defined mathematically as the length of the longest common subsequence of bits (preserving relative order but allowing gaps), is the critical metric. Safety protocols dictate that this Factor between any two distinct codes in the active set must be strictly less than {lcs_threshold}. Additionally, to facilitate hardware addressing, codes whose integer representation is a prime number are flagged for leader-class drones, while composite numbers are assigned to swarm-class units; this addressing schema is hardcoded into the firmware. Furthermore, the energy profile for transmission varies, with logic 1 consuming 15mW and logic 0 consuming 2mW, and the thermal dissipation system is rated for the average case. The network architect aims to maximize the capacity of the command dictionary. Determine the maximum number of distinct command sequences that can be simultaneously maintained in the valid set.",
+  "parameters": {
+    "n_bits": 11,
+    "lcs_threshold": 9
+  },
+  "files": {},
+  "optimal_value": 24
+}

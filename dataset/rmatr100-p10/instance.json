@@ -1,0 +1,14 @@
+{
+  "abstract_problem": "The Global Network Infrastructure Initiative is upgrading its telecommunications grid across {n} regional sectors. To comply with the hardware allocation budget set for the upcoming fiscal decade, the engineering board has authorized the activation of exactly {p} sectors to serve as Primary Uplink Nodes. Each sector functions under a specific routing protocol defined in the `chains` registry. This registry dictates a rigid priority sequence of potential Uplink Nodes for every sector acting as a data origin. When a sector initiates a data transmission, the network protocol scans its assigned priority sequence in ascending order and connects to the first sector that has been activated as a Primary Uplink Node. The system efficiency metric, known as the Transmission Lag Index, is calculated for each sector as the zero-based ordinal position of the connected Uplink Node within that sector's specific priority chain. Additionally, sectors with identification numbers divisible by 4 contain legacy copper infrastructure requiring distinct maintenance schedules compared to the fiber-optic cables in odd-numbered sectors, which have a signal attenuation rate of 0.05dB per kilometer. Any sector not chosen as a Primary Uplink Node will revert to a passive relay state, consuming 15% of the standard energy output to maintain heartbeat signals. The objective is to identify the optimal set of Uplink Nodes to minimize the total Transmission Lag Index across all sectors.",
+  "parameters": {
+    "n": 100,
+    "p": 10
+  },
+  "files": {
+    "chains": {
+      "path": "./data/chains.csv",
+      "description": "A CSV file with columns `chain_owner_city_id`, `service_city_id`, `order`. It defines the service rank chain for each city. For a given `chain_owner_city_id` (city i), the rows with this id list the `service_city_id`s in increasing order of service rank (indicated by `order`). The service cost for city i given an opened facility set equals the `order` of the first opened city appearing in its chain.\nData format:\n| chain_owner_city_id | service_city_id | order |\n| --- | --- | --- |\n| 0 | 0 | 0 |\n| 0 | 95 | 1 |\n| ... | ... | ... |"
+    }
+  },
+  "optimal_value": 423
+}

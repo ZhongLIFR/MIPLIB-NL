@@ -1,0 +1,22 @@
+{
+  "abstract_problem": "Assume you are the scheduling manager of a facility with N1 employees and N2 distinct shift patterns. Each employee must be assigned to exactly one shift pattern, and each shift pattern must be covered by at least one employee. There are two operational constraints for each shift: a total workload limit and a total labor cost limit. The workload contribution and labor cost of each employee vary depending on the shift they are assigned to, as shown in Table C1 and Table C2, respectively. The maximum allowed workload and labor cost for each shift are provided in Table C3. While covering all shifts is mandatory, strictly adhering to the limits is flexible but incurs penalties. Your goal is to assign employees to shifts in a way that minimizes the total violation (the sum of excess workload and excess cost) above the specified limits.",
+  "parameters": {
+    "N1": 35,
+    "N2": 24
+  },
+  "files": {
+    "files_1": {
+      "path": "data/C1.csv",
+      "description": "Table C1: Workload Coefficients. The rows represent the shift pattern IDs (1 to N2), and the columns represent the employee IDs (1 to N1). The value at the intersection represents the operational workload/burden contributed by a specific employee if assigned to a specific shift."
+    },
+    "files_2": {
+      "path": "data/C2.csv",
+      "description": "Table C2: Labor Cost Coefficients. The rows represent the shift pattern IDs (1 to N2), and the columns represent the employee IDs (1 to N1). The value at the intersection represents the financial cost incurred by a specific employee if assigned to a specific shift."
+    },
+    "files_3": {
+      "path": "data/C3.csv",
+      "description": "Table C3: Shift Limits. The first column is the shift pattern ID. The second column is the maximum allowed total workload for that shift. The third column is the maximum allowed total labor cost for that shift."
+    }
+  },
+  "optimal_value": 54.76
+}

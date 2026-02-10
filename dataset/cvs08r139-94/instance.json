@@ -1,0 +1,16 @@
+{
+  "abstract_problem": "The National Heritage Preservation Center manages a restoration initiative for {n} artifacts, which are categorized into {m} distinct historical collections. The mapping between artifacts and collections is provided in the file `project_teams` (note that a single artifact may be associated with multiple collections due to cross-cultural influences). The facility has installed {k} advanced Type-Z Preservation Chambers. Due to the delicate atmospheric controls required, each chamber has a strict physical limit of {c} artifacts. Artifacts that are not selected for these high-tech chambers will remain in the Standard Storage Depot. Artifacts with identification numbers divisible by 5 have been flagged for a specialized digital cataloging process scheduled for the next fiscal quarter. The operational cost for the Standard Storage Depot is calculated at 5 monetary units per item daily, while the Type-Z Chambers have a fixed daily operation fee. To maintain the 'Historical Resonance Integrity' necessary for accurate restoration, the center enforces a strict location protocol: For any specific historical collection, all items from that collection that are assigned to Type-Z Chambers must be housed within the SAME chamber. Placing items from one collection into a Type-Z Chamber and others from the same collection into the Standard Storage Depot is permitted, but scattering items of a single collection across multiple Type-Z Chambers is strictly prohibited to prevent cross-chamber calibration errors. Determine the maximum number of artifacts that can be successfully assigned to the Type-Z Preservation Chambers.",
+  "parameters": {
+    "n": 139,
+    "m": 94,
+    "k": 8,
+    "c": 21
+  },
+  "files": {
+    "project_teams": {
+      "path": "./data/project_teams.csv",
+      "description": "A CSV file with 2 columns. The first column `team_id` represents the project group (Hyperedge), and the second column `researcher_id` represents the researcher (Vertex). Each row indicates that the researcher belongs to the specified project group.\nData format:\n| team_id | researcher_id |\n| --- | --- |\n| 0 | 37 |\n| 0 | 60 |\n| ... | ... |"
+    }
+  },
+  "optimal_value": 116
+}

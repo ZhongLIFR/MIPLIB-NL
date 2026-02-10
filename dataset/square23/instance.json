@@ -1,0 +1,17 @@
+{
+  "abstract_problem": "An archaeological restoration project requires repaving the Great Courtyard of an ancient palace. Historical records indicate the courtyard measures exactly {courtyard_side} by {courtyard_side} royal cubits. The restoration must use square marble slabs, as was traditional.\n\nAncient craftsmen were known to use slabs of any whole-cubit size that could fit entirely within the courtyard walls. The slabs varied from small 1×1 cubit pieces to much larger pieces, limited only by the courtyard's dimensions - no slab could extend beyond the walls.\n\nThe restoration guidelines specify:\n- Complete floor coverage is mandatory - every point must have exactly one slab above it\n- Slabs must not overlap\n- All slab edges must be parallel to the courtyard walls\n- No cutting of slabs is permitted - only whole-cubit dimensions allowed\n\nThe project budget is calculated per slab placed, regardless of size, due to the equal labor required for positioning and leveling each piece. The restoration committee wishes to minimize the total project budget.\n\nThe contractor has provided an initial sampling of available slab types for inspection. Note that the quarry can supply any valid size upon request - the sample merely demonstrates quality options.",
+  "parameters": {
+    "courtyard_side": "23"
+  },
+  "files": {
+    "slab_samples": {
+      "path": "data/slab_samples.csv",
+      "description": "Sample slabs provided by the contractor for quality inspection. This is NOT an exhaustive list of available sizes - any whole-cubit size that fits within the courtyard can be ordered from the quarry.\n\nColumns:\n- sample_id: Unique identifier for each sample piece\n- slab_edge_length: Side length of the square slab in cubits (integer)\n- marble_type: Type of marble (C=Carrara, P=Pentelic, T=Thasian) - all types approved for restoration\n- polish_grade: Surface finish quality (1=rough, 2=smooth, 3=mirror) - aesthetic choice only\n- inspection_status: Quality check result (PASS/PENDING)\n\nData format:\n| sample_id | slab_edge_length | marble_type | polish_grade | inspection_status |\n|-----------|------------------|-------------|--------------|-------------------|\n| <string>  | <int>            | <string: C/P/T> | <int: 1-3>  | <string: PASS/PENDING> |"
+    },
+    "labor_rates": {
+      "path": "data/labor_rates.csv",
+      "description": "Labor cost information from the contractor (provided for budgeting reference). The committee has confirmed that per-slab cost is uniform regardless of size.\n\nColumns:\n- task_code: Work task identifier\n- task_description: Description of labor activity\n- hourly_rate: Cost per hour in currency units\n- avg_hours_per_slab: Average hours needed per slab (size-independent)\n\nData format:\n| task_code | task_description | hourly_rate | avg_hours_per_slab |\n|-----------|------------------|-------------|--------------------||\n| <string>  | <string>         | <float>     | <float>            |"
+    }
+  },
+  "optimal_value": "13.0"
+}

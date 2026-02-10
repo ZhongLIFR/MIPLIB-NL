@@ -1,0 +1,27 @@
+{
+  "abstract_problem": "Assume you are a network optimization engineer responsible for managing a wireless communication system with N transmission channels (antennas). Each channel can be individually activated or deactivated. If activated, a channel can transmit at a continuous power level up to a hardware maximum limit. If deactivated, its power must be zero. The goal is to maximize the total network throughput, which is directly proportional to the total power output of all active channels.\n\nHowever, the system is subject to complex physical and regulatory constraints:\n1. **Regional Capacity Limits**: The channels are grouped into various overlapping sectors. For each sector, the sum of power of all channels within it cannot exceed a specific capacity threshold (3.0 or 4.0 units) to prevent overheating or signal saturation.\n2. **Interference Conflicts**: Certain pairs of channels are physically too close or operate on conflicting frequencies. For these pairs, at most one channel can be activated at a time (mutually exclusive).\n3. **Conditional Regulation (Master-Slave constraints)**: Certain channels act as 'Master' nodes. If a Master node is activated, a specific subset of other channels falls under a strict 'Low Power Mode', meaning their combined power cannot exceed a strict limit (4.0 units). If the Master node is inactive, this specific restriction is lifted.\n\nYou need to determine the activation status (on/off) and power level for each of the 156 channels to maximize total power while satisfying all constraints.",
+  "parameters": {
+    "N": 156,
+    "Max_Power_Per_Channel": 3.0,
+    "Big_M_Constant": 4096.0
+  },
+  "files": {
+    "files_1": {
+      "path": "data/capacity_constraints.csv",
+      "description": "Table defining the Regional Capacity Limits. The first column is the Constraint ID, the second column is the Limit Value (3.0 or 4.0), and the third column contains the list of Channel IDs belonging to this capacity group."
+    },
+    "files_2": {
+      "path": "data/interference_pairs.csv",
+      "description": "Table defining the Interference Conflicts. The first column is the ID of Channel A, and the second column is the ID of Channel B. These two channels are mutually exclusive; they cannot be active simultaneously."
+    },
+    "files_3": {
+      "path": "data/conditional_regulations.csv",
+      "description": "Table defining the Conditional Master-Slave Regulations. The first column is the 'Master' Channel ID (trigger). The second column is the list of 'Slave' Channel IDs. Logic: If the Master Channel is active, the sum of power of the Slave Channels plus the Master Channel must be <= 4.0."
+    },
+    "files_4": {
+      "path": "data/channel_hardware_specs.csv",
+      "description": "Table defining hardware linking specs. First column is Channel ID, second column is Max Power (3.0). This implies the relationship: Power_Level <= Max_Power * Activation_Status."
+    }
+  },
+  "optimal_value": 77
+}

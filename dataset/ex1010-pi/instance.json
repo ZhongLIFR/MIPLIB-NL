@@ -1,0 +1,14 @@
+{
+  "abstract_problem": "This is a set cover problem. We have N sets.The goal is to select the minimum number of sets such that each integer i from 1 to I is covered a number once. The sets available for selection are stored in sets S1 , and each set lists the integers it covers. Sets in S1 can only be selected 0 or 1 times. ",
+  "parameters": {
+    "I": 1468,
+    "N": 25200
+  },
+  "files": {
+    "files_1": {
+      "path": "data/S1.csv",
+      "description": "Each row in Table S1 represents a set. These sets can only be selected 0 or 1 times. If a set contains a certain integer, the corresponding column in Table S1 is 1; otherwise, it is 0."
+    }
+  },
+  "optimal_value": 233
+}

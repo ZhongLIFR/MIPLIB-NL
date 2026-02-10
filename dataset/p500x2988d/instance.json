@@ -1,0 +1,21 @@
+{
+  "abstract_problem": "A cloud infrastructure conglomerate is executing a strategic overhaul of its data transmission topology, designated as Project DeepLink. The network comprises {n} server clusters distributed across different geographical zones. Among these, {num_sources} clusters are designated as Master Data Origins (generating positive data streams), {num_refineries} clusters function as Archival Sinks (consuming data streams with negative net output values), and the remaining {num_trans} clusters operate as passive relay switches (zero net output). The precise data throughput requirements for each cluster are enumerated in the `nodes` table. The network engineering division has identified {m} potential fiber-optic transmission vectors connecting these clusters. The technical specifications and financial implications for each vector are provided in the `edges` table, which lists the 'fixed_cost' required to activate a dark fiber link and the 'flow_cost' incurred per petabyte of data transmitted. Operationally, server clusters with odd-numbered IDs utilize liquid cooling systems, resulting in a 15% reduction in ambient noise compared to the air-cooled even-numbered clusters. Furthermore, corporate branding policy dictates that any fiber link activated with a fixed construction cost exceeding the median of all potential links will be physically encased in a signature blue conduit for easy visual identification during site tours. Once a vector is activated by paying the fixed cost, the available bandwidth is technologically effectively infinite. Management requires a deployment plan that routes all data from Origins to Sinks. The annual maintenance budget is set at 12% of the initial activation fees and will be allocated in the fiscal forecast for the subsequent year. You are required to calculate the minimum immediate capital expenditure, defined as the sum of link activation fees and the specific data transmission costs for the current load.",
+  "parameters": {
+    "n": 500,
+    "m": 2928,
+    "num_sources": 1,
+    "num_trans": 493,
+    "num_refineries": 6
+  },
+  "files": {
+    "nodes": {
+      "path": "./data/nodes.csv",
+      "description": "A table of size n*2. The first column `id` contains node indices. The second column `value` contains numerical values indicating the net oil production of each node (positive for supply, negative for demand, 0 for transshipment).\nData format:\n| id | value |\n| --- | --- |\n| 0 | -1359.0 |\n| 1 | -326.0 |\n| ... | ... |"
+    },
+    "edges": {
+      "path": "./data/edges.csv",
+      "description": "A table of size m*5. Columns are `id_edge`, `source_node`, `target_node`, `flow_cost` (cost per unit flow), and `fixed_cost` (construction cost).\nData format:\n| id_edge | source_node | target_node | flow_cost | fixed_cost |\n| --- | --- | --- | --- | --- |\n| 0 | 1 | 194 | 0.0 | 1.0 |\n| 1 | 0 | 50 | 0.0 | 1.0 |\n| ... | ... | ... | ... | ... |"
+    }
+  },
+  "optimal_value": 6
+}

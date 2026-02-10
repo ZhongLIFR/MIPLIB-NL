@@ -1,0 +1,18 @@
+{
+  "abstract_problem": "You are a logistics scheduler faced with a massive selection problem. Instead of planning routes from scratch, you have a pool of N pre-generated 'Candidate Delivery Schedules' (Variables). Each schedule is a complete plan for a vehicle, with a calculated operational cost. On the other hand, you have M specific 'Service Requirements' (Constraints), such as 'Customer X must be visited' or 'Vehicle Y can only be used once'. Your task is to select a subset of these candidate schedules to ensure that every Service Requirement is met exactly once (sum of selected schedules = 1), while minimizing the total cost of the selected schedules.",
+  "parameters": {
+    "N": 20315,
+    "M": 39
+  },
+  "files": {
+    "files_1": {
+      "path": "data/C1.csv",
+      "description": "Table C1: The first column is the Candidate Route ID (Variable Name), and the second column is the Cost of executing this route (Objective Coefficient)."
+    },
+    "files_2": {
+      "path": "data/C2.csv",
+      "description": "Table C2: This table represents the coverage relationship between Routes and Requirements. It has two columns: 'Constraint_ID' and 'Covering_Route_ID'. If a row is (R1, C1), it means choosing Route C1 contributes to satisfying Requirement R1. The problem requires that for each Constraint_ID, the sum of selected Covering_Route_IDs equals 1."
+    }
+  },
+  "optimal_value": 12159.49283539698
+}

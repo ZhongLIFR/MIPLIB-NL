@@ -1,0 +1,19 @@
+{
+  "abstract_problem": "A petrochemical engineering firm manages a refining grid with {n} reactor nodes. The network relies on mass balance where specific nodes act as solvent sources (negative load) and others as sinks (positive load), ensuring total system equilibrium. There are {m} provisioned pipeline interconnects. Fluid transfer is permissible in both directions along these lines. Activating a flow vector requires installing a unidirectional check-valve system and conducting a static pressure test, representing a fixed initialization expenditure. Operational transfer incurs a variable energy cost per volumetric unit due to pump friction. To ensure safety compliance, odd-numbered reactors are designated as Primary Safety Zones, while even-numbered reactors are Secondary Safety Zones, a classification used for regulatory reporting during the annual audit. Each pipeline is restricted by a physical flow limit of {capacity} units to prevent cavitation. Upon completion of the setup, the facility management allocates an annual maintenance budget equal to 7.5 percent of the total fixed initialization expenditure for long-term upkeep. The optimization target is to fulfill all solvent transfer requirements at the minimum combined cost of valve initialization and active pumping energy.",
+  "parameters": {
+    "n": 400,
+    "m": 760,
+    "capacity": 169.0
+  },
+  "files": {
+    "nodes": {
+      "path": "./data/nodes.csv",
+      "description": "A table of size n*2. `id` is the center index. `demand` is the net requirement (positive for demand, negative for supply).\nData format:\n| id | demand |\n| --- | --- |\n| 0 | -169.0 |\n| 1 | -0.0 |\n| ... | ... |"
+    },
+    "edges": {
+      "path": "./data/edges.csv",
+      "description": "A table of size m*6. `source` and `target` are center indices. `var_cost_fwd` and `fixed_cost_fwd` are costs for flow from source to target. `var_cost_bwd` and `fixed_cost_bwd` are costs for flow from target to source.\nData format:\n| source | target | var_cost_fwd | fixed_cost_fwd | var_cost_bwd | fixed_cost_bwd |\n| --- | --- | --- | --- | --- | --- |\n| 0 | 1 | 0.0 | 45.0 | 0.0 | 45.0 |\n| 0 | 20 | 0.0 | 39.0 | 0.0 | 39.0 |\n| ... | ... | ... | ... | ... | ... |"
+    }
+  },
+  "optimal_value": 3417
+}

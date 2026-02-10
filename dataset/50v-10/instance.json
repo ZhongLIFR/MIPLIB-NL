@@ -1,0 +1,42 @@
+{
+  "abstract_problem": "The National Energy Infrastructure Bureau is overseeing the 'Grid Modernization Phase IV' project involving {n} strategic regional zones. The net energy balance (surplus or deficit) for each zone is detailed in the `cities` registry, where the aggregate generation matches the aggregate load across the network. To facilitate energy redistribution, {m} potential high-voltage transmission corridors have been surveyed between specific zones; the topological connectivity and physical length of these corridors are provided in the `distances` file. The project procurement catalog lists {k} distinct classes of transmission cables, featuring sequential rated capacities of {capacity} and corresponding material acquisition costs per unit length of {tariff}. Due to electromagnetic interference constraints on standard conductors, the first {k}-1 cable classes (those with lower capacities) are restricted to a single installation instance per corridor. However, the highest-capacity cable class utilizes advanced cryogenic shielding, allowing for a deployment density of up to {l} parallel lines per corridor. Operational safety protocols mandate that the active power flow through any deployed line must strictly adhere to its nameplate capacity rating. Furthermore, corridors exceeding a length of 50 units are designated as 'Long-Haul' sectors requiring red aviation warning paint, while shorter corridors are designated as 'Local' sectors requiring gray protective coating. Upon project completion, the network operator will allocate an annual maintenance budget equivalent to 8% of the total installation value to ensure grid stability. Calculate the minimum total capital expenditure required for the physical lines to balance the regional energy demands.",
+  "parameters": {
+    "n": 50,
+    "m": 183,
+    "k": 9,
+    "l": 212,
+    "capacity": [
+      6,
+      12,
+      24,
+      36,
+      48,
+      72,
+      96,
+      144,
+      216
+    ],
+    "tariff": [
+      0.55,
+      0.73,
+      1.03,
+      1.39,
+      1.67,
+      2.31,
+      3.03,
+      4.37,
+      6.33
+    ]
+  },
+  "files": {
+    "cities": {
+      "path": "./data/cities.csv",
+      "description": "A table of size n*2. The first column `id` contains sequential numbers from 1 to n, representing city indices. The second column `value` contains numerical values indicating the net electricity generation of each city. The data ensures that the sum of net electricity generation across all cities equals zero.\nData format:\n| id | value |\n| --- | --- |\n| 1 | 1347 |\n| 2 | 0 |\n| ... | ... |"
+    },
+    "distances": {
+      "path": "./data/distances.csv",
+      "description": "A table of size m*3, where each row (id1, id2, d) indicates that a power line can be laid between city id1 and city id2 with a length of d.\nData format:\n| id1 | id2 | d |\n| --- | --- | --- |\n| 1 | 4 | 111 |\n| 1 | 5 | 25 |\n| ... | ... | ... |"
+    }
+  },
+  "optimal_value": 3311.18
+}

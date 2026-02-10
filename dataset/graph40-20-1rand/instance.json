@@ -1,0 +1,14 @@
+{
+  "abstract_problem": "A critical infrastructure protection project involves a network of {n} distinct processing nodes and {m} physical transmission conduits. The system architecture requires the implementation of multiple parallel 'Cyber-Physical Segmentation Layers' (CPSLs) to achieve depth-in-defense. Each CPSL is defined as a topological partition that strictly separates the entire set of nodes into two disjoint operational domains (Domain Alpha and Domain Beta), necessitating the deployment of hardware-based traffic inspection probes on every conduit bridging these two domains. Nodes are categorized into Primary and Secondary tiers based on their processing throughput, where Primary nodes account for approximately 35% of the total energy consumption. Physical constraints on the conduit interface ports dictate that each transmission conduit can accommodate the hardware for exactly one inspection probe, meaning a conduit assigned to one CPSL cannot be utilized by another. The deployment of each probe incurs a signal latency penalty of 0.4ms and a capital expenditure of 1,500 units. The objective is to determine the theoretical upper limit of the number of independent CPSLs that can be simultaneously active within the network without any conduit resource conflicts.",
+  "parameters": {
+    "n": 40,
+    "m": 151
+  },
+  "files": {
+    "network_topology": {
+      "path": "./data/network_topology.csv",
+      "description": "A CSV file describing the undirected graph structure of the network. It contains two columns: `id1` and `id2`, representing a fiber optic link between two stations.\nData format:\n| id1 | id2 |\n| --- | --- |\n| 0 | 1 |\n| 0 | 2 |\n| ... | ... |"
+    }
+  },
+  "optimal_value": 15
+}

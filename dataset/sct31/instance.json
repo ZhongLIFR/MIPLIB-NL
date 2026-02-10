@@ -1,0 +1,56 @@
+{
+  "abstract_problem": "A PCB manufacturer wants to configure an assembly line so that {num_operations} production operations can be processed with a fixed menu of {num_station_options} workstation options. For every operation, its full workload share must be allocated across the allowed workstation options so the shares add up to one. Some workstation options behave like \"all-or-nothing lanes\" (they can either take the full share of an operation or take none of it), while others behave like \"splittable lanes\" where the workload can be divided. In the data, station_type_id uses 0 for all-or-nothing lanes and 1 for splittable lanes; assignment_type_id follows the same convention.\n\nSome workstation options have fixed capacity. Others draw from a flexible capacity pool that grows with a staffing proxy (crew units). Increasing crew units increases usable capacity for those flexible stations but is discouraged by a staffing penalty weight {objective_staffing_weight}.\n\nBecause the factory produces multiple board variants, the same routing plan must remain workable across {num_variants} representative variants. For each variant, the plan is evaluated at {num_checkpoints} internal checkpoints that reflect different limiting mechanisms inside the line. Each checkpoint indicator is bounded above by a physical upper limit of {checkpoint_upper_bound} (the original instance does not require these indicators to be nonnegative). Checkpoints are also weighted (by checkpoint_id) using the weights provided in a data file.\n\nSupervisors can also issue a small number of priority accelerations. Across the whole plan, at most {priority_budget} priority tokens may be used, and each token can only be applied to discrete routing choices that are marked priority_eligible in the data. Using a token removes that routed choice's burden from the second checkpoint family (the budget-style family) for the affected checkpoints.\n\nIn addition to the checkpoint logic, the line also has {num_policy_checks} internal policy checks that enforce minimum/maximum aggregated requirements over selected discrete choices. These checks represent extra coverage or compliance requirements that are not expressed as per-checkpoint indicators.\n\nTwo checkpoint families are enforced. Their per-(variant, checkpoint) rules are stored with an explicit inequality direction sense_id (0 means \"<=\", 1 means \">=\"). For family 1, the enforced rule is based on (total routed contribution) minus (denominator × checkpoint indicator), compared against the given rhs. For family 2, the enforced rule is based on (budget_coefficient × checkpoint indicator) plus (total routed contribution after priority relief), compared against the given rhs. Only the (operation, station) pairs listed in routing.csv are available choices; combinations not listed should be treated as unavailable.\n\nThe objective balances five numeric levers from the original instance: (1) staffing penalty weight {objective_staffing_weight}, (2) a minimum-checkpoint incentive weight {objective_min_checkpoint_weight}, (3) two aggregated checkpoint incentive weights {objective_aggregate_1_weight} and {objective_aggregate_2_weight}, and (4) a discrete-routing score incentive weight {objective_discrete_routing_score_weight}. The overall cost is minimized: higher staffing increases the cost, while better checkpoint summary outcomes and higher-scored discrete routing choices reduce the cost according to these weights.",
+  "parameters": {
+    "num_operations": 552,
+    "num_station_options": 10,
+    "num_variants": 5,
+    "num_checkpoints": 23,
+    "checkpoint_upper_bound": 0.15,
+    "priority_budget": 10,
+    "objective_staffing_weight": 14.8515,
+    "objective_min_checkpoint_weight": 20.0,
+    "objective_aggregate_1_weight": 1000.0,
+    "objective_aggregate_2_weight": 500.0,
+    "objective_discrete_routing_score_weight": 0.026441,
+    "num_policy_checks": 31
+  },
+  "files": {
+    "stations": {
+      "path": "data/stations.csv",
+      "description": "Workstation option catalog and capacity rules. Each row is one station option and includes: an integer lane type id, a fixed base capacity, and an optional incremental capacity per crew unit (used only by stations that share the staffing proxy).\n\nData format: | station_id | station_type_id | base_capacity | crew_capacity_per_unit |\n|----------:|:------------|:--------------|:-----------------------|\n| <int>     | <int>        | <float>       | <float>                |\n| ...       | ...          | ...           | ...                    |"
+    },
+    "routing": {
+      "path": "data/routing.csv",
+      "description": "Allowed processing choices for each operation. Each row defines one permitted (operation, station) option and includes: an integer assignment type id (discrete vs. splittable), the workload induced at the selected station, a flag indicating whether the option can receive a priority token, and an optional score used only for discrete options (left empty for non-discrete options).\n\nData format: | operation_id | station_id | assignment_type_id | workload_units | priority_eligible | workcontent_score |\n|------------:|----------:|:-------------------|:--------------|:------------------|:-----------------|\n| <int>       | <int>     | <int>              | <float>       | <int>             | <float or empty> |\n| ...         | ...       | ...                | ...           | ...               | ...              |"
+    },
+    "checkpoint_weights": {
+      "path": "data/checkpoint_weights.csv",
+      "description": "Checkpoint weights used to build weighted checkpoint aggregations. Each row assigns a weight to one checkpoint id.\n\nData format: | checkpoint_id | weight |\n|--------------:|:------|\n| <int>         | <float> |\n| ...           | ...     |"
+    },
+    "rate_denominators": {
+      "path": "data/rate_denominators.csv",
+      "description": "Checkpoint-family-1 metadata by variant and checkpoint. Each row stores the scaling coefficient applied to the checkpoint indicator, plus the right-hand-side constant and inequality direction for the corresponding checkpoint rule.\n\nData format: | variant_id | checkpoint_id | denominator | rhs | sense_id |\n|----------:|--------------:|:-----------|:----|:--------|\n| <int>     | <int>         | <float>    | <float> | <int> |\n| ...       | ...           | ...        | ...     | ...   |"
+    },
+    "rate_contributions": {
+      "path": "data/rate_contributions.csv",
+      "description": "Sparse contribution coefficients that link routing choices to checkpoint-family-1 rules. Each row gives the coefficient of one allowed (operation, station) routing option inside one (variant, checkpoint) rule.\n\nData format: | variant_id | checkpoint_id | operation_id | station_id | coefficient |\n|----------:|--------------:|------------:|----------:|:-----------|\n| <int>     | <int>         | <int>       | <int>     | <float>    |\n| ...       | ...           | ...         | ...       | ...        |"
+    },
+    "budget_meta": {
+      "path": "data/budget_meta.csv",
+      "description": "Checkpoint-family-2 metadata by variant and checkpoint. Each row stores the coefficient applied to the checkpoint indicator, plus the right-hand-side constant and inequality direction for the corresponding checkpoint rule.\n\nData format: | variant_id | checkpoint_id | budget_coefficient | rhs | sense_id |\n|----------:|--------------:|:------------------|:----|:--------|\n| <int>     | <int>         | <float>           | <float> | <int> |\n| ...       | ...           | ...               | ...     | ...   |"
+    },
+    "budget_contributions": {
+      "path": "data/budget_contributions.csv",
+      "description": "Sparse contribution coefficients that link routing choices to checkpoint-family-2 rules. Each row gives the coefficient of one allowed (operation, station) routing option inside one (variant, checkpoint) rule. Priority usage removes the same contribution for eligible discrete options, following the reference model.\n\nData format: | variant_id | checkpoint_id | operation_id | station_id | coefficient |\n|----------:|--------------:|------------:|----------:|:-----------|\n| <int>     | <int>         | <int>       | <int>     | <float>    |\n| ...       | ...           | ...         | ...       | ...        |"
+    },
+    "policy_meta": {
+      "path": "data/policy_meta.csv",
+      "description": "Per-policy metadata for additional line-side policy checks. Each row defines one policy check by storing the right-hand-side constant and the inequality direction sense_id.\n\nData format: | requirement_id | rhs | sense_id |\n|---------------:|:----|:--------|\n| <int>          | <float> | <int> |\n| ...            | ...  | ...     |"
+    },
+    "policy_contributions": {
+      "path": "data/policy_contributions.csv",
+      "description": "Sparse contribution coefficients that link discrete routing choices to the policy checks. Each row gives the coefficient of one allowed (operation, station) routing option inside one policy check.\n\nData format: | requirement_id | operation_id | station_id | coefficient |\n|---------------:|------------:|----------:|:-----------|\n| <int>          | <int>       | <int>     | <float>    |\n| ...            | ...         | ...       | ...        |"
+    }
+  },
+  "optimal_value": "-29.31709163566364"
+}

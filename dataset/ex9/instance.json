@@ -1,0 +1,13 @@
+{
+  "abstract_problem": "We are engineering the layout for a {n}*{n} wafer-scale processor array. The system comprises square micro-processing modules, each featuring four connection ports labeled Top, Right, Bottom, and Left. The file `numbers` specifies the signal protocol ID for each port of every module. A protocol ID of 0 signifies a thermal exhaust port. To ensure proper heat dissipation, these exhaust ports must be positioned facing the external perimeter of the array chassis. Positive integer IDs represent high-speed data bus channels; for a valid connection, the touching ports of any two adjacent modules must share the identical bus channel ID. The modules are manufactured on a rigid substrate and cannot be flipped over, yet the assembly process requires determining the correct orientation for each module within its assigned slot. Based on the thermal design power (TDP) constraints, the inventory strictly contains 4 corner modules (two exhaust ports), 4*{n}-8 perimeter modules (one exhaust port), and ({n}-2)^2 core modules (no exhaust ports). Modules with Prime Number IDs are fabricated using a 7nm process, while composite IDs use a 14nm process; 7nm modules reduce the localized voltage requirement by 0.05V. The total power draw is calculated as the sum of all active bus channel IDs multiplied by the voltage coefficient. Find a valid array configuration. The objective is to maximize the number of modules successfully integrated into the chassis complying with all port compatibility and boundary thermal rules.",
+  "parameters": {
+    "n": 9
+  },
+  "files": {
+    "numbers": {
+      "path": "./data/numbers.csv",
+      "description": "A table containing the edge values for each puzzle piece. The columns are `piece_id`, `top_edge`, `right_edge`, `bottom_edge`, and `left_edge`. `0` represents a boundary edge, while positive integers represent internal edge marks that must match with adjacent pieces.\nData format:\n| piece_id | top_edge | right_edge | bottom_edge | left_edge |\n| --- | --- | --- | --- | --- |\n| 0 | 9 | 15 | 20 | 9 |\n| 1 | 19 | 16 | 0 | 28 |\n| ... | ... | ... | ... | ... |"
+    }
+  },
+  "optimal_value": 81
+}

@@ -1,0 +1,33 @@
+{
+  "abstract_problem": "A leading cloud infrastructure provider is orchestrating the resource allocation for a suite of mission-critical enterprise applications hosted on its serverless platform. The objective is to configure the provisioning levels for a vast array of distinct microservices while simultaneously managing the deployment of underlying compute instances across various time windows. The goal is to harmonize the 'service depth' the processing capacity assigned to each application function with the 'infrastructure cadence' the active server fleet available during specific operational intervals.\n\nThis is a delicate balancing act: every application module has a minimum performance baseline and a maximum scaling limit, and the underlying hardware pool has its own elasticity boundaries. The orchestration engine faces a dual constraint landscape: vertically, each microservice must operate within a defined capacity corridor, and horizontally, the shared infrastructure pool dictates strict availability windows for compute resources. The core algorithmic challenge is to solve for the optimal configuration where the weighted contribution of active services and deployed instances converges to satisfy a series of rigorous demand checkpoints. Success is defined by the precise alignment of these diverse resource streams to meet every Service Level Agreement (SLA) target with zero deficit, all while driving the cumulative operational expenditure (OpEx) of the deployed architecture to its mathematical minimum.",
+  "parameters": {
+    "num_services": "226",
+    "num_frequencies": "171",
+    "num_constraints": "171",
+    "frequency_coefficient": "-60",
+    "num_nonzeros": "829"
+  },
+  "files": {
+    "services": {
+      "path": "data/services.csv",
+      "description": "Service route information containing details about each transit service route, including service capacity limits and operational costs. Total service routes: 226. Data format: | service_id | lower_bound | upper_bound | cost |\n|------------|-------------|-------------|---------|\n| x1         | 0.0         | 4.0         | 1001.0  |\n| x2         | 0.0         | 54.0        | 0.0     |\n| x3         | 0.0         | 54.0        | 0.0     |\n| ...        | ...         | ...         | ...     |"
+    },
+    "frequencies": {
+      "path": "data/frequencies.csv",
+      "description": "Vehicle deployment information specifying how many vehicles can be deployed during different service periods. Total deployment periods: 171. Data format: | freq_id | lower_bound | upper_bound |\n|---------|-------------|-------------|\n| x227    | 0.0         | 4.0         |\n| x228    | 0.0         | 0.0         |\n| x229    | 0.0         | 2.0         |\n| ...     | ...         | ...         |"
+    },
+    "constraints": {
+      "path": "data/constraints.csv",
+      "description": "Service requirement constraints defining passenger service requirements at different times and locations. Total service requirements: 171. Data format: | constraint_id | sense | rhs    |\n|---------------|-------|--------|\n| c1            | =     | -35.0  |\n| c2            | =     | -1.0   |\n| c3            | =     | -115.0 |\n| ...           | ...   | ...    |"
+    },
+    "service_constraints": {
+      "path": "data/service_constraints.csv",
+      "description": "Service-vehicle relationship mapping defining how services and vehicle deployments combine to meet service requirements. Total relationships: 829 service-vehicle requirement mappings. Data format: | constraint_id | variable_id | coefficient |\n|---------------|-------------|-------------|\n| c1            | x1          | 1.0         |\n| c1            | x4          | 1.0         |\n| c1            | x227        | -60.0       |\n| ...           | ...         | ...         |"
+    },
+    "parameters": {
+      "path": "data/parameters.csv",
+      "description": "Planning parameters containing system-level planning parameters in transposed format (first row: parameter names, second row: values). Parameter names: num_services, num_frequencies, num_constraints, frequency_coefficient, objective_sense. Data format: | num_services | num_frequencies | num_constraints | frequency_coefficient | objective_sense |\n|--------------|-----------------|-----------------|----------------------|----------------|\n| 226          | 171             | 171             | -60                  | minimize       |"
+    }
+  },
+  "optimal_value": 764772.0
+}

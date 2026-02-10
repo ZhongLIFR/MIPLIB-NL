@@ -1,0 +1,36 @@
+{
+  "abstract_problem": "An enterprise IT solutions provider is optimizing its service delivery portfolio to better align with the evolving needs of its diverse client base. The central task is to curate a strategic selection of technical support modules,standardized problem-solving protocols,that can be deployed across the organization's service infrastructure. Management aims to construct a robust support framework that guarantees every unique client requirement is met with sufficient expertise, all while keeping the overhead of maintaining these active support modules within a tight budget.\n\nThe operational dynamics are complex: each support module comes with a specific deployment cost but offers varying degrees of effectiveness in addressing different client needs. Furthermore, client requirements are not binary; they have specific thresholds of satisfaction that must be cumulatively met by the combined capabilities of the deployed modules. Therefore, the decision-making process must navigate a multidimensional landscape to identify the most cost-efficient combination of modules. The goal is to ensure that the aggregate problem-solving power of the selected portfolio meets or exceeds the minimum service levels demanded by every client requirement, thereby delivering a comprehensive support solution without unnecessary expenditure.",
+  "parameters": {
+    "num_cases": 24,
+    "num_requirements": 7534,
+    "num_coverage_relationships": 95283,
+    "matrix_density": 0.527,
+    "zero_cost_cases": 17,
+    "cost_cases": 7,
+    "max_cost": 64,
+    "threshold_range_min": -10,
+    "threshold_range_max": 25,
+    "avg_threshold": 8.5,
+    "avg_cases_per_requirement": 12.6,
+    "avg_requirements_per_case": 3970.0
+  },
+  "files": {
+    "cases": {
+      "path": "data/cases.csv",
+      "description": "Technical support cases information with columns: case_id, case_name, deployment_cost, original_var_name, description. Data format: | case_id | case_name | deployment_cost | original_var_name | description |\n|---|---|---|---|---|\n| C001 | Technical_Support_Case_C001 | 1 | x1 | Technical support case C001 |\n| C002 | Technical_Support_Case_C002 | 2 | x2 | Technical support case C002 |\n| ... | ... | ... | ... | ... |"
+    },
+    "requirements": {
+      "path": "data/requirements.csv",
+      "description": "Customer requirements information with columns: requirement_id, requirement_name, coverage_threshold, original_constr_name, description. Data format: | requirement_id | requirement_name | coverage_threshold | original_constr_name | description |\n|---|---|---|---|---|\n| R000001 | Customer_Requirement_1 | 22 | c1 | Customer requirement 1 |\n| R000002 | Customer_Requirement_2 | 3 | c2 | Customer requirement 2 |\n| ... | ... | ... | ... | ... |"
+    },
+    "coverage": {
+      "path": "data/coverage.csv",
+      "description": "Coverage relationships information with columns: case_id, requirement_id, coverage_value. Data format: | case_id | requirement_id | coverage_value |\n|---|---|---|\n| C001 | R000001 | 3 |\n| C001 | R000002 | 2 |\n| ... | ... | ... |"
+    },
+    "parameter": {
+      "path": "data/parameter.csv",
+      "description": "System parameters in key-value format (no header). First column contains parameter names, second column contains values. Data format: | parameter_name | parameter_value |\n|---|---|\n| num_cases | 24 |\n| num_requirements | 7534 |\n| ... | ... |"
+    }
+  },
+  "optimal_value": 20
+}

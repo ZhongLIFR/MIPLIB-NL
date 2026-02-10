@@ -1,0 +1,25 @@
+{
+  "abstract_problem": "A national consumer brand plans a multi-region campaign across {M} regional markets. The brand can purchase {B} pre-negotiated media bundles. If a bundle is purchased, it delivers a fixed number of standardized exposure units in every region (the delivered units per bundle and region are given in the data). Exposures add up linearly across selected bundles, and each bundle can be purchased at most once. Each region has a target of exposures to reach during the campaign (targets range from {target_min} to {target_max}, total {target_total}). Because of contractual limits and over-saturation concerns, the brand is not allowed to exceed any regional target. If a region falls short of its target, the shortfall is recorded as an unmet-demand variable and incurs a penalty of {penalty_per_unit} per unit. Bundles have no direct purchase cost in this instance, so the decision is to select which bundles to buy to minimize total unmet exposure across all regions.",
+  "parameters": {
+    "M": "6",
+    "B": "50",
+    "target_total": "7286",
+    "target_min": "1116",
+    "target_max": "1353",
+    "bundle_units_min": "1",
+    "bundle_units_max": "99",
+    "penalty_per_unit": "1",
+    "M_minus_1": "5"
+  },
+  "files": {
+    "markets": {
+      "path": "data/markets.csv",
+      "description": "Regional market targets table with {M} rows. Each row defines one market and the target exposure that should not be exceeded.\n\nColumns:\n- `market_id` (int): 0-based market index used by other files.\n- `market_name` (str): human-friendly label for the market.\n- `target_units` (int): target exposure units for the market.\n\nData format:\n| market_id | market_name | target_units |\n|---:|---|---:|\n| 0 | Region 1 | 1116 |\n"
+    },
+    "packages": {
+      "path": "data/packages.csv",
+      "description": "Media bundle supply matrix with {B} rows. Selecting a bundle delivers a fixed amount of exposure to every market. The model uses one binary decision per row: buy (1) or not buy (0).\n\nColumns:\n- `package_id` (int): 0-based bundle index.\n- `package_name` (str): human-friendly label for the bundle.\n- `market_0` .. `market_{M_minus_1}` (int): exposure units delivered to market `market_id` if the bundle is selected. Market indices correspond to `markets.csv`. Values are nonnegative integers.\n\nData format:\n| package_id | package_name | market_0 | market_1 | ... |\n|---:|---|---:|---:|---|\n| 0 | Bundle 1 | 25 | 97 | ... |\n"
+    }
+  },
+  "optimal_value": "1"
+}

@@ -1,0 +1,16 @@
+{
+  "abstract_problem": "A smart city has designated a core security area that includes M key surveillance points (such as major crossroads, squares, subway entrances, etc.). To ensure the security of these areas, the security center has deployed N automated drone takeoff and landing hangars around the area, with each hangar either enabled or disabled (corresponding to an investment volume of 0 or 1). Due to physical limitations of geographical location and perspective, each key surveillance point can only be covered by drones from specific several hangars. For example, surveillance point A1 can only be covered by Hangars 03, 04, or 06. The coverage requirements for each surveillance point are shown in Table S1.csv. In addition, the total investment volume of all 9 hangars must be at least K1 (equivalent to having the computing/transport capacity of at least K1 fully operational hangars), and the total investment volume of all 9 hangars must not exceed K2. On the premise of satisfying the seamless surveillance of all N locations and meeting the system's total capacity limit (between K1 and K2), minimize the total investment degree of all hangars.If feasible, output the optimal value; if infeasible, output 'infeasible'",
+  "parameters": {
+    "M": 15,
+    "N": 35,
+    "K1": 7.0,
+    "K2": 8.0
+  },
+  "files": {
+    "files_1": {
+      "path": "data/S1.csv",
+      "description": "Each row in Table S1 represents a monitoring location, followed by the numbers of the hangars that can cover the location."
+    }
+  },
+  "optimal_value": "infeasible"
+}

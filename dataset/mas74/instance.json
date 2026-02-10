@@ -1,0 +1,25 @@
+{
+  "abstract_problem": "A paper mill needs to fulfill customer demand for {M} different finished-width item types. Each jumbo roll can be processed according to one of {N} pre-approved cutting plans; a plan specifies how much of each item type would be obtained if that single roll is cut in that particular way.\n\nIn the planning period, the mill can schedule at most {R} jumbo rolls using these pre-approved plans. For each plan, the decision is whether to use it (at most once) or not. Selecting a plan incurs a small fixed processing cost of {regular_plan_cost}. The total supply of each item type is the sum of the outputs from all selected plans.\n\nIf, after selecting up to {R} plans, some item types are still short, the mill can rely on an extremely expensive emergency purchase option. This emergency option behaves like buying a standardized “assortment pack”: every unit purchased provides one additional unit of every item type simultaneously. Its unit cost is {penalty_pattern_cost}, far higher than the cost of any regular plan, so it is used only to cover any remaining gaps.\n\nThe goal is to choose which cutting plans to use and how much emergency supply to purchase so that all demands are met at minimum total cost.",
+  "parameters": {
+    "N": "150",
+    "M": "12",
+    "R": "20",
+    "regular_plan_cost": "0.00001",
+    "penalty_pattern_cost": "1.0"
+  },
+  "files": {
+    "items": {
+      "path": "data/items.csv",
+      "description": "Demand requirements for each finished-width item type. Each row describes one item type and how much total quantity must be supplied over the planning period.\n\nData format: | item_id | demand |\n|--------:|:------|\n| <int>   | <float> |\n| ...     | ...    |"
+    },
+    "patterns": {
+      "path": "data/patterns.csv",
+      "description": "Pre-approved cutting plans. Each row represents one plan that can be applied to a single jumbo roll, and the columns list how much of each item type would be produced if that plan is selected. The first column is the plan identifier, followed by one production-quantity column per item type.\n\nData format: | pattern_id | item_0 | item_1 | ... |\n|----------:|:------|:------|:---|\n| <int>     | <float> | <float> | ... |\n| ...       | ...   | ...   | ... |"
+    },
+    "parameters": {
+      "path": "data/parameters.csv",
+      "description": "Problem parameters including capacity limits and costs.\n\nData format: | parameter | value |\n|:---|:---|\n| R | <int> |\n| regular_plan_cost | <float> |\n| penalty_pattern_cost | <float> |\n| N | <int> |\n| M | <int> |"
+    }
+  },
+  "optimal_value": "11801.18572"
+}

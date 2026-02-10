@@ -1,0 +1,16 @@
+{
+  "abstract_problem": "A secure research facility has {n} researchers belonging to {m} different project groups. The membership structure is detailed in the file `project_teams` (a researcher can belong to multiple groups). The facility contains {k} enclosed secure labs. Due to ventilation and security constraints, each lab can accommodate at most {c} researchers. To maximize security, the goal is to assign as many researchers as possible to these secure labs. Researchers who cannot be assigned to a lab must work in the 'Public Hall'. To ensure collaboration efficiency and prevent unauthorized cross-lab data flow, the following rule must be strictly followed: **For any given project group, all members assigned to secure labs must be placed in the SAME lab.** (i.e., members of the same group cannot be split across different secure labs; they must either be in the designated lab for that group or in the Public Hall). Find the maximum number of researchers that can be assigned to the secure labs under these constraints.",
+  "parameters": {
+    "n": 106,
+    "m": 72,
+    "k": 16,
+    "c": 8
+  },
+  "files": {
+    "project_teams": {
+      "path": "./data/project_teams.csv",
+      "description": "A CSV file with 2 columns. The first column `team_id` represents the project group (Hyperedge), and the second column `researcher_id` represents the researcher (Vertex). Each row indicates that the researcher belongs to the specified project group.\nData format:\n| team_id | researcher_id |\n| --- | --- |\n| 0 | 15 |\n| 0 | 22 |\n| ... | ... |"
+    }
+  },
+  "optimal_value": 81
+}

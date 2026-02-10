@@ -1,0 +1,30 @@
+{
+  "abstract_problem": "In the context of the \"Nebula\" Global Distributed Data Center Resource Management project, you are tasked with orchestrating the operations of {n} server clusters. Each cluster possesses a defined base power threshold derived from its local substation configuration. The clusters are geographically distributed, with odd-numbered IDs situated in high-latency zones and even-numbered IDs in low-latency zones, affecting the theoretical maximum throughput of data synchronization layers. The primary objective is to maximize the net operational surplus for the current fiscal quarter. Strategic decisions involve the optional deployment of a dedicated \"Titan\" High-Performance Computing (HPC) unit at each cluster location. While lucrative, these units impose significant localized power burdens. Concurrently, the network must handle {m} distinct classes of distributed microservice workloads. Scaling these workloads is a global parameter; instantiating one batch of a specific microservice class propagates a distinct power load profile across every cluster in the network simultaneously due to the nature of distributed tensor processing. Market saturation limits the total batch count for each microservice class. To augment the baseline infrastructure, the engineering team has proposed {k} variants of Global Power Efficiency Algorithms. These are continuous investment opportunities where a single unit of investment universally elevates the power ceiling of all clusters by 1 unit. Algorithms developed by the \"Alpha\" team (IDs 1-5) are subject to stricter regulatory audits next year. Furthermore, to handle peak loads, facility managers may lease auxiliary diesel power units for individual clusters. Each unit supplies {generator_capacity} capacity at a lease price of {generator_cost}, subject to a physical footprint cap of {max_generators} units per cluster. Note that the amortization of the base infrastructure is calculated over a 10-year horizon, and the auxiliary units emit 2.5kg of CO2 per hour. The optimization target is the summation of HPC unit revenues and microservice workload revenues, subtracting the expenditures on Global Power Efficiency Algorithms and auxiliary power unit leases.",
+  "parameters": {
+    "n": 75,
+    "m": 100,
+    "k": 20,
+    "generator_capacity": 100,
+    "generator_cost": 100,
+    "max_generators": 100
+  },
+  "files": {
+    "stations": {
+      "path": "./data/stations.csv",
+      "description": "Contains station details: `id`, `lab_value` (profit from activating lab), `lab_load` (capacity consumed by lab), `base_capacity` (initial capacity of station).\nData format:\n| id | lab_value | lab_load | base_capacity |\n| --- | --- | --- | --- |\n| 1 | 1053.0 | 1300.0 | 957.0 |\n| 2 | 1580.0 | 1600.0 | 965.0 |\n| ... | ... | ... | ... |"
+    },
+    "products": {
+      "path": "./data/products.csv",
+      "description": "Contains product details: `id`, `unit_value` (profit per batch), `max_batches` (global production limit).\nData format:\n| id | unit_value | max_batches |\n| --- | --- | --- |\n| 1 | 52.0 | 3 |\n| 2 | 207.0 | 2 |\n| ... | ... | ... |"
+    },
+    "production_consumption": {
+      "path": "./data/production_consumption.csv",
+      "description": "Defines the capacity consumption. Columns: `station_id`, `product_id`, `load`. Indicates that producing one batch of `product_id` consumes `load` capacity on `station_id`.\nData format:\n| station_id | product_id | load |\n| --- | --- | --- |\n| 1 | 1 | 218.0 |\n| 1 | 2 | 289.0 |\n| ... | ... | ... |"
+    },
+    "global_systems": {
+      "path": "./data/global_systems.csv",
+      "description": "Contains global system details: `id`, `cost` (per unit level), `max_level` (upper bound). Each unit level increases all stations' capacity by 1.\nData format:\n| id | cost | max_level |\n| --- | --- | --- |\n| 1 | 155.0 | 3 |\n| 2 | 107.0 | 3 |\n| ... | ... | ... |"
+    }
+  },
+  "optimal_value": 51532
+}

@@ -1,0 +1,19 @@
+{
+  "abstract_problem": "The Global Eco-Sustainability Initiative is commissioning a subterranean sensor grid to monitor seismic activities across {n_cities} potential sites. Among these, {n_core_centers} locations are designated as Priority Hubs (listed in `core_cities`) which require uninterrupted data synchronization with each other. The remaining sites can serve as passive signal repeaters if necessary to bridge connections between hubs. Preliminary geological surveys have identified {n_possible_links} feasible tunneling paths between site pairs, with distances specified in `city_distances`. To ensure regulatory compliance, sites with even indices are classified as Type-A geological zones requiring specific environmental impact filings prior to groundbreaking, while odd-indexed sites are Type-B zones. Furthermore, the 20-year operational roadmap dictates that annual maintenance costs will be levied at a rate of 12.5% of the total installed infrastructure length. The engineering team is tasked with determining the layout for the initial excavation phase. Determine the minimum total length of tunneling required to physically interconnect all Priority Hubs.",
+  "parameters": {
+    "n_cities": 231,
+    "n_core_centers": 50,
+    "n_possible_links": 26565
+  },
+  "files": {
+    "city_distances": {
+      "path": "./data/city_distances.csv",
+      "description": "A table of size {n_possible_links}x3, where each row represents a potential line between a pair of cities. The first column `city1` and the second column `city2` contain city indices (from 0 to {n_cities}-1). The third column `distance` is the distance in kilometers between these two cities.\nData format:\n| city1 | city2 | distance |\n| --- | --- | --- |\n| 0 | 1 | 1415.0 |\n| 0 | 2 | 2264.0 |\n| ... | ... | ... |"
+    },
+    "core_cities": {
+      "path": "./data/core_cities.csv",
+      "description": "A table of size {n_core_centers} x 1. The `city_id` column contains the indices of the 50 cities that host a core data center.\nData format:\n| city_id |\n| --- |\n| 0 |\n| 1 |\n| ... |"
+    }
+  },
+  "optimal_value": 40417
+}

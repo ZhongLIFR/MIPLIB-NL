@@ -1,0 +1,24 @@
+{
+  "abstract_problem": "A constellation of {n} satellite edge computing nodes performs a multi-phase analysis pipeline involving {m} distinct algorithmic steps. Each node operates under a strict active duty cycle limit (refer to `machine_capacities`) determined by onboard battery specifications. Nodes positioned in high-radiation orbital zones (specifically those with indices divisible by 3) are equipped with enhanced lead shielding, increasing their physical mass by 12%, though their computational logic remains identical to standard nodes. When scheduling the processing pipeline, the handover latency between any two consecutive algorithmic steps must be strictly managed to prevent data feature decay; specifically, the idle time separating adjacent steps cannot exceed {time_limit}. Executing a specific algorithm on a node incurs a kernel boot-up overhead (see `fixed_cost` in `task_parameters`) followed by a computation duration strictly proportional to the data volume processed (see `unit_cost` in `task_parameters`). While the thermal regulation system requires a 500ms cool-down period after the daily operations cease completely, the optimization scope is confined to the active processing window. Individual algorithmic steps have a maximum single-batch throughput capacity (see `max_qty` in `task_parameters`), and the system processes discrete integer data units only. Furthermore, the aggregate data volume handled by each specific algorithm across the entire network is subject to regulatory bounds (see `stage_limits`), and the total system-wide processed output is capped at {global_limit} due to ground station downlink bandwidth availability. The primary objective is to determine the operational schedule that yields the highest total volume of processed data units.",
+  "parameters": {
+    "n": 5,
+    "m": 5,
+    "time_limit": 21.0,
+    "global_limit": 43.0
+  },
+  "files": {
+    "stage_limits": {
+      "path": "./data/stage_limits.csv",
+      "description": "A table with columns `stage`, `min_limit`, and `max_limit`. Defines the minimum and maximum total quantity allowed for each stage across all production lines.\nData format:\n| stage | min_limit | max_limit |\n| --- | --- | --- |\n| 1 | 0.0 | 38.0 |\n| 2 | 5.0 | 9.0 |\n| ... | ... | ... |"
+    },
+    "task_parameters": {
+      "path": "./data/task_parameters.csv",
+      "description": "A table with columns `machine`, `stage`, `fixed_cost`, `unit_cost`, `max_qty`. Defines the fixed time cost, unit time cost, and maximum individual quantity for the task at the specific machine and stage.\nData format:\n| machine | stage | fixed_cost | unit_cost | max_qty |\n| --- | --- | --- | --- | --- |\n| 1 | 1 | 0.75 | 2.0833001 | 9.6000004 |\n| 2 | 1 | 0.75 | 2.0833001 | 9.6000004 |\n| ... | ... | ... | ... | ... |"
+    },
+    "machine_capacities": {
+      "path": "./data/machine_capacities.csv",
+      "description": "A table with columns `machine` and `limit`. Defines the total available time (capacity) for each machine.\nData format:\n| machine | limit |\n| --- | --- |\n| 1 | 20.0 |\n| 2 | 20.0 |\n| ... | ... |"
+    }
+  },
+  "optimal_value": 41.0
+}

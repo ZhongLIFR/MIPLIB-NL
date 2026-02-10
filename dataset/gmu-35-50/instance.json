@@ -1,0 +1,28 @@
+{
+  "abstract_problem": "We need to develop an optimal capital investment schedule for a global corporation. The corporation has identified M potential investment projects (units). The planning horizon spans T financial quarters (batches indexed 0 to T-1). Our primary objective is to maximize total Return on Investment (ROI) by deciding which projects to fund in which quarter based on estimated returns (data provided in R.csv).\n\nIn this plan, the status of each project in each quarter is binary: either \"fund\" or \"hold.\" To ensure financial stability and strategic alignment, the following three business rules must be observed:\n\n1. Strategic Conflict Rules (Mutually Exclusive Investments): Due to market overlap, exclusive partnerships, or resource competition, certain projects cannot be funded simultaneously. Table C1.csv lists groups of \"mutually exclusive investment opportunities.\" For the \"Project-Quarter\" combinations in each group, at most one can be selected.\n\n2. Cash Flow Stability (Capital Deployment Smoothing): To ensure steady liquidity and avoid shocking the balance sheet, capital deployment cannot fluctuate wildly. The total capital deployed in each quarter must transition smoothly. Specifically, for quarters 2 through (T-1), total investment volume must be no less than N1 times and no greater than N2 times that of the preceding quarter. C2.csv provides the required capital for each project.\n\n3. ESG Compliance Mechanism (Risk-Impact Balance): We must balance high-yield/high-risk projects with sustainable initiatives. Some projects have negative ESG (Environmental, Social, Governance) scores (losses), while others provide positive credits (gains). Table C3.csv defines ESG metrics. For each metric, the positive credits from selected projects must offset the negative impacts, ensuring a non-negative net ESG score.",
+  "parameters": {
+    "M": 319,
+    "T": 6,
+    "N1": 0.8,
+    "N2": 1.2
+  },
+  "files": {
+    "files_1": {
+      "path": "data/C1.csv",
+      "description": "Each row represents a group of mutually exclusive investment options. An activity involving funding project i in quarter j is denoted by (i,j)."
+    },
+    "files_2": {
+      "path": "data/C2.csv",
+      "description": "C2: The value located at a specific row and column represents the capital requirement for funding the corresponding project in the corresponding quarter."
+    },
+    "files_3": {
+      "path": "data/C3.csv",
+      "description": "C3: Each row represents an ESG constraint containing triples (y,i,j). If y<0, funding project i in quarter j causes an ESG deficit of y. If y>0, it generates an ESG credit of y."
+    },
+    "files_4": {
+      "path": "data/R.csv",
+      "description": "R.csv: The value at a specific row and column represents the projected ROI/Profit from funding the corresponding project in the corresponding quarter."
+    }
+  },
+  "optimal_value": 2607958.33
+}

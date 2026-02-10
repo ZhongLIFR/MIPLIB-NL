@@ -1,0 +1,23 @@
+{
+  "abstract_problem": "Now there are I flights and N aprons, and we must assign a specific apron to each arriving flight. Each flight carries a specific number of passengers, and the passenger capacity of each flight is stored in the table weight.csv. The assignment is subject to aircraft type restrictions, which are stored in the table B1. More crucially, there is a complex passage network inside the terminal building: a specific \"flight-apron\" assignment will direct passenger flow to specific areas (such as specific customs channels or baggage halls). In table B2, each row represents a specific area (there are M areas in total), followed by the \"flight-apron\" assignments that direct flow to that area, denoted as (i j) (where i represents the flight and j represents the apron). If a specific \"flight-apron\" assignment is fulfilled, it will direct the passenger count of the corresponding flight to that area. Our optimization objective is to find an apron assignment plan that, on the premise of satisfying aircraft type matching, minimizes the passenger flow in the bottleneck area with the maximum passenger flow in the entire airport, preventing stampedes or excessive congestion.",
+  "parameters": {
+    "M": 289,
+    "I": 20,
+    "N": 300
+  },
+  "files": {
+    "files_1": {
+      "path": "data/B1.csv",
+      "description": "The first row of B1 represents apron numbers, and the first column represents flight numbers. If the value at a specific row and column is 1, it indicates that the corresponding flight can park at the corresponding apron; otherwise, the value is 0."
+    },
+    "files_2": {
+      "path": "data/B2.csv",
+      "description": "The first column of B2 represents area numbers. If a specific \"flight-apron\" assignment combination (i j) will bring passenger flow to the area, (i j) is added to the cell in the row corresponding to that area; Example of table content:Combination 0 | (0 0) | (1 0) | ……Combination 1 | (0 0) | (0 1) | ……"
+    },
+    "files_3": {
+      "path": "data/weight.csv",
+      "description": "The first column of weight is the flight number, and the second column is the number of passengers carried by that flight."
+    }
+  },
+  "optimal_value": "116"
+}

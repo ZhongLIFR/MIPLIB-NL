@@ -1,0 +1,14 @@
+{
+  "abstract_problem": "We are optimizing the thermal isolation architecture for a massive subterranean data center comprising {n} server clusters and {m} coolant circulation pipes. The server clusters are categorized by their processing architecture: clusters with odd identifiers are GPU-heavy nodes, while those with even identifiers are CPU-centric nodes. To mitigate the risk of catastrophic overheating spreading across the facility, the safety protocol requires the installation of multiple independent 'Thermal Firewalls'. A Thermal Firewall is defined as a system state that completely segregates the entire facility into two distinct, non-communicating thermal zones (Zone Hot and Zone Cold) by shutting off all coolant flow between them. Due to the limited physical clearance within the coolant pipes, each pipe can accommodate the mechanical valve assembly for exactly one Thermal Firewall. This implies that no two Firewalls can utilize the same pipe for interception. Firewalls are classified into 'Active' (utilizing powered pumps) and 'Passive' (utilizing gravity blocks) types based on the flow direction, yet both contribute equally to the total safety score. The installation of each Firewall incurs a base cost of 50,000 credits plus a variable maintenance fee based on the depth of the pipe. With an unlimited budget and inventory for valve assemblies, calculate the maximum possible number of distinct Thermal Firewalls that can be simultaneously deployed in the network.",
+  "parameters": {
+    "n": 40,
+    "m": 431
+  },
+  "files": {
+    "network_topology": {
+      "path": "./data/network_topology.csv",
+      "description": "A CSV file describing the undirected graph structure of the network. It contains two columns: `id1` and `id2`, representing a fiber optic link between two stations.\nData format:\n| id1 | id2 |\n| --- | --- |\n| 0 | 1 |\n| 0 | 2 |\n| ... | ... |"
+    }
+  },
+  "optimal_value": 7
+}

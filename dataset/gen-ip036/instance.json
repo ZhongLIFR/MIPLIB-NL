@@ -1,0 +1,22 @@
+{
+  "abstract_problem": "We are managing a portfolio of {n} synthetic assets for the \"Aurora\" Fund. The expected yield per unit for each asset is listed in the `items` table. These assets are subject to {m} market volatility indices. The sensitivity (risk exposure) of a single unit of each asset to these indices is mapped in `coefficients`. The aggregate weighted exposure of all held assets to the j-th volatility index must not exceed the threshold specified in `constraints`. Specifically, assets with IDs divisible by 5 are classified as \"High-Frequency\" instruments and are routed through a low-latency gateway, while others use the standard gateway; this routing distinction is handled by the exchange infrastructure and does not impact the yield calculation logic. Furthermore, the risk thresholds provided in the data files represent the final values after deducting the 5% safety margin required by the SEC. We need to determine the holding quantity (integers) for each asset. Find the maximum total expected yield of the investment portfolio. The three assets with the highest allocation volume will be featured on the front page of the annual shareholder newsletter.",
+  "parameters": {
+    "n": 29,
+    "m": 46
+  },
+  "files": {
+    "items": {
+      "path": "./data/items.csv",
+      "description": "A table of size n*2. The first column `id` contains sequential numbers from 1 to n, representing project indices. The second column `return` contains the expected return per unit of investment for each project.\nData format:\n| id | return |\n| --- | --- |\n| 1 | -15.3499201 |\n| 2 | 66.1019056 |\n| ... | ... |"
+    },
+    "constraints": {
+      "path": "./data/constraints.csv",
+      "description": "A table of size m*2. The first column `id` contains sequential numbers from 1 to m, representing risk factor indices. The second column `threshold` contains the maximum allowable weighted sum of impacts for each risk factor.\nData format:\n| id | threshold |\n| --- | --- |\n| 1 | 162.33251779 |\n| 2 | 182.3162338 |\n| ... | ... |"
+    },
+    "coefficients": {
+      "path": "./data/coefficients.csv",
+      "description": "A table describing the impact of projects on risk factors. Each row (item_id, constraint_id, value) indicates that one unit of project `item_id` contributes `value` to the risk factor `constraint_id`.\nData format:\n| item_id | constraint_id | value |\n| --- | --- | --- |\n| 1 | 1 | 0.9162472414 |\n| 2 | 1 | 2.1305313306 |\n| ... | ... | ... |"
+    }
+  },
+  "optimal_value": 4606.67961
+}

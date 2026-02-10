@@ -1,0 +1,23 @@
+{
+  "abstract_problem": "This is a bin packing problem with the goal of minimizing the standard weight \nh\n. There are a total of \nI\n items, each with a corresponding weight, and the mapping between items and their weights is stored in the table \"weight\". These items need to be packed into several bins numbered from 0 to \nN\n, with each item allowed to be placed in exactly one bin. Each item can only be put into one of the specified bins, and this constraint is stored in the table \"B1\". The matching between items and bins must also satisfy \nM\n requirements, all following the same structure: given a set of (item, bin) pairs, if any of these pairs matches the actual item-bin assignment, the corresponding item's weight is counted. The total weight counted in each requirement must not exceed \nh\n, and this constraint is stored in the table \"B2\".",
+  "parameters": {
+    "M": 91,
+    "I": 20,
+    "N": 99
+  },
+  "files": {
+    "files_1": {
+      "path": "data/B1.csv",
+      "description": "Each row of Table B1 represents an item (numbered from 0 to I-1), and each column represents a box (numbered from 0 to 99). If an item can be placed in a box, it is marked as 1; otherwise, it is 0."
+    },
+    "files_2": {
+      "path": "data/B2.csv",
+      "description": "Each row represents a requirement. The first column is 'Requirement k', and the subsequent columns list the (item, box) combinations included in the requirement."
+    },
+    "files_3": {
+      "path": "data/weight.csv",
+      "description": "Each row of Table weight represents an item, and the first column indicates the weight of these items. Each item must be placed in exactly one box"
+    }
+  },
+  "optimal_value": 53
+}

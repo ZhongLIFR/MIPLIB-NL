@@ -1,0 +1,23 @@
+{
+  "abstract_problem": "Now there are I virtual machine tasks and N physical servers, and we must assign a specific physical host machine to each virtual machine task. Each virtual machine generates a specific amount of thermal power consumption during operation, and the power consumption value of each virtual machine is stored in the table weight.csv. The assignment is subject to hardware architecture constraints (such as the difference between ARM and x86), and these constraints are stored in the table B1. More crucially, there is a complex power supply topology inside the computer room: a specific \"virtual machine-server\" assignment will cause current to flow into a specific Power Distribution Unit (PDU) or phase. In table B2, each row represents a specific power supply phase (there are M phases in total), followed by the \"virtual machine-server\" assignments that load the phase, denoted as (i j) (where i represents the virtual machine and j represents the server). If a \"virtual machine-server\" assignment is implemented, the corresponding virtual machine's power consumption is added to that phase. Our optimization objective is to find a virtual machine deployment scheme that, on the premise of satisfying hardware compatibility, minimizes the maximum phase load among all current loads in the entire data center, preventing tripping or local overheating.",
+  "parameters": {
+    "M": 253,
+    "I": 20,
+    "N": 300
+  },
+  "files": {
+    "files_1": {
+      "path": "data/B1.csv",
+      "description": "The first row of B1 represents the serial numbers of physical servers, and the first column represents the serial numbers of virtual machine tasks. If the value of a certain row and column is 1, it means the virtual machine task can be deployed on that physical server (hardware architecture is compatible); otherwise, the value is 0."
+    },
+    "files_2": {
+      "path": "data/B2.csv",
+      "description": "The first column of B2 represents the power supply phase numbers. If a certain \"virtual machine-server\" assignment combination (i j) draws power from the phase, (i j) is added to the cell in the row corresponding to that phase; Example of table content: Phase 0 | (0 0) | (1 0) | …… Phase 1 | (0 0) | (0 1) | ……"
+    },
+    "files_3": {
+      "path": "data/weight.csv",
+      "description": "The first column of weight is the serial number of virtual machine tasks, and the second column is the thermal power consumption value of the corresponding virtual machine."
+    }
+  },
+  "optimal_value": "208"
+}

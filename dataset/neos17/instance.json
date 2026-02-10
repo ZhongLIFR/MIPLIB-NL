@@ -1,0 +1,26 @@
+{
+  "abstract_problem": "Assume you are the Credit Risk Director of a bank. You have historical data for N1 customers, and you want to build a linear credit scoring model based on N2 financial features (such as income, debt ratio, etc.). The model calculates a weighted score for each customer using these N2 features. If the score minus a specific threshold (intercept) is greater than a small margin, the customer is classified as 'Good'; if it is less than a negative small margin, they are classified as 'Bad'. Since linear separation is rarely perfect, the model allows for classification errors, but each error incurs a specific penalty cost (based on the customer's importance or loan amount). Your goal is to determine the optimal weight for each feature and the optimal threshold to minimize the total misclassification cost, subject to a normalization constraint where the sum of all weights and the threshold equals 1.",
+  "parameters": {
+    "N1": 485,
+    "N2": 25
+  },
+  "files": {
+    "files_1": {
+      "path": "data/misclassification_costs.csv",
+      "description": "Table C1: Corresponds to the coefficients in the objective function. The first column is the customer ID (1 to N1), and the second column is the penalty cost incurred if this customer is misclassified ."
+    },
+    "files_2": {
+      "path": "data/customer_features.csv",
+      "description": "Table C2: Describes the sparse feature matrix for the constraints. The first column is the customer ID , and the second column lists the IDs of the financial features . If a feature is not listed for a customer, its coefficient is 0."
+    },
+    "files_3": {
+      "path": "data/customer_labels.csv",
+      "description": "Table C3: Defines the classification direction for each customer (Constraint inequalities). The first column is the customer ID. The second column indicates the historical label: -1 implies a 'Bad' customer (Constraint type: Score - Threshold - Error <= -0.001), and 1 implies a 'Good' customer (Constraint type: Score - Threshold + Error >= 0.001)."
+    },
+    "files_4": {
+      "path": "data/normalization_rule.csv",
+      "description": "Table C4: Defines the global normalization constraint (EQCONST). It specifies that the sum of all feature weightsplus the threshold variable  must equal 1.0."
+    }
+  },
+  "optimal_value": 0.0
+}

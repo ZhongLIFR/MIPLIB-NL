@@ -1,0 +1,43 @@
+{
+  "abstract_problem": "The University Resource Allocation Committee (URAC) is responsible for scheduling {C} courses into a weekly timetable. The academic week consists of {D} teaching days, with each day divided into {P} teaching periods, resulting in a total of {T} available time slots. Each course has a specific number of weekly meetings (lectures) that must be scheduled. To ensure pedagogical quality, each course should be spread across at least a minimum number of distinct days. If a course is scheduled on fewer days than its required minimum, a penalty with weight {w_days_below} is applied for each missing day.\n\nThere are {CP} identified conflict pairs between courses (e.g., due to overlapping student enrollment or shared instructors); such courses cannot be scheduled in the same time slot. Furthermore, courses may have specific blackout periods during which they cannot be taught. The campus classroom inventory consists of various rooms with different seating capacities. In any given time slot, at most {max_rooms_per_slot} simultaneous classes can be held, corresponding to the total number of available rooms. Time slots are labeled using the scheme 'D<day>P<period>' (e.g., 'D0P0' for the first period of the first day).\n\nClassroom capacity is managed through a series of seating thresholds. For each threshold, there is a limit on how many classes can simultaneously occupy rooms that meet or exceed that capacity. If a course meeting is scheduled but cannot be assigned a room that meets a specific threshold, it may still proceed in a smaller room, but it incurs a capacity shortfall penalty. The penalty weight for such a shortfall depends on both the course and the specific threshold (weights range from {penalty_min} to {penalty_max}). If a course-threshold combination is not explicitly assigned a weight in the data, the penalty is assumed to be zero. However, all meetings must still be accounted for within the overall room availability limits.\n\nCourses are also organized into {Q} curricula (study tracks). To maintain a coherent schedule for students, URAC penalizes 'isolated' course occurrences within a curriculum. An isolation penalty with weight {w_isolated} is incurred if a curriculum has a scheduled meeting in a period but no meetings in the immediately adjacent period(s) of the same day. Isolation is evaluated for every period of a day; boundary periods (the first and last periods of a day) consider only their single adjacent period. The objective is to find a feasible timetable that minimizes the total penalty from capacity shortfalls, insufficient day spreading, and curriculum isolation.",
+  "parameters": {
+    "C": 86,
+    "D": 5,
+    "P": 5,
+    "T": 25,
+    "Q": 61,
+    "CP": 159,
+    "max_rooms_per_slot": 18,
+    "w_days_below": 5,
+    "w_isolated": 2,
+    "penalty_min": 1,
+    "penalty_max": 69
+  },
+  "files": {
+    "courses": {
+      "path": "data/courses.csv",
+      "description": "A table defining the weekly requirements for each course. Each row specifies the course's unique identifier, its name, the number of lectures to be scheduled, and the minimum number of distinct days those lectures should be spread across.\n\nData format:\n- course_id: Unique integer identifier for the course.\n- course_name: Human-readable string name of the course. Values follow the pattern 'C' followed by the course identifier (e.g., 'C12').\n- lectures: Integer number of weekly meetings required.\n- min_days: Integer minimum number of distinct days the course should be taught."
+    },
+    "conflicts": {
+      "path": "data/conflicts.csv",
+      "description": "A list of course pairs that cannot be scheduled in the same time slot. Each row represents a single conflict relationship between two courses.\n\nData format:\n- course1: Integer identifier of the first course in the conflict pair.\n- course2: Integer identifier of the second course in the conflict pair."
+    },
+    "curricula": {
+      "path": "data/curricula.csv",
+      "description": "Definitions of curricula, which are groups of courses typically taken by the same set of students. This information is used to calculate curriculum isolation penalties.\n\nData format:\n- curriculum_id: Unique integer identifier for the curriculum.\n- course_ids: A comma-separated list of integer course identifiers, enclosed in quotes (e.g., \"1,5,12\"). Each identifier corresponds to a `course_id` in the courses table."
+    },
+    "blackout_periods": {
+      "path": "data/blackout_periods.csv",
+      "description": "A list of specific time slots during which certain courses cannot be scheduled. If a course-slot pair appears in this file, that course is unavailable at that time.\n\nData format:\n- course_id: Integer identifier of the course.\n- slot_label: String label identifying a specific time slot. Labels follow the pattern 'D<day>P<period>', where <day> is an integer from 0 to 4 and <period> is an integer from 0 to 4 (e.g., 'D0P1')."
+    },
+    "classroom_inventory": {
+      "path": "data/classroom_inventory.csv",
+      "description": "A detailed list of all available classrooms on campus and their respective seating capacities. This file defines the total resource pool for scheduling.\n\nData format:\n- room_id: Unique string identifier for the classroom. Values follow the pattern 'RM' followed by a three-digit sequence (e.g., 'RM001'). These strings serve as stable labels for individual rooms.\n- capacity: Integer seating capacity of the room."
+    },
+    "capacity_penalties": {
+      "path": "data/capacity_penalties.csv",
+      "description": "Penalty weights for courses when they cannot be accommodated in rooms meeting specific seating thresholds. A row indicates the penalty incurred per lecture if the course is not assigned a room with at least the specified capacity.\n\nData format:\n- course_id: Integer identifier of the course.\n- capacity: Integer seating threshold.\n- penalty_weight: Non-negative integer penalty weight."
+    }
+  },
+  "optimal_value": "37"
+}

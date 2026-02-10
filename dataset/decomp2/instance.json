@@ -1,0 +1,16 @@
+{
+  "abstract_problem": "We are overseeing the orchestration of a high-security distributed computing grid consisting of {n_services} distinct computational modules and {n_racks} physical server clusters (indexed 0 to {n_racks}-1). The system relies on {n_policies} proprietary cryptographic keys (policies), indexed accordingly. Each computational module has a unique dependency profile requiring a specific subset of these keys to function; some lightweight modules may run without keys. The modules vary in memory footprint, ranging from 2GB to 64GB, though containerization standardizes their deployment slots. Deployment is governed by strict vendor licensing and physical constraints: 1. A module can only be initialized on a server cluster that has all its required keys actively loaded in memory. 2. Key licensing follows a tiered structure: loading a key on a single cluster is covered by the base subscription (0 penalty); mirroring the key to a second cluster for redundancy incurs a surcharge of 1 point; replicating a key to three or more clusters triggers a license violation and is strictly forbidden. Server clusters 0 through 4 are designated as 'Legacy' hardware while the remainder are 'Next-Gen', yet they process keys identically. The optimization goal is to maximize the grid's utility score, calculated as the total number of active server clusters multiplied by a stability factor of {min_policies_per_rack}, minus the total licensing surcharges (weighted at 1). Furthermore, to justify the energy overhead of activating a cluster, the grid must maintain a resource density where the average number of keys loaded per active cluster is no less than {min_policies_per_rack}.",
+  "parameters": {
+    "n_services": 470,
+    "n_racks": 16,
+    "n_policies": 221,
+    "min_policies_per_rack": 10
+  },
+  "files": {
+    "microservices": {
+      "path": "./data/microservices.csv",
+      "description": "List of microservices and their required policy IDs. Columns: `service_id`, `policy_id`. A service can appear in multiple rows if it requires multiple policies.\nData format:\n| service_id | policy_id |\n| --- | --- |\n| 0 | 97 |\n| 1 | 97 |\n| ... | ... |"
+    }
+  },
+  "optimal_value": 160
+}

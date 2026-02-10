@@ -1,0 +1,10 @@
+{
+  "abstract_problem": "In the strategic framework of the Regional Industrial Grid Synchronization Initiative, the primary objective is to align the discrete power injection capabilities of the Alpha-Series Modular Generators with the aggregated demand profiles of downstream heavy machinery. The Alpha-Series unit serves as the sole primary source, possessing a fixed nominal power rating of {val_a} kilowatts. The downstream consumption matrix consists of two distinct equipment classes: the Beta-Class Hydraulic Press, which draws a fixed load of {val_b} kilowatts, and the Gamma-Class Thermal Inductor, requiring {val_c} kilowatts. Operational protocols classify Beta-Class units as Sector-Red assets requiring high-frequency voltage monitoring, whereas Gamma-Class units are Sector-Blue assets monitored on standard cycles. Achieving the operational state defined as Static Load Equilibrium requires that the total power supplied by a discrete number of Alpha-Series generators equates strictly to the sum of power consumed by a combination of Beta-Class and Gamma-Class units. The electrical bus architecture dictates that all units, both source and load, must be engaged as complete, indivisible integers. Furthermore, the control logic prioritizes system stability by initiating Sector-Red units with a phase lead of 15 degrees relative to Sector-Blue units. To minimize the footprint of the primary generation bank and reduce maintenance overhead on the source side, engineers must identify the lowest possible count of Alpha-Series Generators (greater than zero) necessary to satisfy this strict equality against a valid non-negative integer configuration of load units. Additionally, the system anticipates a reactive power factor of 0.85 which is managed by separate capacitor banks.",
+  "parameters": {
+    "val_a": 31013,
+    "val_b": 41014,
+    "val_c": 51015
+  },
+  "files": {},
+  "optimal_value": 25508
+}

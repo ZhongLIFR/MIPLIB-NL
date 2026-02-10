@@ -1,0 +1,81 @@
+{
+  "abstract_problem": "A mobility operator needs to reposition a fleet overnight so that vehicles are in the right places by morning. The city is represented by a set of locations, and the repositioning plan is executed over {W} dispatch waves.\n\nFor each individual vehicle, the operator must choose exactly one pre-approved relocation option. An option specifies which vehicle is moved, which destination location it will end up at, and which dispatch wave it is executed in.\n\nOperational capability is governed by multiple independent quota pools. Every relocation option is pre-assigned to exactly one quota pool, and each pool requires selecting an exact number of options from within that pool. Each quota pool is tagged with a resource class.\n\nSome locations are designated as exchange-only hubs in specific waves: during those waves, the number of vehicles arriving at the hub must match the number leaving it, reflecting a strict in–out accounting rule at critical transfer points.\n\nEach relocation option also consumes several fine-grained operational steps (such as traversing restricted corridors, using a staging bay, or occupying a yard operation window). Each operational window provides a baseline allowance, and paying to open the window activates one additional unit of capacity.\n\nData contract (important): build the optimization model only from the contract tables in the files list. Some additional tables are provided for audit/reporting and may contain duplicates, noise, or inconsistencies; they must not change feasibility/optimality.",
+  "parameters": {
+    "W": "7",
+    "quota_batch_size": "8",
+    "num_locations": "296",
+    "num_units": "296",
+    "num_resource_types": "5"
+  },
+  "files": {
+    "locations": {
+      "path": "data/locations.csv",
+      "description": "List of location units used to describe where vehicles can start and where they must end up by the end of planning.\n\nData format: | location_id |\n|:--|\n| <int> |\n| ... |"
+    },
+    "waves": {
+      "path": "data/waves.csv",
+      "description": "Dispatch waves that partition the overnight horizon into a small number of execution stages.\n\nData format: | wave_id |\n|:--|\n| <int> |\n| ... |"
+    },
+    "resource_types": {
+      "path": "data/resource_types.csv",
+      "description": "Resource classes representing different operational capabilities. Quota pools are tagged with a resource class.\n\nString fields:\n- type_name uses only lowercase letters a-z, digits 0-9, and underscore '_'. It follows the pattern crew_class_<int> and is a human-readable label.\n\nData format: | type_id | type_name |\n|:--|:--|\n| <int> | <string> |\n| ... | ... |"
+    },
+    "units": {
+      "path": "data/units.csv",
+      "description": "Individual vehicles to be repositioned and their starting locations at the beginning of the planning period.\n\nData format: | unit_id | start_location_id |\n|:--|:--|\n| <int> | <int> |\n| ... | ... |"
+    },
+    "targets": {
+      "path": "data/targets.csv",
+      "description": "Morning placement requirements for each location. Each row specifies how many vehicles must end up at a given location by the end of the plan.\n\nData format: | location_id | required_units |\n|:--|:--|\n| <int> | <int> |\n| ... | ... |"
+    },
+    "relocation_options": {
+      "path": "data/relocation_options.csv",
+      "description": "Pre-approved relocation options. Each row represents one admissible way to reposition a specific vehicle: it assigns a destination location and an execution wave. The operational capability category is implied via quota-pool membership.\n\nString fields:\n- option_id uses only lowercase letters a-z, digits 0-9, and underscore '_'. It follows the pattern opt_<5 digits> and is a unique identifier.\n\nData format: | option_id | unit_id | dest_location_id | wave_id |\n|:--|:--|:--|:--|\n| <string> | <int> | <int> | <int> |\n| ... | ... | ... | ... |"
+    },
+    "quotas": {
+      "path": "data/quotas.csv",
+      "description": "Resource availability summary expressed as batch counts per resource class. This file is informational; enforceable allocation is specified at the quota-pool level.\n\nString fields:\n- quota_id uses only lowercase letters a-z, digits 0-9, and underscore '_'. It follows the pattern quota_<int> and is a unique identifier.\n\nData format: | quota_id | type_id | batches |\n|:--|:--|:--|\n| <string> | <int> | <int> |\n| ... | ... | ... |"
+    },
+    "quota_pools": {
+      "path": "data/quota_pools.csv",
+      "description": "Quota pools that partition operational capability into multiple independent pools. Each pool has a fixed required selection count and is tagged with a resource class.\n\nString fields:\n- pool_id uses only lowercase letters a-z, digits 0-9, and underscore '_'. It follows the pattern pool_<2 digits> and is a unique identifier.\n\nData format: | pool_id | type_id | pool_size |\n|:--|:--|:--|\n| <string> | <int> | <int> |\n| ... | ... | ... |"
+    },
+    "option_quota_pools": {
+      "path": "data/option_quota_pools.csv",
+      "description": "Quota-pool membership for relocation options. Each row assigns an option to a quota pool.\n\nString fields:\n- option_id uses only lowercase letters a-z, digits 0-9, and underscore '_'. It follows the pattern opt_<5 digits>.\n- pool_id uses only lowercase letters a-z, digits 0-9, and underscore '_'. It follows the pattern pool_<2 digits>.\n\nData format: | option_id | pool_id |\n|:--|:--|\n| <string> | <string> |\n| ... | ... |"
+    },
+    "balance_rules": {
+      "path": "data/balance_rules.csv",
+      "description": "Wave-specific exchange-only hub rules. Each row marks a location and wave where arrivals and departures must match.\n\nString fields:\n- rule_id uses only lowercase letters a-z, digits 0-9, and underscore '_'. It follows the pattern br_<3 digits>_<wave> and is a unique identifier.\n- rule_kind uses only uppercase letters A-Z and underscore '_'. In this instance it takes the value EXCHANGE_ONLY, meaning the wave-level arrivals equal the wave-level departures for the given location.\n\nData format: | rule_id | location_id | wave_id | rule_kind |\n|:--|:--|:--|:--|\n| <string> | <int> | <int> | <string> |\n| ... | ... | ... | ... |"
+    },
+    "operation_windows": {
+      "path": "data/operation_windows.csv",
+      "description": "Atomic operational windows that may provide additional capacity when opened. Each window has a baseline capacity that is available without paying, and paying to open the window activates one additional unit of capacity at a cost.\n\nString fields:\n- window_id uses only lowercase letters a-z, digits 0-9, and underscore '_'. It follows the pattern win_<6 digits> and is a unique identifier.\n\nData format: | window_id | yard_id | location_id | stage_id | base_capacity | open_cost |\n|:--|:--|:--|:--|:--|:--|\n| <string> | <int> | <int> | <int> | <int> | <float> |\n| ... | ... | ... | ... | ... | ... |"
+    },
+    "steps": {
+      "path": "data/steps.csv",
+      "description": "Operational steps used as an intermediate layer between relocation options and operational windows. Each step belongs to exactly one operational window.\n\nString fields:\n- step_id uses only lowercase letters a-z, digits 0-9, and underscore '_'. It follows the pattern step_<6 digits> and is a unique identifier.\n- window_id uses only lowercase letters a-z, digits 0-9, and underscore '_'. It follows the pattern win_<6 digits>.\n\nData format: | step_id | window_id |\n|:--|:--|\n| <string> | <string> |\n| ... | ... |"
+    },
+    "option_steps": {
+      "path": "data/option_steps.csv",
+      "description": "Step requirements for relocation options. Each row states that executing the option requires the operational step.\n\nString fields:\n- option_id uses only lowercase letters a-z, digits 0-9, and underscore '_'. It follows the pattern opt_<5 digits>.\n- step_id uses only lowercase letters a-z, digits 0-9, and underscore '_'. It follows the pattern step_<6 digits>.\n\nData format: | option_id | step_id |\n|:--|:--|\n| <string> | <string> |\n| ... | ... |"
+    },
+    "pool_assignment_secondary": {
+      "path": "data/pool_assignment_secondary.csv",
+      "description": "Audit-only pool membership feed from external systems. This file may contain misclassifications or low-confidence assignments and must not be used to define the enforceable quota-pool constraints.\n\nString fields:\n- option_id follows opt_<5 digits>.\n- pool_id follows pool_<2 digits>.\n- source_system takes one of {SYS_A, SYS_B, SYS_C} and uses only uppercase letters A-Z and underscore '_'.\n- note may be empty or the literal string possible_misclassification (lowercase letters a-z and underscore '_').\n\nData format: | option_id | pool_id | source_system | confidence | note |\n|:--|:--|:--|:--|:--|\n| <string> | <string> | <string> | <float> | <string> |\n| ... | ... | ... | ... | ... |"
+    },
+    "ledger_dictionary": {
+      "path": "data/ledger_dictionary.csv",
+      "description": "Audit-only code dictionary used by accounting logs. It maps opaque hub codes and wave codes back to the canonical location and wave identifiers.\n\nString fields:\n- code_type is either HUB or WAVE (uppercase letters A-Z).\n- code is an opaque identifier used by the logging system. HUB codes follow H<7 digits> (uppercase H + digits 0-9). WAVE codes follow W<int> (uppercase W + digits 0-9).\n\nData format: | code_type | code | location_id | wave_id |\n|:--|:--|:--|:--|\n| <string> | <string> | <int or empty> | <int or empty> |\n| ... | ... | ... | ... |"
+    },
+    "ledger_events": {
+      "path": "data/ledger_events.csv",
+      "description": "Audit-only accounting log events. Events with event_type = EXCHANGE_ONLY indicate a location-wave pair that is subject to the exchange-only (in–out balance) rule. This table may contain duplicates and irrelevant events.\n\nString fields:\n- ledger_id follows LEDGER_<7 digits> and uses only uppercase letters A-Z, digits 0-9, and underscore '_'.\n- hub_code and wave_code must be interpreted using ledger_dictionary.csv.\n- event_type is one of {EXCHANGE_ONLY, INFO, NOTE, HEALTHCHECK}.\n- message is a short opaque token used by the logging system. It uses only lowercase letters a-z and underscore '_' (examples include auto_flag, manual_review, audit_trace, ok, heartbeat).\n\nData format: | ledger_id | hub_code | wave_code | event_type | message |\n|:--|:--|:--|:--|:--|\n| <string> | <string> | <string> | <string> | <string> |\n| ... | ... | ... | ... | ... |"
+    },
+    "options_reported_metrics": {
+      "path": "data/options_reported_metrics.csv",
+      "description": "Reporting-only metrics for relocation options. These fields are not part of the optimization model and must not be used to define constraints or the objective.\n\nString fields:\n- option_id follows opt_<5 digits>.\n- sla_risk_band is one of {LOW, MED, HIGH} and uses only uppercase letters A-Z.\n\nData format: | option_id | reported_cost | travel_minutes | carbon_kg | sla_risk_band |\n|:--|:--|:--|:--|:--|\n| <string> | <float> | <int> | <float> | <string> |\n| ... | ... | ... | ... | ... |"
+    }
+  },
+  "optimal_value": "81"
+}

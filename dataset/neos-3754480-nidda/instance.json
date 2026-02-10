@@ -1,0 +1,27 @@
+{
+  "abstract_problem": "Assume you are a data scientist optimizing a robust linear regression model on a dataset of N samples. The model is defined by two split global parameters (Positive_Component P1, Negative_Component P2) and a baseline variable (Base). The objective is to minimize the total cost, which includes the magnitude cost of the global parameters, the sum of fitting errors, the costs of auxiliary linearization variables, and the penalties for excluding outliers.\n\nFor each sample, a binary decision variable (Bin) is used to decide whether to exclude it. This leads to two sets of fitting constraints per sample (Lower Bound and Upper Bound), which involve the global parameters, error variables, auxiliary variables (Aux1 corresponding to P1, Aux2 corresponding to P2), and the binary variable. The coefficients for these constraints are strictly defined in Table T1. \n\nThe logical coupling between the continuous global parameters (P1, P2) and their auxiliary variables (Aux1, Aux2) is enforced by a specific Big-M linearization structure. For each parameter-auxiliary pair (e.g., P1 and Aux1), three constraints are enforced using the binary variable and a large parameter M: 1. (Param - Aux + M * Bin <= M), 2. (-Param + Aux <= 0), 3. (Aux - M * Bin <= 0). This logic applies symmetrically to P2 and Aux2.\n\nFinally, the set of all exclusion decisions must satisfy two global aggregate constraints (Resource Limit and Quality Threshold), with weights defined in Table T3.",
+  "parameters": {
+    "N": 50,
+    "Cost_P1": 516.31839019,
+    "Cost_P2": -516.3183902,
+    "Cost_Base": 20.0,
+    "RHS_Resource": 0.0,
+    "RHS_Quality": -95.70643118,
+    "M": 10000.0
+  },
+  "files": {
+    "files_1": {
+      "path": "data/fitting_constraints_coeffs.csv",
+      "description": "Table T1: Coefficients for Fitting Constraints. N rows. Columns:\n- Col_A_P2: Coefficient for P2 in Lower Bound constraint. (Coeff for P1 is -Col_A_P2).\n- Col_B_Aux1: Coefficient for Aux1 in Lower Bound constraint. (Coeff for Aux2 is -Col_B_Aux1).\n- Col_C_Bin: Coefficient for Bin in Lower Bound constraint.\n- Col_D_RHS: RHS for Lower Bound constraint.\n\nNote: For Upper Bound constraint:\n  P1 coeff becomes +Col_A_P2\n  P2 coeff becomes -Col_A_P2\n  Base coeff remains +1 (Constant)\n  Aux1 coeff becomes -Col_B_Aux1\n  Aux2 coeff becomes +Col_B_Aux1\n  Bin coeff becomes -Col_C_Bin\n  RHS becomes -Col_D_RHS\n  Inequality is >= ."
+    },
+    "files_2": {
+      "path": "data/objective_function_coeffs.csv",
+      "description": "Table T2: Coefficients for Objective Function. N rows. Columns:\n- Col_Obj_Aux_1: Cost coeff for Aux1.\n- Col_Obj_Aux_2: Cost coeff for Aux2.\n- Col_Obj_Bin: Cost coeff for Bin."
+    },
+    "files_3": {
+      "path": "data/global_constraints_weights.csv",
+      "description": "Table T3: Weights for Global Aggregate Constraints. N rows. Columns:\n- Col_Res_W: Weight in Resource Limit constraint.\n- Col_Qual_W: Weight in Quality Threshold constraint."
+    }
+  },
+  "optimal_value": 12941.73838
+}

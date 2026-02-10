@@ -1,0 +1,19 @@
+{
+  "abstract_problem": "You are a logistics director responsible for optimizing the service sequence for N distinct client locations. The operational efficiency is determined by the sequence-dependent travel times (or setup times) between locations, as detailed in the transition matrix in Table T1. Each client has specific service time requirements listed in Table T2: a strict 'Deadline' and a 'Minimum Earliest Arrival Time'. \n\nYour task is to model this as an optimization problem with the following logical specifications:\n1. **Route Logic**: The model must determine the precise sequence of visits, ensuring exactly one arrival and one departure for every location.\n2. **Time Tracking**: You must track the exact arrival time for each location. Crucially, this arrival time variable must have a strict lower limit corresponding to the 'Minimum Earliest Arrival Time' provided in the data.\n3. **Delay Calculation**: You must calculate the 'Tardiness' for each location, defined as the positive duration by which the arrival time exceeds the Deadline.\n4. **Time Continuity**: To mathematically enforce that the arrival time at a succeeding location correctly accumulates the travel time from the preceding location (especially for non-consecutive indices), the system utilizes a logical constraint mechanism involving a large constant parameter M.\n5. **Objective**: The goal is to minimize the Net Total Cost. The cost function is composed of the sum of all Tardiness durations plus the sum of all Arrival Times, minus a fixed operational base credit K.",
+  "parameters": {
+    "N": 16,
+    "M": 10000.0,
+    "K": 203.0
+  },
+  "files": {
+    "files_1": {
+      "path": "data/transitions.csv",
+      "description": "Table T1: A transition matrix defining the time costs between locations. This data provides the incremental values needed to link the timeline between any two sequentially visited nodes."
+    },
+    "files_2": {
+      "path": "data/locations.csv",
+      "description": "Table T2: Detailed time attributes for each location. It contains the 'Deadline' used for penalty calculation and the 'Min_Arrival_Time' which serves as the hard constraint for the earliest possible service start (variable lower bound)."
+    }
+  },
+  "optimal_value": 1600
+}

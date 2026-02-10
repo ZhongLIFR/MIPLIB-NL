@@ -1,0 +1,16 @@
+{
+  "abstract_problem": "We are tasking a Deep Space Network ground station with scheduling uplink sessions for {n} satellites that are members of {m} distinct orbital constellations. The specific visibility windows for each satellite are provided in the `jobs` file, where the arrival time represents the moment a satellite rises above the horizon and becomes available for signal locking. Operational protocols dictate that the system tracks satellites within the same constellation strictly according to their numerical index sequence. Due to the transmitter's thermal dissipation requirements, the initiation of a signal lock for a satellite must occur at least {p} time units after the initiation of the signal lock for the immediately preceding satellite of the same constellation. The system handles varying data loads, where satellites in the first constellation transfer 50TB of telemetry data while others transfer 30TB, processed at a constant rate. When the ground station redirects its focus from a satellite in one constellation to a satellite in a different constellation, a mechanical slew and frequency recalibration period is necessary, requiring the start time of the new transmission to be separated from the start time of the previous transmission by a minimum of {S} time units. Satellites with prime number indices are designated as priority scientific missions for future audit purposes. The facility consumes 150MW during active transmission and 10MW in standby mode. To maximize the temporal throughput metric of the network, the objective is to determine a schedule that minimizes the summation of the signal lock start times for all satellites.",
+  "parameters": {
+    "n": 40,
+    "m": 2,
+    "p": 2,
+    "S": 4.123105625617661
+  },
+  "files": {
+    "jobs": {
+      "path": "./data/jobs.csv",
+      "description": "A table with columns `id`, `group`, `arrival_time`. `id` is the job index (0 to n-1). `group` is the group ID (0 to m-1). `arrival_time` is the release time of the job.\nData format:\n| id | group | arrival_time |\n| --- | --- | --- |\n| 0 | 0 | 4.467140196467444 |\n| 1 | 0 | 6.212861338662389 |\n| ... | ... | ... |"
+    }
+  },
+  "optimal_value": 1745.123813
+}

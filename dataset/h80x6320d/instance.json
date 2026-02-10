@@ -1,0 +1,19 @@
+{
+  "abstract_problem": "A drought-stricken region is constructing water supply pipelines to transport water from a water source to various villages. There are a total of {num_nodes} water transport nodes, with IDs from 1 to {num_nodes}. Only the node with ID {source_node} is the water source, with a total supply of {total_supply}, while other nodes are demand points. The supply or demand quantities are specified in `nodes`, where positive values indicate supply, negative values indicate demand, and 0 indicates that the node itself does not require water supply but can serve as a transit point as needed. Each pipeline has a fixed construction cost and a variable cost per unit of flow, see `edges`. The network must form a tree structure (each node has at most one incoming edge). The objective is to minimize the total cost (construction cost + flow cost).",
+  "parameters": {
+    "num_nodes": 80,
+    "source_node": 1,
+    "total_supply": 384.0
+  },
+  "files": {
+    "nodes": {
+      "path": "./data/nodes.csv",
+      "description": "A table with columns `id` and `value`. `value` represents the net supply (positive) or demand (negative) of the node.\nData format:\n| id | value |\n| --- | --- |\n| 1 | 384.0 |\n| 2 | -2.0 |\n| ... | ... |"
+    },
+    "edges": {
+      "path": "./data/edges.csv",
+      "description": "A table with columns `id1`, `id2`, `fixed_cost`, `variable_cost`. `id1` <= `id2`. Represents potential pipelines with bidirectional flow costs.\nData format:\n| id1 | id2 | fixed_cost | variable_cost |\n| --- | --- | --- | --- |\n| 1 | 2 | 50.0 | 1.0 |\n| 1 | 3 | 254.950976 | 5.09902 |\n| ... | ... | ... | ... |"
+    }
+  },
+  "optimal_value": 6382.099048246
+}

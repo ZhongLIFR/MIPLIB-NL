@@ -1,0 +1,36 @@
+{
+  "abstract_problem": "Assume you are the Operations Director of a chemical processing company. You manage a network that sources raw materials from N1 supply regions. Each region supplies N_Items distinct types of raw materials . You process them through specific production lines and fulfill contracts for N3 potential strategic partners.\n\nYour goal is to maximize total net profit (which is equivalent to minimizing the negative of profit).\n\nKey operations involve:\n1. **Sourcing:** Obtaining N_Items types of raw materials from N1 different supply groups. Each group has a total capacity limit for the sum of all its items.\n2. **Processing & Splitting:** Raw materials are processed. The logic corresponds to the N_Items types: some transfer 100% of the volume, while others chemically separate the input into 80% Main Product and 20% By-Product.\n3. **Production Line Decisions:** You have N2 binary production decisions (including lines and special batches). Activating a decision incurs a fixed setup cost/benefit. Most decisions are tied to the capacity of processing a specific Item Type (Big-M constraint).\n4. **Strategic Contracts:** There are major strategic contracts available. Accepting a contract brings a large fixed bonus but requires allocating significant production capacity. You are limited to selecting at most 4 out of these strategic contracts.\n5. **Distribution:** Processed goods are sent to distribution zones, which also have capacity limits.",
+  "parameters": {
+    "N1": 6,
+    "N_Items": 17,
+    "N2": 18,
+    "N3": 6
+  },
+  "files": {
+    "files_1": {
+      "path": "data/supply_caps.csv",
+      "description": "Table C1: Supply Group Constraints. The first column is the Supply Group ID, and the second column is the maximum total raw material quantity available from that group. Note: Each group aggregates supply for N_Items (17) distinct material types."
+    },
+    "files_2": {
+      "path": "data/distribution_caps.csv",
+      "description": "Table C2: Distribution Center Capacity. The first column is the Distribution Zone ID, and the second column is the maximum volume of processed goods that can be received."
+    },
+    "files_3": {
+      "path": "data/production_lines.csv",
+      "description": "Table C3: Production Line Attributes. The first column is the Line ID. The second column is the 'Big-M' capacity limit for that line. The third column is the fixed cost/bonus associated with activating that line. Each line typically corresponds to the processing of one of the N_Items material types."
+    },
+    "files_4": {
+      "path": "data/strategic_contracts.csv",
+      "description": "Table C4: Strategic Contract Attributes. The first column is the Contract ID. The second column is the capacity requirement/limit. The third column is the large fixed bonus for accepting the contract. Note: A global constraint limits the selection to a maximum of 4 contracts from this table."
+    },
+    "files_5": {
+      "path": "data/conversion_ratios.csv",
+      "description": "Table C5: Material Conversion Logic. This table defines the chemical process for the N_Items (17) types of input materials across all groups. The first column is the Input Variable ID, the second column is the Output Variable ID, and the third column is the Yield Ratio."
+    },
+    "files_6": {
+      "path": "data/variable_costs.csv",
+      "description": "Table C6: Unit Operational Costs/Revenues. The first column is the Variable ID, the second column is the unit cost (positive) or revenue (negative), and the third column is the variable type. Input variables C0001-C0102 represent 6 groups * 17 items."
+    }
+  },
+  "optimal_value": -11670000
+}

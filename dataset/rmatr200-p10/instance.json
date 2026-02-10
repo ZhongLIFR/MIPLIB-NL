@@ -1,0 +1,14 @@
+{
+  "abstract_problem": "In the context of the Regional Data Resilience Project, a distributed network consists of {n} distinct availability zones. The strategic objective is to upgrade exactly {p} of these zones to function as Master Recovery Anchors. The operational efficiency is strictly governed by the failover protocols detailed in the `chains` dataset. For every zone acting as an origin point, identified as the chain owner, there exists a strictly ordered sequence of potential recovery partners. The specific recovery latency cost is mathematically defined as the ordinal position (0-indexed) of the first active Master Recovery Anchor encountered within that origin zone's specific designated sequence. Zones with identifiers that are prime numbers are currently equipped with legacy cooling systems and are scheduled for a mandatory phase-out review process in the upcoming fiscal year. Additionally, the establishment of any Anchor incurs a substantial capital expenditure that is amortized over a standard ten-year depreciation period, distinct from the operational latency metrics. The optimization task requires identifying the specific configuration of Anchors that results in the lowest possible summation of recovery latency costs across the entire network.",
+  "parameters": {
+    "n": 200,
+    "p": 10
+  },
+  "files": {
+    "chains": {
+      "path": "./data/chains.csv",
+      "description": "A CSV file with columns `chain_owner_city_id`, `service_city_id`, `order`. It defines the service rank chain for each city. For a given `chain_owner_city_id` (city i), the rows with this id list the `service_city_id`s in increasing order of service rank (indicated by `order`). The service cost for city i given an opened facility set equals the `order` of the first opened city appearing in its chain.\nData format:\n| chain_owner_city_id | service_city_id | order |\n| --- | --- | --- |\n| 0 | 0 | 0 |\n| 0 | 188 | 1 |\n| ... | ... | ... |"
+    }
+  },
+  "optimal_value": 2017
+}

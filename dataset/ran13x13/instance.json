@@ -1,0 +1,22 @@
+{
+  "abstract_problem": "The Metropolitan Hydro-Grid Authority manages a complex distribution network comprising {m} upstream reservoirs and {n} downstream municipal distribution districts. Each reservoir possesses a verified hydrological supply cap, while each district submits a fixed hydration demand schedule. Global supply levels are calibrated to perfectly match global demand requirements. Establishing a flow connection between a specific reservoir and a district involves commissioning a dedicated subterranean pipeline. The initialization of any pipeline incurs a one-time fixed Setup Expenditure, reflecting excavation and valve installation expenses. Furthermore, the operational phase imposes a Unit Flow Tariff for every cubic unit of water transported along an active line. Physical limitations dictate a strict capacity ceiling for each pipeline segment. Pipelines utilized above 90% of their capacity are automatically classified as high-pressure assets for future stress-testing reports. Additionally, activated pipelines accrue a yearly depreciation value equivalent to 8% of the initial Setup Expenditure. The engineering team requires a deployment strategy that selects the active pipelines and determines flow quantities to fulfill all district demands within reservoir supply limits. The optimization target is strictly the minimization of the combined Setup Expenditures and total Unit Flow Tariffs.",
+  "parameters": {
+    "m": 13,
+    "n": 13
+  },
+  "files": {
+    "warehouses": {
+      "path": "./data/warehouses.csv",
+      "description": "A CSV file containing warehouse information. Columns: `id` (Warehouse ID), `supply` (Amount of goods available).\nData format:\n| id | supply |\n| --- | --- |\n| warehouse_0 | 14.0 |\n| warehouse_1 | 21.0 |\n| ... | ... |"
+    },
+    "stores": {
+      "path": "./data/stores.csv",
+      "description": "A CSV file containing retail store information. Columns: `id` (Store ID), `demand` (Amount of goods required).\nData format:\n| id | demand |\n| --- | --- |\n| store_0 | 20.0 |\n| store_1 | 28.0 |\n| ... | ... |"
+    },
+    "routes": {
+      "path": "./data/routes.csv",
+      "description": "A CSV file containing potential shipping route information between warehouses and stores. Columns: `warehouse_id`, `store_id`, `variable_cost` (Cost per unit shipped), `fixed_cost` (Cost to activate the route), `capacity` (Maximum units that can be shipped).\nData format:\n| warehouse_id | store_id | variable_cost | fixed_cost | capacity |\n| --- | --- | --- | --- | --- |\n| warehouse_0 | store_0 | 7.0 | 129.0 | 14.0 |\n| warehouse_0 | store_1 | 1.0 | 138.0 | 14.0 |\n| ... | ... | ... | ... | ... |"
+    }
+  },
+  "optimal_value": 3252
+}

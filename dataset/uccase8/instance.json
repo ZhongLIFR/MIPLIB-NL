@@ -1,0 +1,49 @@
+{
+  "abstract_problem": "A regional operator plans the day-ahead operation of a thermal conversion asset fleet over consecutive time steps. Each asset can either stay offline or operate in one of its available technical configuration profiles; each profile comes with an admissible power range and an operating-cost structure. Some assets follow multi-step temporal stability trajectories, and these operational policies are provided as a standardized rule list. For every time step, the operator must supply system demand; if demand cannot be fully met, limited load curtailment is allowed but is penalized. The operator must also maintain a dynamic security margin for reliability. The goal is to minimize total operating cost and start-related surcharges while meeting demand and reliability requirements and respecting all operational policies.",
+  "parameters": {
+    "unserved_energy_penalty": 2.0
+  },
+  "files": {
+    "units": {
+      "path": "data/units.csv",
+      "description": "List of thermal conversion assets. Each row identifies an asset used throughout the other data files. Contains decoy metadata columns.\n- `unit_id`: String identifier (e.g., 'ASSET_01', 'ASSET_02').\n- `operator_id`: String identifier for the asset operator (e.g., 'OP_1').\n- `commissioning_year`: Integer year of commissioning.\n- `carbon_intensity_index`: Float index representing environmental impact."
+    },
+    "mode_specs": {
+      "path": "data/mode_specs.csv",
+      "description": "Technical specifications for asset configuration profiles. Each row describes the admissible output range for a profile.\n- `unit_id`: String identifier of the asset.\n- `mode_id`: Integer identifier of the profile.\n- `min_output`: Minimum power output in MW.\n- `max_output`: Maximum power output in MW."
+    },
+    "mode_costs": {
+      "path": "data/mode_costs.csv",
+      "description": "Economic parameters for asset configuration profiles. Each row describes the cost structure for a profile.\n- `unit_id`: String identifier of the asset.\n- `mode_id`: Integer identifier of the profile.\n- `marginal_cost`: Cost per unit of power output.\n- `fixed_cost`: Constant cost incurred when the profile is active."
+    },
+    "system_requirements": {
+      "path": "data/system_requirements.csv",
+      "description": "System-level requirements per time step. Note the unit difference between demand and reserve.\n- `time_id`: Integer time step (1 to T).\n- `demand`: System demand in **kW**. (Note: Asset capacities are in **MW**, so a factor of 10^-3 must be applied to demand for balance constraints).\n- `spinning_reserve_requirement`: Dynamic security margin requirement in **MW**."
+    },
+    "policy_rules": {
+      "path": "data/policy_rules.csv",
+      "description": "Operational policy rules (header table). Defines business policy rules as signed comparisons against a right-hand side.\n- `rule_id`: Unique string identifier for the rule.\n- `rule_family`: String category of the rule. Possible values:\n    - `SYSTEM_EQUILIBRIUM_CONSTRAINT`: Demand balance rules (RHS is in **kW**).\n    - `DYNAMIC_SECURITY_MARGIN_REQ`: Reserve capacity rules (RHS is in **MW**).\n    - `TEMPORAL_STABILITY_REQ_TYPE_1`: Minimum up-time logic.\n    - `TEMPORAL_STABILITY_REQ_TYPE_2`: Minimum down-time logic.\n    - `STARTUP_COST_RULE`: Linking startup events to cost variables.\n    - `STATE_TRANSITION`: Logical link between online status and start/stop indicators.\n    - `STOP_WITHIN_ONLINE_LIMIT`: Shutdown trajectory logic.\n    - `START_IMPLIES_ONLINE`: Startup trajectory logic.\n- `sense`: String comparison operator. Values: `<=`, `=`, `>=`.\n- `rhs`: Numeric right-hand side. Units depend on `rule_family` (kW for equilibrium, MW for others).\n- `gen_scope`: Parameterized expansion field. Value: `ALL_DISPATCHABLE_MODES_AT_TIME` (includes all available asset generation terms for the given `time_id`).\n- `gen_coef`: Coefficient applied to implicit generation terms.\n- `online_capacity_source`: Parameterized expansion field. Value: `MAX_MODE_OUTPUT` (derives online capacity as the maximum `max_output` across an asset's profiles)."
+    },
+    "policy_rule_terms": {
+      "path": "data/policy_rule_terms.csv",
+      "description": "Operational policy rules (term table). Links specific variables and coefficients to rules.\n- `rule_id`: Links to `policy_rules.csv`.\n- `term_type`: String identifier for the variable type. Values:\n    - `GEN`: Power output of an asset in a specific profile.\n    - `MODE_ON`: Binary indicator for an active profile.\n    - `ONLINE`: Binary indicator for an online asset.\n    - `START`: Binary indicator for a startup event.\n    - `STOP`: Binary indicator for a shutdown event.\n    - `START_STAGE`: Binary indicator for a specific startup trajectory stage.\n    - `STOP_STAGE`: Binary indicator for a specific shutdown trajectory stage.\n    - `STARTUP_COST`: Continuous variable for accumulated startup costs.\n    - `UNSERVED`: Continuous variable for load curtailment.\n- `coef`: Signed numeric coefficient for the term."
+    },
+    "mode_unavailability_windows": {
+      "path": "data/mode_unavailability_windows.csv",
+      "description": "Time windows in which specific (asset, profile) combinations are unavailable. If not listed, a profile is considered available for all time steps."
+    },
+    "start_stop_event_cost_windows": {
+      "path": "data/start_stop_event_cost_windows.csv",
+      "description": "Time windows assigning surcharges to asset state changes.\n- `event_type`: String identifier. Values: `START`, `STOP`."
+    },
+    "ambient_conditions": {
+      "path": "data/ambient_conditions.csv",
+      "description": "Decoy environmental data (temperature, humidity, wind speed) per time step. Not used in the core optimization model."
+    },
+    "asset_registry": {
+      "path": "data/asset_registry.csv",
+      "description": "Decoy asset registry containing manufacturer and subsidiary information. Not used in the core optimization model."
+    }
+  },
+  "optimal_value": "11167.74532"
+}

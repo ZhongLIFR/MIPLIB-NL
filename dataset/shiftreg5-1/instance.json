@@ -1,0 +1,41 @@
+{
+  "abstract_problem": "A service organization is planning staffing for a single day that is divided into {N_time_slots} equal time slots (each slot is {time_granularity_minutes} minutes). There are {N_employees} employees available, identified as employee_id = 0..{N_employees_minus_1}.\n\nThe operation has {N_activities} service lines, identified by short activity codes: {activity_codes}. In each time slot, a scheduled employee can either be off duty, be on a short break, be on a meal break, or actively work on exactly one service line.\n\nDuring the day, each service line is open only in certain time slots. When a service line is open in a given time slot, the business sets a target staffing level for that service line: how many employees should be actively working on that line in that slot.\n\nIf the schedule assigns fewer employees than the target for a service line in a given time slot, the shortfall is called understaffing. If the schedule assigns more employees than the target, the surplus is called overstaffing. Both are allowed but create a cost. The costs are time-dependent and service-line-dependent: every (time slot, service line) pair has its own understaffing and overstaffing penalty rates. A penalty rate is charged per person-slot of deviation (one person-slot means one missing or extra employee in one time slot for that service line).\n\n**Crucially, the organization does not need to utilize all available employees.** Each employee can either be assigned a shift or remain completely unassigned for the day. If an employee is unassigned, they do not work in any time slot, do not follow the rulebook described below, and incur zero labor cost. If an employee is assigned a shift, their day is described as a sequence of statuses over time defined by a compact rulebook, and due to the minimum work requirement ({min_work_slots} slots), assigned employees will necessarily work at least that amount.\n\nWhich sequences are allowed for assigned employees is defined by a compact rulebook (a small graph of states and labeled transitions). The business meaning is that the rulebook encodes what can happen next in an employee's day: remaining off duty, starting to work on a service line, continuing the same service line work stretch, taking a short break, taking a longer meal break, and ending the shift and staying off duty afterwards.\n\nIn addition, the organization has shift policy rules expressed in time-slot units for assigned employees:\n- A scheduled employee must be classified as either a short shift (at most {short_shift_max_work_slots} working slots) or a long shift (at least {long_shift_min_work_slots} working slots).\n- A short shift must include exactly {short_break_slots_short_shift} time slot of short break.\n- A long shift must include exactly {short_break_slots_long_shift} time slots of short break and must additionally include a meal break that lasts exactly {meal_break_slots_long_shift} consecutive time slots.\n\nThe goal is to choose which employees to assign and their daily status sequences to minimize the total daily operating cost, which includes labor cost for working time and the time- and service-line-specific penalties for understaffing and overstaffing.",
+  "parameters": {
+    "N_employees": "24",
+    "N_employees_minus_1": "23",
+    "N_time_slots": "96",
+    "time_granularity_minutes": "15",
+    "N_activities": "5",
+    "activity_codes": "a1,a2,a3,a4,a5",
+    "min_work_slots": "12",
+    "max_work_slots": "32",
+    "short_shift_max_work_slots": "23",
+    "long_shift_min_work_slots": "24",
+    "short_break_slots_short_shift": "1",
+    "short_break_slots_long_shift": "2",
+    "meal_break_slots_long_shift": "4"
+  },
+  "files": {
+    "demand": {
+      "path": "data/demand.csv",
+      "description": "Service-line staffing targets and deviation penalties. Each row corresponds to one time slot and one service line that is open at that time. required_staff is the target number of employees actively working on that service line in that time slot.\n\nIf fewer employees are working than required_staff, the missing headcount is understaffing; if more employees are working than required_staff, the extra headcount is overstaffing. The penalty columns define how much cost is charged per person-slot of deviation, and they may differ across time slots and service lines. One person-slot means 1 employee of deviation in 1 time slot for that service line.\n\nData format:\n- Header: time_id,activity_code,required_staff,under_penalty,over_penalty\n- time_id: integer time slot index\n- activity_code: string service line code\n- required_staff: nonnegative integer target headcount\n- under_penalty: nonnegative number (cost per missing person-slot)\n- over_penalty: nonnegative number (cost per extra person-slot)\nExample:\ntime_id,activity_code,required_staff,under_penalty,over_penalty\n32,a4,7,1000000.0,4.383401\n56,a1,5,0.897078,1.064333"
+    },
+    "work_cost": {
+      "path": "data/work_cost.csv",
+      "description": "Labor cost for assigning a specific employee to actively work on a specific service line in a specific time slot. The objective adds this cost whenever the schedule assigns that employee to that service line in that slot.\n\nData format:\n- Header: employee_id,time_id,activity_code,cost\n- employee_id: integer identifier\n- time_id: integer time slot index\n- activity_code: string service line code\n- cost: nonnegative number (cost for that employee to work one slot on that service line)\nExample:\nemployee_id,time_id,activity_code,cost\n0,32,a4,4.383401\n0,56,a1,1.064333"
+    },
+    "label_time_windows": {
+      "path": "data/label_time_windows.csv",
+      "description": "Inclusive time windows for each label used by the rulebook. A label is allowed only within its [start_time_id, end_time_id] window.\n\nLabels include off, short_break, meal_break, and each activity code listed in the parameters. The window applies globally: outside that range the label is not allowed anywhere in an employee's daily sequence.\n\nData format:\n- Header: label,start_time_id,end_time_id\n- label: string (off, short_break, meal_break, or an activity_code)\n- start_time_id,end_time_id: inclusive integer indices\nExample:\nlabel,start_time_id,end_time_id\na3,36,75\nshort_break,36,75\nmeal_break,36,75\noff,0,95"
+    },
+    "automaton_transitions": {
+      "path": "data/automaton_transitions.csv",
+      "description": "Base transitions of the compact rulebook (time-independent template). Each row defines one allowed next step: if the current state is from_state and the chosen label is label, then the next state becomes to_state.\n\nNote: For modeling, use rulebook_edges.csv instead, which contains the time-specific expansion of these rules with temporal constraints applied.\n\nData format:\n- Header: from_state,to_state,label\n- from_state,to_state: string state identifiers\n- label: off, short_break, meal_break, or an activity_code\nExample:\nfrom_state,to_state,label\nq0,q0,off\nq0,a4_1,a4\na4_4,br,short_break\na4_4,l_1,meal_break"
+    },
+    "rulebook_edges": {
+      "path": "data/rulebook_edges.csv",
+      "description": "Time-layered rulebook transitions (use this file for modeling). Each row indicates that at a given time slot, a specific label choice is allowed from a given state and leads to a given next state. This is a pruned time expansion of automaton_transitions.csv with temporal constraints applied.\n\nImportant: This graph is pruned such that certain transitions may not exist at all time slots. For example, the 'off' self-loop from q0 typically ends around time 75-76, after which employees must transition to work states if they want to follow the rulebook. This reflects shift timing constraints.\n\nFor assigned employees, model their path through this time-layered graph. Unassigned employees bypass this graph entirely.\n\nData format:\n- Header: time_id,from_state,to_state,label\n- time_id: integer time slot index\n- from_state,to_state: string state identifiers\n- label: off, short_break, meal_break, or an activity_code\nExample:\ntime_id,from_state,to_state,label\n32,q0,a4_1,a4\n63,a4_4,br,short_break\n75,l_4,a3_1,a3"
+    }
+  },
+  "optimal_value": "520.2562364680399"
+}

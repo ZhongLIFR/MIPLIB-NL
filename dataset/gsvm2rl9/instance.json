@@ -1,0 +1,23 @@
+{
+  "abstract_problem": "We are tasked with optimizing a linear compliance scoring system for {n_samples} financial entities, each characterized by {n_features} quantitative risk indicators. The goal is to determine the optimal weight vector u and intercept b to minimize a tripartite operational cost function. The first component is a sparsity penalty defined by the L1 norm of u, ensuring the model relies on a minimal set of indicators. The second and third components define the classification loss: the system dynamically assigns each entity to either a 'Standard Protocol' or an 'Exception Protocol'. Entities under the Standard Protocol enforce a strict margin constraint; any violation of this margin results in a variable penalty proportional to the violation magnitude (Weighted Hinge Loss). Entities assigned to the Exception Protocol are granted a relaxation buffer of size {M}, effectively ignoring margin violations up to this limit. However, activating the Exception Protocol incurs a fixed 'Administrative Fee' for that entity, calculated as {cost_ratio_outlier} times the entity's specific importance weight. It is crucial to note that the relaxation buffer is finite; if an Exception entity's violation exceeds {M}, the residual violation beyond {M} is still charged as a variable penalty. The importance weights are stratified by class to ensure fairness: {C_global}/{n_pos} for positive class entities and {C_global}/{n_neg} for negative class entities. Regarding the input data structure, features indexed 1 through 10 are derived from high-frequency trading logs, while the remaining features come from quarterly balance sheets. The high-frequency logs are subject to a 5ms latency during real-time inference, whereas balance sheet data is static. Additionally, the IT department charges a maintenance fee of 0.01 per non-zero weight per year after deployment. The optimization problem solely concerns the minimization of the training objective function (Sparsity + Variable Penalties + Administrative Fees).",
+  "parameters": {
+    "n_samples": 200,
+    "n_features": 200,
+    "n_pos": 112,
+    "n_neg": 88,
+    "C_global": 10000.0,
+    "M": 100.0,
+    "cost_ratio_outlier": 2.0
+  },
+  "files": {
+    "labels": {
+      "path": "./data/patient_labels.csv",
+      "description": "A CSV table with columns `id` (Patient ID) and `label` (Diagnosis, +1 or -1).\nData format:\n| id | label |\n| --- | --- |\n| 1 | -1 |\n| 2 | -1 |\n| ... | ... |"
+    },
+    "expressions": {
+      "path": "./data/gene_expressions.csv",
+      "description": "A CSV table in long format with columns `id` (Patient ID), `gene_id` (Gene Index, 1 to 60), and `value` (Expression Level).\nData format:\n| id | gene_id | value |\n| --- | --- | --- |\n| 1 | 1 | -18.983611 |\n| 1 | 2 | -2.551605 |\n| ... | ... | ... |"
+    }
+  },
+  "optimal_value": 7438.181021170049
+}

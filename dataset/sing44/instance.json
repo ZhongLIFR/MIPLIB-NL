@@ -1,0 +1,45 @@
+{
+  "abstract_problem": "A service operator must meet an exact coverage requirement across {T} indexed time slots. In each slot, the operator can assemble coverage from three sources.\n\nFirst, there are pre-qualified adjustable segments. Each segment is associated with exactly one slot. If a segment is activated, it must deliver a coverage amount within a specified lower and upper threshold for that segment; if it is not activated, it delivers nothing. Delivered coverage from adjustable segments is charged per unit.\n\nSecond, there are discrete actions. Triggering an action incurs a fixed charge and produces predetermined coverage contributions in one or more slots according to a predefined contribution pattern.\n\nThird, there are emergency fallback options. Each fallback option is tied to one slot. Purchasing an amount from an option increases coverage in that slot by the same amount and is charged at that option's unit price. A slot may have multiple fallback options with different unit prices.\n\nIn addition to the coverage requirement, the operator must comply with a large set of internal policy rules. These rules are expressed as signed balance identities over a collection of binary decision nodes (some nodes correspond to activating a segment, some correspond to triggering an action, and others are internal auxiliary states). Only selections that satisfy all such identities are allowed.\n\nThe goal is to minimize total cost while exactly matching every slot's coverage requirement and satisfying all policy rules.",
+  "parameters": {
+    "T": "168"
+  },
+  "files": {
+    "slots": {
+      "path": "data/slots.csv",
+      "description": "Coverage requirement for each time slot. Each row specifies one slot and the exact required coverage level that must be matched.\n\nString fields:\n- slot_id: Opaque slot key used to join with other tables. Format: prefix 'TS' followed by lowercase hexadecimal characters.\n\nData format: | slot_id | requirement |\n|:--|--:|\n| <str> | <float> |\n| ... | ... |"
+    },
+    "segments": {
+      "path": "data/segments.csv",
+      "description": "Adjustable segments available to deliver coverage. Each row represents one segment tied to a single slot. If the segment is activated, its delivered coverage must lie within the given lower and upper thresholds; otherwise it delivers nothing. The delivered coverage is charged per unit.\n\nString fields:\n- segment_id: Opaque segment key. Format: prefix 'SEG' followed by lowercase hexadecimal characters.\n- slot_id: Opaque slot key (see the slot table).\n\nData format: | segment_id | slot_id | threshold_low | threshold_high | unit_price |\n|:--|:--|--:|--:|--:|\n| <str> | <str> | <float> | <float> | <float> |\n| ... | ... | ... | ... | ... |"
+    },
+    "actions": {
+      "path": "data/actions.csv",
+      "description": "Discrete actions. Each action represents a triggerable option that, when selected, incurs a fixed charge and contributes predetermined coverage in one or more slots (defined in a separate contribution table).\n\nString fields:\n- action_id: Opaque action key. Format: prefix 'ACT' followed by lowercase hexadecimal characters.\n\nData format: | action_id | fixed_price |\n|:--|--:|\n| <str> | <float> |\n| ... | ... |"
+    },
+    "action_contributions": {
+      "path": "data/action_contributions.csv",
+      "description": "Coverage contributions produced by discrete actions. Each row states that if an action is triggered, it adds a specified coverage contribution to a particular slot.\n\nString fields:\n- action_id: Opaque action key (see the action table).\n- slot_id: Opaque slot key (see the slot table).\n\nData format: | action_id | slot_id | contribution |\n|:--|:--|--:|\n| <str> | <str> | <float> |\n| ... | ... | ... |"
+    },
+    "fallback": {
+      "path": "data/fallback.csv",
+      "description": "Emergency fallback options. Each row represents one purchasable fallback option that applies to exactly one slot. Purchasing an amount from an option increases coverage in that slot by the same amount and is charged at the option's unit price. A slot may have multiple fallback options.\n\nString fields:\n- fallback_id: Opaque fallback option key. Format: prefix 'FB' followed by lowercase hexadecimal characters.\n- slot_id: Opaque slot key (see the slot table).\n\nData format: | fallback_id | slot_id | unit_price |\n|:--|:--|--:|\n| <str> | <str> | <float> |\n| ... | ... | ... |"
+    },
+    "fallback_bounds": {
+      "path": "data/fallback_bounds.csv",
+      "description": "Additional purchase bounds for a subset of fallback options. Each row specifies a fallback option that has an explicit minimum required purchase amount and an explicit maximum allowed purchase amount. Any fallback option not listed in this file has no additional bounds beyond being nonnegative.\n\nString fields:\n- fallback_id: Opaque fallback option key (see the fallback table).\n\nData format: | fallback_id | min_amount | max_amount |\n|:--|--:|--:|\n| <str> | <float> | <float> |\n| ... | ... | ... |"
+    },
+    "nodes": {
+      "path": "data/nodes.csv",
+      "description": "Binary decision node catalog. Each row defines a decision node participating in internal policy rules.\n\nString fields:\n- node_id: Opaque node key used in the policy rule tables. Format: prefix 'N' followed by lowercase hexadecimal characters.\n- node_kind: One of {segment_switch, action_switch, aux}. Meanings: segment_switch toggles a segment; action_switch triggers an action; aux is an internal auxiliary state.\n- ref_id: Reference identifier whose meaning depends on node_kind. For segment_switch it is a segment_id; for action_switch it is an action_id; for aux it is an empty string.\n\nData format: | node_id | node_kind | ref_id | price |\n|:--|:--|:--|--:|\n| <str> | <str> | <str> | <float> |\n| ... | ... | ... | ... |"
+    },
+    "equations": {
+      "path": "data/equations.csv",
+      "description": "Internal policy rule list expressed as signed balance identities. Each row defines a rule identifier and a right-hand side integer constant. The left-hand side is defined by the associated terms table.\n\nString fields:\n- eq_id: Opaque rule key. Format: prefix 'EQ' followed by lowercase hexadecimal characters.\n\nData format: | eq_id | rhs |\n|:--|--:|\n| <str> | <int> |\n| ... | ... |"
+    },
+    "equation_terms": {
+      "path": "data/equation_terms.csv",
+      "description": "Terms for internal policy rules. Each row assigns a node to a rule with a sign. For a given rule, the signed sum of the participating nodes must match the rule's right-hand side.\n\nString fields:\n- eq_id: Opaque rule key (see the equations table).\n- node_id: Opaque node key (see the nodes table).\n\nData format: | eq_id | node_id | sign |\n|:--|:--|--:|\n| <str> | <str> | <int> |\n| ... | ... | ... |"
+    }
+  },
+  "optimal_value": "8128831.1772"
+}

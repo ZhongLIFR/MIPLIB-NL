@@ -1,0 +1,22 @@
+{
+  "abstract_problem": "This is a robust classification modeling problem in medical diagnosis. Given gene expression data for {n_samples} patients with {n_features} features, we aim to train a robust linear classifier (weights u, intercept b). To handle data noise, the model effectively chooses whether to treat each sample as 'normal' or 'outlier'. For normal samples, the model enforces classification margins, and any violation incurs a Hinge Loss penalty. For outliers, the model discards the classification constraint (ignoring the error) but incurs a fixed penalty cost instead. The objective is to minimize the total sum of: 1. Regularization term (L1 norm of u, for feature selection); 2. Weighted Hinge Loss for normal samples; 3. Fixed penalties for outliers. Parameters: The fixed penalty cost is 2 times the unit Hinge Loss weight of that sample. Weights are class-balanced: {C_global}/{n_pos} for positive and {C_global}/{n_neg} for negative samples.",
+  "parameters": {
+    "n_samples": 100,
+    "n_features": 100,
+    "n_pos": 55,
+    "n_neg": 45,
+    "C_global": 5.0,
+    "cost_ratio_outlier": 2.0
+  },
+  "files": {
+    "labels": {
+      "path": "./data/patient_labels.csv",
+      "description": "A CSV table with columns `id` (Patient ID) and `label` (Diagnosis, +1 or -1).\nData format:\n| id | label |\n| --- | --- |\n| 1 | 1 |\n| 2 | 1 |\n| ... | ... |"
+    },
+    "expressions": {
+      "path": "./data/gene_expressions.csv",
+      "description": "A CSV table in long format with columns `id` (Patient ID), `gene_id` (Gene Index, 1 to 60), and `value` (Expression Level).\nData format:\n| id | gene_id | value |\n| --- | --- | --- |\n| 1 | 1 | 4.895779 |\n| 1 | 2 | -3.529586 |\n| ... | ... | ... |"
+    }
+  },
+  "optimal_value": 5.423050969398
+}

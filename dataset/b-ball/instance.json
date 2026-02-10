@@ -1,0 +1,10 @@
+{
+  "abstract_problem": "A basketball coach manages a basketball team composed of N1 players. Each player's jersey number must be chosen from 0 to L. The coach is required to manage the playing time of each player in N2 quarters of the game (each quarter has the same duration). The objective is to maximize the minimum playing time of the player with the least playing time. It is required that there are exactly P players on the court at any time, and substitutions can only be made at the midpoint of each quarter. ",
+  "parameters": {
+    "N1": 11,
+    "L": 99,
+    "N2": 4,
+    "P": 5
+  },
+  "optimal_value": 1.5
+}

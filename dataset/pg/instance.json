@@ -1,0 +1,33 @@
+{
+  "abstract_problem": "A global clean energy consortium is evaluating a portfolio of potential power generation initiatives to be commissioned across a network of regional grids. The overarching mission is to construct a balanced energy portfolio that maximizes economic efficiency,defined as the net operational yield (revenue from power delivery minus initial setup expenditures). Rather than treating projects as monolithic entities locked to a single location, the consortium employs a distributed deployment model: a single initiative can be fractionally realized across multiple grids, allowing for granular resource allocation.\n\nHowever, this flexibility is constrained by physical realities. Each regional grid has a hard ceiling on the total load it can support, necessitating careful distribution of generation tasks. Furthermore, the act of 'greenlighting' an initiative incurs a one-time activation cost, regardless of how widely it is distributed. The strategic challenge lies in simultaneously selecting the most viable initiatives and determining their precise fractional contribution to each regional grid, ensuring that the collective output aligns with capacity limits while optimizing the financial bottom line.",
+  "parameters": {
+    "num_projects": "100",
+    "num_facilities": "25",
+    "num_assignment_variables": "2500",
+    "num_binary_variables": "100",
+    "num_continuous_variables": "2600",
+    "num_capacity_constraints": "25",
+    "num_demand_constraints": "100",
+    "total_variables": "2700",
+    "total_constraints": "125"
+  },
+  "files": {
+    "project": {
+      "path": "data/project.csv",
+      "description": "Project information with columns: project_id (unique identifier), fixed_cost (investment cost), demand (project demand), f_upper_bound (upper bound for auxiliary variable). Data format: | project_id | fixed_cost | demand | f_upper_bound |\n|---|---|---|---|\n| 0 | 64.0 | 1364.0 | 545.6 |\n| 1 | 5.0 | 1107.0 | 442.8 |\n| ... | ... | ... | ... |"
+    },
+    "facility": {
+      "path": "data/facility.csv",
+      "description": "Facility information with columns: facility_id (unique identifier), capacity (production capacity). Data format: | facility_id | capacity |\n|---|---|\n| 0 | 2464.0 |\n| 1 | 1466.0 |\n| ... | ... |"
+    },
+    "assignment_profit": {
+      "path": "data/assignment_profit.csv",
+      "description": "Assignment profit matrix information with columns: project_id (project identifier), facility_id (facility identifier), profit (profit from assignment). Data format: | project_id | facility_id | profit |\n|---|---|---|\n| 0 | 0 | 8.0 |\n| 0 | 1 | 8.0 |\n| ... | ... | ... |"
+    },
+    "facility_demand": {
+      "path": "data/facility_demand.csv",
+      "description": "Facility demand coefficient matrix information with columns: project_id (project identifier), facility_id (facility identifier), demand_coefficient (coefficient for capacity usage). Data format: | project_id | facility_id | demand_coefficient |\n|---|---|---|\n| 0 | 0 | 26.0 |\n| 0 | 1 | 85.0 |\n| ... | ... | ... |"
+    }
+  },
+  "optimal_value": 8674.342607117023
+}

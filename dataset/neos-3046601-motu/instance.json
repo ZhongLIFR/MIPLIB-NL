@@ -1,0 +1,19 @@
+{
+  "abstract_problem": "You are a production engineer managing a high-precision industrial welding robot. The robot arm needs to perform welding operations at N distinct points on a chassis. The time required to move the arm from one point to another depends on the specific sequence of movements (Sequence-Dependent Setup Times), as detailed in Table T1. Each welding point has strict process requirements listed in Table T2: a 'Min_Arrival_Time' (the earliest time the part is ready for welding) and a 'Deadline' (to prevent thermal deformation). \n\nYour task is to model this as an optimization problem to determine the optimal welding sequence:\n1. **Sequence Logic**: The robot must visit every welding point exactly once.\n2. **Time Tracking**: Track the exact start time for each weld. This variable must have a lower bound equal to the 'Min_Arrival_Time'.\n3. **Tardiness**: Calculate the delay for each point (Start Time - Deadline) if the robot arrives late.\n4. **Continuity**: Ensure that if the robot moves from point i to j, the start time at j is at least the start time at i plus the movement time. Use a Big-M constraint logic for this.\n5. **Objective**: Minimize the Total Cost, defined as the sum of all Tardiness penalties plus the sum of all Start Times, minus a process efficiency constant K.",
+  "parameters": {
+    "N": 17,
+    "M": 10000.0,
+    "K": 275
+  },
+  "files": {
+    "files_1": {
+      "path": "data/transitions.csv",
+      "description": "Table T1: Matrix of arm movement times (setup times) between welding points."
+    },
+    "files_2": {
+      "path": "data/locations.csv",
+      "description": "Table T2: Process attributes for each welding point, including Deadlines and Earliest Start Times."
+    }
+  },
+  "optimal_value": 1459
+}

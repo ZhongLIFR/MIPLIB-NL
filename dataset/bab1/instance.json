@@ -1,0 +1,72 @@
+{
+  "abstract_problem": "A transportation provider plans a set of profitable operations by selecting a consistent set of discrete choices. Each choice represents committing to an option, a linkage, or an activity segment, and every choice has a net cost that can be positive (expense) or negative (profit credit).\n\nA central feature of this instance is consistency across multiple representations of the same underlying commitment. There are {num_link_pairs} synchronization links; each link forces two choices to take the same on/off status, ensuring that mirrored representations stay aligned.\n\nIn addition, there are {num_balance_groups} balance groups that enforce that two equally-sized pools of choices stay in equilibrium: within each group, the number of selected choices on the “positive side” must match the number selected on the “negative side”.\n\nThe plan must avoid incompatible combinations captured by {num_conflict_groups} conflict groups (at most one choice may be selected in each group). It must also satisfy minimum selection expectations across {num_coverage_groups} coverage groups (at least a required number of members must be selected).\n\nFurther, there are {num_cap_groups} cap rules that limit how many items may be selected within certain protected subsets.\n\nFinally, the instance contains {num_mix_dimensions} policy dimensions that limit how concentrated a certain attribute may be among selected choices, and a small set of additional linear rules that do not fit the higher-level families.\n\nThe goal is to select a consistent set of choices that respects all operational rules and yields the minimum total net cost.",
+  "parameters": {
+    "num_decisions": "61152",
+    "num_link_pairs": "23296",
+    "num_balance_groups": "588",
+    "num_conflict_groups": "12138",
+    "num_coverage_groups": "52",
+    "num_cap_groups": "1260",
+    "num_mix_dimensions": "4",
+    "num_generic_linear_constraints": "46"
+  },
+  "files": {
+    "decisions": {
+      "path": "data/decisions.csv",
+      "description": "All selectable choices in the plan. Each row is one binary choice with its net cost contribution in the objective. The decision identifier uses a stable, cleaned format.\n\nPossible strings:\n- decision_id: 'd' followed by digits (left-padded to at least 5 digits), e.g., d00000.\n- role: currently always 'choice' (a generic label that can be ignored for modeling).\n\nData format: | decision_id | role | cost |\n|:--|:--|:--|\n| <str> | <str> | <float> |\n| ... | ... | ... |"
+    },
+    "link_pairs": {
+      "path": "data/link_pairs.csv",
+      "description": "Synchronization links between pairs of choices. Each row indicates that the two choices must share the same on/off status. Each link is listed once in this representation, even if the source model contains duplicated or sign-flipped copies of the same equality.\n\nPossible strings:\n- a_decision_id, b_decision_id: 'd' followed by digits, e.g., d00000.\n\nData format: | a_decision_id | b_decision_id |\n|:--|:--|\n| <str> | <str> |\n| ... | ... |"
+    },
+    "balance_groups": {
+      "path": "data/balance_groups.csv",
+      "description": "Balance groups defining sets of paired pools that must stay in equilibrium. Each group has members on a positive side and a negative side.\n\nPossible strings:\n- balance_group_id: 'B' followed by 3 digits, e.g., B000.\n\nData format: | balance_group_id |\n|:--|\n| <str> |\n| ... |"
+    },
+    "balance_members": {
+      "path": "data/balance_members.csv",
+      "description": "Membership of choices in each balance group, including which side the member belongs to. Within each group, selected count on the positive side must equal selected count on the negative side.\n\nPossible strings:\n- balance_group_id: 'B' followed by 3 digits, e.g., B000.\n- decision_id: 'd' followed by digits, e.g., d00000.\n- side: 'pos' or 'neg'.\n\nData format: | balance_group_id | decision_id | side |\n|:--|:--|:--|\n| <str> | <str> | <str> |\n| ... | ... | ... |"
+    },
+    "conflict_groups": {
+      "path": "data/conflict_groups.csv",
+      "description": "Groups of mutually incompatible choices. For each group, at most one member choice may be selected.\n\nPossible strings:\n- conflict_group_id: 'C' followed by 4 digits, e.g., C0000.\n\nData format: | conflict_group_id |\n|:--|\n| <str> |\n| ... |"
+    },
+    "conflict_members": {
+      "path": "data/conflict_members.csv",
+      "description": "Membership of choices in each incompatibility group.\n\nPossible strings:\n- conflict_group_id: 'C' followed by 4 digits, e.g., C0000.\n- decision_id: 'd' followed by digits, e.g., d00000.\n\nData format: | conflict_group_id | decision_id |\n|:--|:--|\n| <str> | <str> |\n| ... | ... |"
+    },
+    "coverage_groups": {
+      "path": "data/coverage_groups.csv",
+      "description": "Minimum selection expectations. Each row defines a group and the minimum number of selected choices required in that group.\n\nPossible strings:\n- coverage_group_id: 'G' followed by 4 digits, e.g., G0000.\n\nData format: | coverage_group_id | min_selected |\n|:--|:--|\n| <str> | <float> |\n| ... | ... |"
+    },
+    "coverage_members": {
+      "path": "data/coverage_members.csv",
+      "description": "Membership of choices in each coverage group. A choice listed under a group counts toward that group’s minimum.\n\nPossible strings:\n- coverage_group_id: 'G' followed by 4 digits, e.g., G0000.\n- decision_id: 'd' followed by digits, e.g., d00000.\n\nData format: | coverage_group_id | decision_id |\n|:--|:--|\n| <str> | <str> |\n| ... | ... |"
+    },
+    "cardinality_caps": {
+      "path": "data/cardinality_caps.csv",
+      "description": "Upper limits on how many member choices may be selected in a cap group.\n\nPossible strings:\n- cap_group_id: 'K' followed by 4 digits, e.g., K0000.\n\nData format: | cap_group_id | max_selected |\n|:--|:--|\n| <str> | <float> |\n| ... | ... |"
+    },
+    "cardinality_cap_members": {
+      "path": "data/cardinality_cap_members.csv",
+      "description": "Membership of choices in each cap group.\n\nPossible strings:\n- cap_group_id: 'K' followed by 4 digits, e.g., K0000.\n- decision_id: 'd' followed by digits, e.g., d00000.\n\nData format: | cap_group_id | decision_id |\n|:--|:--|\n| <str> | <str> |\n| ... | ... |"
+    },
+    "mix_targets": {
+      "path": "data/mix_targets.csv",
+      "description": "Share-limit targets for each policy dimension. These targets bound how concentrated an attribute may be among selected choices.\n\nPossible strings:\n- mix_dimension_id: 'D' followed by digits, e.g., D0.\n\nData format: | mix_dimension_id | max_share |\n|:--|:--|\n| <str> | <float> |\n| ... | ... |"
+    },
+    "mix_flags": {
+      "path": "data/mix_flags.csv",
+      "description": "Binary attribute flags for choices under each policy dimension.\n\nPossible strings:\n- mix_dimension_id: 'D' followed by digits, e.g., D0.\n- decision_id: 'd' followed by digits, e.g., d00000.\n- flag: 0 or 1.\n\nData format: | mix_dimension_id | decision_id | flag |\n|:--|:--|:--|\n| <str> | <str> | <int> |\n| ... | ... | ... |"
+    },
+    "generic_linear_constraints": {
+      "path": "data/generic_linear_constraints.csv",
+      "description": "Additional linear rules that are not covered by the higher-level families. Each row defines a constraint with its comparison direction and right-hand side.\n\nPossible strings:\n- constraint_id: original rule identifier from the source model (e.g., c12345) or a derived identifier.\n- sense: one of '<=', '=', '>='.\n\nData format: | constraint_id | sense | rhs |\n|:--|:--|:--|\n| <str> | <str> | <float> |\n| ... | ... | ... |"
+    },
+    "generic_linear_terms": {
+      "path": "data/generic_linear_terms.csv",
+      "description": "Coefficients for the additional linear rules. Each row provides one coefficient linking a choice to a generic rule.\n\nPossible strings:\n- constraint_id: identifier from generic_linear_constraints.\n- decision_id: 'd' followed by digits, e.g., d00000.\n\nData format: | constraint_id | decision_id | coef |\n|:--|:--|:--|\n| <str> | <str> | <float> |\n| ... | ... | ... |"
+    }
+  },
+  "optimal_value": "-218764.88525"
+}

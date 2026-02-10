@@ -1,0 +1,18 @@
+{
+  "abstract_problem": "Assume you are the crew scheduling manager for a major airline. You have a schedule of N1 flight legs that must be operated in a specific period. Based on regulations and logistics, your team has generated N2 possible crew pairings (a pairing is a sequence of flights a single crew can legally fly). The operational cost for each pairing is listed in Table C1. The specific flight legs included in each pairing are detailed in Table C2. Your goal is to select a subset of these pairings such that every single flight leg is covered exactly once, minimizing the total operational cost.",
+  "parameters": {
+    "N1": 36,
+    "N2": 87482
+  },
+  "files": {
+    "files_1": {
+      "path": "data/C1.csv",
+      "description": "Table C1: The first column lists the Pairing IDs (variables), and the second column shows the cost associated with assigning a crew to that pairing."
+    },
+    "files_2": {
+      "path": "data/C2.csv",
+      "description": "Table C2: This table defines the composition of each pairing. The first column lists the Pairing ID, and the second column lists a Flight Leg ID included in that pairing. (This represents the sparse constraint matrix)."
+    }
+  },
+  "optimal_value": 16862.0
+}

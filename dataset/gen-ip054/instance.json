@@ -1,0 +1,31 @@
+{
+  "abstract_problem": "Assume you are the logistics director of a polar expedition. You need to transport N different types of modular equipment to a remote base. Each equipment type has a specific 'Scientific Value' (or Cost), as shown in Table C1. The transportation mission is subject to M1 types of resource constraints (such as weight, volume, etc.) and must meet M2 types of performance requirements (such as power generation, thermal protection, etc.). \n\nThe resource consumption of each equipment type is listed in Table C2, and the maximum limit for each resource is listed in Table C3. The performance contribution of each equipment type to the required metrics is listed in Table C4, and the minimum required standard for each performance metric is listed in Table C5.\n\nPlease output the quantity of each equipment type to be transported to minimize the total cost (or maximize value) while satisfying all resource limits and meeting all performance standards.",
+  "parameters": {
+    "N": 28,
+    "M1": 4,
+    "M2": 20
+  },
+  "files": {
+    "files_1": {
+      "path": "data/C1.csv",
+      "description": "Table C1: The first column is the Equipment Type ID. The second column represents the coefficient in the objective function (Scientific Value or Cost) for each equipment type."
+    },
+    "files_2": {
+      "path": "data/C2.csv",
+      "description": "Table C2: Resource Consumption Matrix. The rows represent Equipment Type IDs, and the columns represent the M1 Resource Constraint IDs . The value at each intersection represents the consumption of a specific resource by a specific equipment type."
+    },
+    "files_3": {
+      "path": "data/C3.csv",
+      "description": "Table C3: Resource Limits. The first column lists the Resource Constraint IDs , and the second column shows the maximum allowable limit (Upper Bound) for each resource."
+    },
+    "files_4": {
+      "path": "data/C4.csv",
+      "description": "Table C4: Performance Contribution Matrix. The rows represent Equipment Type IDs, and the columns represent the M2 Performance Requirement IDs . The value at each intersection represents the contribution of a specific equipment type to a specific performance metric."
+    },
+    "files_5": {
+      "path": "data/C5.csv",
+      "description": "Table C5: Performance Targets. The first column lists the Performance Requirement IDs , and the second column shows the minimum required value (Lower Bound) for each performance metric."
+    }
+  },
+  "optimal_value": 6840.96564179
+}

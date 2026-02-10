@@ -1,0 +1,27 @@
+{
+  "abstract_problem": "A systems biology team is consolidating a gene regulatory knowledge base built from multiple experiments and curation pipelines. Each pipeline may use a different sign convention for what it considers an \"increase\" versus a \"decrease\" in activity, so the same biological relationship can appear inconsistent across sources.\n\nTo harmonize the knowledge base, the team chooses a binary reference orientation for each of the {num_entities} entities (think of it as deciding whether to keep or flip that entity's sign convention relative to a shared reference). The dataset contains {num_evidence} pairwise evidence records linking two entities at a time. Each record is described using business-facing categorical fields (such as an effect type and a comparison domain) and a weight. A separate semantics table defines how each category combination should be interpreted as an expectation about whether the two entities should end up aligned or opposed after harmonization.\n\nAfter selecting reference orientations, some evidence records will become incompatible with the chosen orientations. Every incompatible record contributes a penalty proportional to its weight (with unit scale {violation_unit_cost}). The goal is to choose orientations that minimize the total incompatibility penalty across all evidence.",
+  "parameters": {
+    "num_entities": "326",
+    "num_evidence": "8856",
+    "violation_unit_cost": "1"
+  },
+  "files": {
+    "entities": {
+      "path": "data/entities.csv",
+      "description": "List of entities whose reference orientation must be chosen. The entity_key field is the stable identifier used by all other files; it is a short token consisting of the prefix 'E' followed by uppercase hex characters. The display_name field is for human readability only and does not imply any numeric meaning.\n\nData format: | entity_key | display_name |\n|:----------|:------------|\n| <str>     | <str>        |\n| ...       | ...          |"
+    },
+    "evidence_semantics": {
+      "path": "data/evidence_semantics.csv",
+      "description": "Interpretation table for business-facing evidence categories. Each row defines how a pair (effect_type, agreement_domain) should be interpreted as an expectation about whether the two endpoints should be aligned (same) or opposed (opposite) after harmonization. The expected_parity field is a categorical string with allowed values: 'same' and 'opposite'.\n\nData format: | effect_type | agreement_domain | expected_parity |\n|:-----------|:-----------------|:----------------|\n| <str>      | <str>            | <str>           |\n| ...        | ...              | ...             |"
+    },
+    "evidence": {
+      "path": "data/evidence.csv",
+      "description": "Pairwise evidence records between two entities. The u_entity_key and v_entity_key fields identify the two endpoints; the order does not carry meaning (treat each row as an undirected pair). The effect_type field is a categorical string; allowed values in this dataset are: 'activation' and 'repression'. The agreement_domain field is a categorical string; allowed values in this dataset are: 'trend' and 'contrast'. Their interpretation into an aligned-or-opposed expectation is defined only by the semantics table.\n\nThe weight field is a nonnegative numeric multiplier for the penalty incurred if the evidence is incompatible with the final orientations (unit scaling {violation_unit_cost}). The following fields are metadata and do not change the meaning of compatibility: source_type (allowed values: 'experiment', 'pipeline', 'curation', 'database'), direction_recorded (allowed values: 'U_to_V', 'V_to_U'), confidence_bucket (allowed values: 'low', 'medium', 'high'), and qc_flag (allowed values: 'pass', 'review', 'fail').\n\nData format: | evidence_id | u_entity_key | v_entity_key | effect_type | agreement_domain | weight | source_type | direction_recorded | confidence_bucket | qc_flag |\n|-----------:|:------------|:------------|:-----------|:-----------------|------:|:-----------|:------------------|:-----------------|:-------|\n| <int>      | <str>        | <str>        | <str>       | <str>             | <num> | <str>       | <str>              | <str>             | <str>  |\n| ...        | ...          | ...          | ...         | ...               | ...   | ...         | ...                | ...               | ...    |"
+    },
+    "sources": {
+      "path": "data/sources.csv",
+      "description": "Metadata describing evidence origins. This file is provided for context only and is not required to construct the optimization model. The source_type field is a categorical string; allowed values in this dataset are: 'experiment' (measured data), 'pipeline' (automated inference workflow), 'curation' (manual extraction/cleaning), and 'database' (external repository). The note field is a human-readable label; it may contain letters, digits, spaces, underscores, hyphens, and periods.\n\nData format: | source_id | source_type | note |\n|----------:|:----------|:-----|\n| <int>     | <str>     | <str> |\n| ...       | ...       | ...  |"
+    }
+  },
+  "optimal_value": "1224"
+}

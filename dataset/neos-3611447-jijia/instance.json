@@ -1,0 +1,27 @@
+{
+  "abstract_problem": "Assume you are the operator of a large-scale gas transmission network. The network consists of multiple pipeline segments connecting various nodes. Gas flows through these segments, and the pressure at each node must be maintained within safe operational limits (Table C1). As gas traverses a segment, pressure drops due to friction, modeled by the dynamic constraint: (Pressure_Downstream - Pressure_Upstream) <= Baseline_Drop + (Boost_Gain * Compressor_Status). These parameters are defined in Table C2. To counteract pressure loss, you can activate compressors at specific segments, incurring an operational cost (Table C3). The network is composed of distinct sections linked together, with continuity rules defined in Table C4. There is a fixed base operational cost of C_fixed. Your objective is to determine which compressors to activate to minimize total operational costs while satisfying all pressure and flow constraints.",
+  "parameters": {
+    "N_nodes": 385,
+    "N_segments": 364,
+    "C_fixed": 42.0
+  },
+  "files": {
+    "files_1": {
+      "path": "data/C1.csv",
+      "description": "Table C1: Node Pressure Limits. Column 1: Node ID. Column 2: Maximum allowable pressure at this node."
+    },
+    "files_2": {
+      "path": "data/C2.csv",
+      "description": "Table C2: Segment Dynamics. Columns: [Upstream_Node (Prev), Downstream_Node (Next), Compressor_Bin_Var, Boost_Coeff, Baseline_Limit]. Defines the constraint: P_next - P_prev - (Boost_Coeff * Bin) <= Baseline_Limit. Note: Flows may vary in direction relative to indices."
+    },
+    "files_3": {
+      "path": "data/C3.csv",
+      "description": "Table C3: Compressor Costs. Column 1: Compressor Binary Variable ID. Column 2: Cost to activate this compressor."
+    },
+    "files_4": {
+      "path": "data/C4.csv",
+      "description": "Table C4: Pipeline Continuity. Column 1: End Node of Section A. Column 2: Start Node of Section B. Constraint: Next_Start <= Prev_End."
+    }
+  },
+  "optimal_value": 106
+}

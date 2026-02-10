@@ -1,0 +1,24 @@
+{
+  "abstract_problem": "The United Earth Space Administration is finalizing the deployment blueprint for the 'Aether' orbital habitat, a massive infrastructure project in Lagrange Point 4. There are {n} proposed habitation and utility modules under consideration for the initial build phase. Each module possesses a calculated Net Present Value (NPV), representing its projected long-term economic utility or sunk cost; naturally, infrastructure nodes often carry negative NPVs but are essential for grid connectivity. For administrative tracking, modules with IDs ending in an odd digit are classified as 'Civilian Sectors' and will undergo a distinct interior design phase post-selection managed by a third-party contractor. The construction logistics rely on {m} distinct supply chains, ranging from raw titanium alloys to cybernetic neural links and life-support fluids. Due to the strict payload restrictions of the heavy-lift launch vehicles, each specific supply chain type has a rigid maximum throughput of {resource_capacity} units for this fiscal launch cycle. Furthermore, the assembly follows a complex architectural hierarchy defined by {k} structural dependency pairs: a module cannot be structurally supported in the vacuum of space unless its specific anchor module is also part of the configuration (i.e., selecting a dependent module mandates the simultaneous selection of its anchor module). Additionally, all selected modules will incur a 3% annual maintenance levy based on their total mass, which is covered by a separate operational budget allocation for the next decade. The administration aims to determine the specific configuration of modules that maximizes the aggregate Net Present Value of the selected assembly, strictly adhering to the supply chain throughput limits and structural anchoring requirements.",
+  "parameters": {
+    "n": 3200,
+    "m": 8,
+    "k": 63600,
+    "resource_capacity": 1097728.0
+  },
+  "files": {
+    "projects": {
+      "path": "./data/projects.csv",
+      "description": "A CSV table listing all {n} candidate projects with their properties. Columns: `id` (project identifier), `npv` (Net Present Value contribution of the project).\nData format:\n| id | npv |\n| --- | --- |\n| 1 | -255.0 |\n| 2 | -127.0 |\n| ... | ... |"
+    },
+    "resource_costs": {
+      "path": "./data/resource_costs.csv",
+      "description": "A CSV table detailing the resource consumption of projects. Columns: `project_id` (identifier of the project), `res_id` (identifier of the resource type, from 1 to {m}), `cost` (amount of resource units consumed by the project).\nData format:\n| project_id | res_id | cost |\n| --- | --- | --- |\n| 1 | 1 | 3608.0 |\n| 10 | 1 | 1448.0 |\n| ... | ... | ... |"
+    },
+    "dependencies": {
+      "path": "./data/dependencies.csv",
+      "description": "A CSV table listing {k} dependency pairs. Each row (project_id, required_project_id) implies a logical constraint: if `project_id` is selected, then `required_project_id` MUST also be selected.\nData format:\n| project_id | required_project_id |\n| --- | --- |\n| 2800 | 3200 |\n| 2800 | 3199 |\n| ... | ... |"
+    }
+  },
+  "optimal_value": 15775
+}

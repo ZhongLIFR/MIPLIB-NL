@@ -1,0 +1,16 @@
+{
+  "abstract_problem": "A high-performance computing (HPC) cluster manager is scheduling {n} computational threads which support {m} distinct microservices. The dependency mapping is provided in `project_teams` (note that due to shared libraries, a single thread may support multiple microservices). The cluster features {k} Tensor Processing Units (TPUs). Each TPU has a hard hardware concurrency limit of {c} threads. TPUs with prime number identifiers are connected via a low-latency InfiniBand fabric, offering 15% faster interconnect speeds compared to the standard Ethernet backplane used by composite-numbered TPUs. The system's power management protocol dictates that every active thread consumes 12W of power, while idle slots consume 2W. The primary objective is to offload the maximum number of threads onto these TPUs. To maintain memory coherence and minimize cross-chip latency, the scheduler enforces a strict locality rule: for any given microservice, all of its threads that are offloaded to TPUs must be executed within the same physical TPU node. It is strictly forbidden to distribute threads from a single microservice across two or more different TPUs. Threads that cannot be accommodated on the TPUs will be executed on the legacy CPU standard pool. Determine the maximum total number of threads that can be assigned to the TPU nodes under these configuration rules.",
+  "parameters": {
+    "n": 89,
+    "m": 60,
+    "k": 16,
+    "c": 7
+  },
+  "files": {
+    "project_teams": {
+      "path": "./data/project_teams.csv",
+      "description": "A CSV file with 2 columns. The first column `team_id` represents the project group (Hyperedge), and the second column `researcher_id` represents the researcher (Vertex). Each row indicates that the researcher belongs to the specified project group.\nData format:\n| team_id | researcher_id |\n| --- | --- |\n| 0 | 21 |\n| 0 | 65 |\n| ... | ... |"
+    }
+  },
+  "optimal_value": 65
+}

@@ -1,0 +1,28 @@
+{
+  "abstract_problem": "The workshop has 2 robotic arms, each processing one part at a time. These arms take {arms_time} minutes per operation respectively (the processing time is fixed and cannot be reduced, even if it exceeds the part's processing time requirement). There are {num_parts} parts, each with a specific available time window (with a start time and an end time, and the processing period must be contained within this window), as detailed in the table `parts`. Each part has a corresponding required processing time; the total processing time must be greater than or equal to the required value to be valid. In this case, the profit equals the required value (excess processing does not increase profit); otherwise, the profit is 0. The same part can be processed multiple times by the same or different arms, but the next processing must start within {max_gap} minutes after the previous processing ends; otherwise, the part cannot be processed again. After completing the processing of a part, each robotic arm requires a certain setup time (even if the next part is the same as the previous one) before starting the next part, as detailed in the table `transitions`. It also takes time for the robotic arm to restore to its factory state after processing the final part (see table `parts`). The two robotic arms can start processing parts at time {start_time} and must complete processing and restore to the factory state by time {end_time}. Meanwhile, certain pairs of parts have a mutual exclusion relationship (i.e., at most one of them can be selected for processing), as detailed in the table `mutex`. What is the maximum total processing profit?",
+  "parameters": {
+    "arms_time": [
+      15,
+      20
+    ],
+    "num_parts": 45,
+    "max_gap": 5,
+    "start_time": 0,
+    "end_time": 512
+  },
+  "files": {
+    "parts": {
+      "path": "./data/parts.csv",
+      "description": "A table containing part information. Columns: `id` (part ID), `demand` (required processing time), `recovery_time` (time to restore to initial state), `start_time` (available start time), `end_time` (available end time).\nData format:\n| id | demand | recovery_time | start_time | end_time |\n| --- | --- | --- | --- | --- |\n| 0 | 10.0 | 15.0 | 350.0 | 370.0 |\n| 1 | 10.0 | 23.0 | 150.0 | 170.0 |\n| ... | ... | ... | ... | ... |"
+    },
+    "transitions": {
+      "path": "./data/transitions.csv",
+      "description": "A table defining setup times between parts. Columns: `id1` (previous part ID), `id2` (next part ID), `setup_time` (time interval from finishing id1 to starting id2).\nData format:\n| id1 | id2 | setup_time |\n| --- | --- | --- |\n| 0 | 1 | 37 |\n| 0 | 2 | 52 |\n| ... | ... | ... |"
+    },
+    "mutex": {
+      "path": "./data/mutex.csv",
+      "description": "A table defining mutually exclusive parts. Columns: `id1`, `id2` (indicating part id1 and part id2 cannot both be processed).\nData format:\n| id1 | id2 |\n| --- | --- |\n| 0 | 15 |\n| 0 | 43 |\n| ... | ... |"
+    }
+  },
+  "optimal_value": 345
+}

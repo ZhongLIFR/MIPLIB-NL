@@ -1,0 +1,19 @@
+{
+  "abstract_problem": "The Global Infrastructure Modernization Initiative is overseeing the procurement process for {n_regions} strategic operational sectors. Within each sector, {n_suppliers_per_region} contracting firms have submitted technical proposals characterized by {n_kpis} distinct inefficiency metrics, as detailed in the `bids` file. To standardize the evaluation, a unified vector of importance coefficients must be established for these metrics, applicable across all sectors. These coefficients are non-negative and must cumulatively equal one. The weighted aggregation of the metrics results in a Composite Cost Index (CCI), where a lower value signifies higher operational efficiency. Contracting firms with identification numbers strictly greater than 25 are designated as 'Tier-1 Partners' and will be subjected to an expedited quarterly audit cycle upon selection. Furthermore, operational sectors with IDs 1 through 10 are classified as 'Critical Hubs'; the winning contractors in these hubs are required to deploy on-site personnel for the first six months. The `targets` file specifies the pre-approved incumbent contractor for each sector based on prior engagement history. The objective is to define the optimal coefficients such that the Composite Cost Index of the incumbent contractor is the strict minimum amongst all competitors within their respective sector for the maximum possible number of sectors.",
+  "parameters": {
+    "n_regions": 25,
+    "n_suppliers_per_region": 49,
+    "n_kpis": 5
+  },
+  "files": {
+    "bids": {
+      "path": "./data/bids.csv",
+      "description": "A table containing KPI scores for all suppliers. Columns include `department_id` (Region ID, 1-{n_regions}), `supplier_id` (Supplier ID, 1-{n_suppliers_per_region}), and scores for 5 KPI metrics (`metric_1` to `metric_5`).\nData format:\n| department_id | supplier_id | metric_1 | metric_2 | metric_3 | metric_4 | metric_5 |\n| --- | --- | --- | --- | --- | --- | --- |\n| 1 | 1 | 0.0737380013 | 0.0764219984 | 0.0721359998 | 0.0767019987 | 0.0913420022 |\n| 1 | 2 | 0.0697119981 | 0.0666489974 | 0.0669320002 | 0.0779839978 | 0.0958919972 |\n| ... | ... | ... | ... | ... | ... | ... |"
+    },
+    "targets": {
+      "path": "./data/targets.csv",
+      "description": "A table containing information on preferred suppliers for each region. Columns include `department_id` (Region ID) and `preferred_supplier_id` (Preferred Supplier ID).\nData format:\n| department_id | preferred_supplier_id |\n| --- | --- |\n| 1 | 33 |\n| 2 | 36 |\n| ... | ... |"
+    }
+  },
+  "optimal_value": 3
+}

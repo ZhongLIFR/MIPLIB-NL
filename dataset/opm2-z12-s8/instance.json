@@ -1,0 +1,24 @@
+{
+  "abstract_problem": "The Interstellar Logistics Directorate is finalizing the payload manifest for the upcoming Exodus-Class colonization transport. We have identified {n} standardized infrastructure modules available for uplift, each assigned a Colonization Viability Score (CVS), which is recorded in the data as NPV. It is worth noting that some highly specialized waste-processing modules carry negative CVS values to reflect their high bio-hazard maintenance load, yet they are often structural prerequisites for other habitation wings. The transport vessel operates {m} distinct supply sub-grids (e.g., fusion power draw, heat dissipation, fluid recycling bandwidth). Due to reactor output limitations, every single sub-grid has a strict uniform maximum throughput cap of {resource_capacity} units. The automated loading cranes operate on a continuous 72-hour cycle to finalize the arrangement, ensuring all physical placements are secure. System architecture dictates {k} dependency protocols: installing an advanced module (Project ID) strictly requires the simultaneous installation of its prerequisite base unit (Required Project ID). For administrative tracking, any selected module with an ID divisible by 7 is classified as 'Hazard Class B' and will be stored in the shielded sectors of the cargo hold. This shielding is pre-installed and affects internal loading protocols but does not consume additional grid capacity. Additionally, the Directorate requires a summary report of the top 5 highest-scoring modules from the final selection for press release purposes. The goal is to identify the optimal subset of modules that maximizes the total Colonization Viability Score while strictly adhering to the sub-grid throughput caps and dependency protocols.",
+  "parameters": {
+    "n": 10800,
+    "m": 8,
+    "k": 319500,
+    "resource_capacity": 3704832.0
+  },
+  "files": {
+    "projects": {
+      "path": "./data/projects.csv",
+      "description": "A CSV table listing all {n} candidate projects with their properties. Columns: `id` (project identifier), `npv` (Net Present Value contribution of the project).\nData format:\n| id | npv |\n| --- | --- |\n| 1 | 312.0 |\n| 2 | -361.0 |\n| ... | ... |"
+    },
+    "resource_costs": {
+      "path": "./data/resource_costs.csv",
+      "description": "A CSV table detailing the resource consumption of projects. Columns: `project_id` (identifier of the project), `res_id` (identifier of the resource type, from 1 to {m}), `cost` (amount of resource units consumed by the project).\nData format:\n| project_id | res_id | cost |\n| --- | --- | --- |\n| 1 | 1 | 1835.0 |\n| 10 | 1 | 2159.0 |\n| ... | ... | ... |"
+    },
+    "dependencies": {
+      "path": "./data/dependencies.csv",
+      "description": "A CSV table listing {k} dependency pairs. Each row (project_id, required_project_id) implies a logical constraint: if `project_id` is selected, then `required_project_id` MUST also be selected.\nData format:\n| project_id | required_project_id |\n| --- | --- |\n| 9900 | 10800 |\n| 9900 | 10799 |\n| ... | ... |"
+    }
+  },
+  "optimal_value": 58540
+}

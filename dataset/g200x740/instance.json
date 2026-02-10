@@ -1,0 +1,19 @@
+{
+  "abstract_problem": "The Aurora Logistics Consortium is tasked with orchestrating a resource allocation strategy across {n} regional depots. Each depot possesses a specific net inventory status derived from the data, where positive figures denote a procurement need, negative figures represent available surplus stock, and a zero value identifies a pure cross-docking facility. To facilitate the transfer of resources, {m} potential logistical corridors have been surveyed. In accordance with the Regional Security Protocol, any corridor linking a source and target node where the source ID is greater than the target ID is classified as a 'Retrograde Vector', requiring distinct traffic signal patterns during operation. For the purpose of this immediate budget optimization, enabling a corridor incurs a one-time activation fee labeled `fixed_cost`. Concurrently, the actual conveyance of resources leverages a volume-dependent rate `var_cost`. Engineering assessments dictate that no single corridor can sustain a throughput exceeding {capacity} units due to structural stress limits. Furthermore, the strategic roadmap indicates that the top 5% of activated corridors by volume will be candidates for future hyper-loop upgrades in the next fiscal decade. The mathematical objective is to identify the optimal set of corridors to activate and the precise volume of flow to assign to each, ensuring that the net inventory position of every depot is perfectly balanced. The goal is to minimize the total immediate execution cost, calculated as the summation of all incurred activation fees and volume-dependent transport costs.",
+  "parameters": {
+    "n": 200,
+    "m": 740,
+    "capacity": 1500.0
+  },
+  "files": {
+    "nodes": {
+      "path": "./data/nodes.csv",
+      "description": "A table containing node information. `id`: Node identifier. `demand`: Net demand of the node (Demand - Supply).\nData format:\n| id | demand |\n| --- | --- |\n| 1 | -0.0 |\n| 2 | -15.0 |\n| ... | ... |"
+    },
+    "edges": {
+      "path": "./data/edges.csv",
+      "description": "A table containing edge information. `id`: Edge identifier. `source`: Source node ID. `target`: Target node ID. `fixed_cost`: Cost to activate the link. `var_cost`: Cost per unit of flow.\nData format:\n| id | source | target | fixed_cost | var_cost |\n| --- | --- | --- | --- | --- |\n| 1 | 1 | 2 | 63.0 | 8.0 |\n| 2 | 1 | 21 | 77.0 | 2.0 |\n| ... | ... | ... | ... | ... |"
+    }
+  },
+  "optimal_value": 44316
+}

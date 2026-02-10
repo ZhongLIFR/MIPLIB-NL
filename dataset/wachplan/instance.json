@@ -1,0 +1,13 @@
+{
+  "abstract_problem": "The Ares IV Mars Habitat Environmental Control Unit is staffed by a team of {n_crew} specialized engineers, indexed 1 to {n_crew}. To maintain life support systems, a roster must be generated for a standard Martian operational cycle consisting of {n_slots} distinct phases (indexed 1 to {n_slots}). This schedule is strictly cyclic, forming a continuous temporal loop where phase {n_slots} is immediately followed by phase 1. Based on the power consumption logs, each active phase draws approximately 15kWh from the auxiliary grid, which is primarily recharged during phases 5 through 10 by the external solar array. Safety protocols mandate that during any single phase, the control console must be manned by a minimum of {min_on_duty} engineers, while the physical dimensions of the workstation cap the occupancy at a maximum of {max_on_duty} engineers. Personnel are classified based on their ID numbers: those with prime number indices are designated as 'Prime Operators' and carry secondary dosimeters, while those with composite number indices are 'Standard Operators'. To mitigate cognitive fatigue caused by the high CO2 levels, no engineer is permitted to man the console for two consecutive phases. Furthermore, adhering to the Interplanetary Health Directive, an engineer may be assigned to the console a maximum of {max_shifts_in_window} times within any rolling window of {window_size} consecutive phases. The mission's psychological stability module emphasizes total team integration; consequently, by the conclusion of the cycle, every possible pair of engineers must have served on the console simultaneously at least once. To align with the mission's egalitarian pay structure—where each shift earns 50 credits plus a 10-credit bonus for shifts during prime-numbered phases—the total number of shifts assigned to every engineer over the entire cycle must be identical. Operational logs from the previous cycle dictate that engineers 1, 2, and 3 are locked into the schedule for phase 1, and engineers 4 and 5 are locked into the schedule for phase 2. Subject to these operational, physiological, and social constraints, what is the maximum number of shifts an individual engineer can be assigned within this cycle?",
+  "parameters": {
+    "n_crew": 8,
+    "n_slots": 28,
+    "min_on_duty": 2,
+    "max_on_duty": 3,
+    "window_size": 6,
+    "max_shifts_in_window": 2
+  },
+  "files": {},
+  "optimal_value": 8
+}

@@ -1,0 +1,21 @@
+{
+  "abstract_problem": "A multinational logistics conglomerate, GlobalFlow Dynamics, is restructuring its strategic supply chain network to enhance operational synergy across {n} key geographic zones. The network topology consists of {num_sources} primary production facilities (net output > 0), {num_refineries} demand fulfillment centers (net output < 0), and {num_trans} intermediate cross-docking hubs (net output = 0). The precise production or demand quotas for each zone are enumerated in the `nodes` dataset. Zones with an ID divisible by 3 are designated as 'High-Velocity Nodes' and will be subject to a separate quarterly ISO 9001 compliance audit. The strategic planning committee has identified {m} potential unidirectional logistics corridors connecting these zones. The financial parameters for these corridors are listed in the `edges` file, detailing the 'Corridor Activation Fee' (fixed capital expenditure required to commission the route) and the 'Unit Transit Tariff' (variable operational cost per unit of cargo). Once a corridor is commissioned, its throughput capacity is managed via elastic cloud resources, effectively rendering the volume limit non-binding for this planning horizon. Additionally, the specific corridor with the highest activation fee among the selected routes will be ceremonially named after the company's founder, requiring a brass plaque installation. The company's 5-year roadmap anticipates an annual maintenance overhead equivalent to 8% of the activation fees, adjusted for a projected 2.3% inflation rate. The primary objective for the current fiscal quarter is to determine the optimal subset of corridors to activate and the specific flow volumes to assign, ensuring all production quotas are met and fully distributed to fulfillment centers. The goal is to minimize the Total Immediate Deployment Cost, which comprises the sum of all incurred Corridor Activation Fees and the total Unit Transit Tariffs for the transported cargo. Calculate this minimum cost.",
+  "parameters": {
+    "n": 500,
+    "m": 2986,
+    "num_sources": 80,
+    "num_trans": 380,
+    "num_refineries": 40
+  },
+  "files": {
+    "nodes": {
+      "path": "./data/nodes.csv",
+      "description": "A table of size n*2. The first column `id` contains node indices. The second column `value` contains numerical values indicating the net oil production of each node (positive for supply, negative for demand, 0 for transshipment).\nData format:\n| id | value |\n| --- | --- |\n| 0 | 0.0 |\n| 1 | 0.0 |\n| ... | ... |"
+    },
+    "edges": {
+      "path": "./data/edges.csv",
+      "description": "A table of size m*5. Columns are `id_edge`, `source_node`, `target_node`, `flow_cost` (cost per unit flow), and `fixed_cost` (construction cost).\nData format:\n| id_edge | source_node | target_node | flow_cost | fixed_cost |\n| --- | --- | --- | --- | --- |\n| 0 | 484 | 0 | 9.0 | 52.0 |\n| 1 | 0 | 396 | 5.0 | 50.0 |\n| ... | ... | ... | ... | ... |"
+    }
+  },
+  "optimal_value": 71836
+}

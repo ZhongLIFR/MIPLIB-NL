@@ -1,0 +1,22 @@
+{
+  "abstract_problem": "An automotive manufacturer is designing its next-generation flagship electric vehicle platform. The vehicle consists of M core subsystems (e.g., battery pack, electric motor, electronic control system, body material, suspension system, intelligent driving chip, thermal management system). The R&D team has provided several different alternative options (suppliers or technical routes) for each subsystem, and exactly one option must be selected from the several options of each subsystem (mutual exclusion constraint). Engineers must choose precisely one option from each subsystem to form a complete prototype vehicle. Meanwhile, the marketing and regulatory departments have listed N key performance indicators (KPIs), and these N constraints represent the physical formulas for N performance tests. The result of each test depends on the linear combination of the selected alternative options for the subsystems. If the combined performance value meets a specific threshold, the test is deemed 'compliant'; if not, it is deemed 'non-compliant'. Our goal is to maximize the number of compliant tests.",
+  "parameters": {
+    "M": 7,
+    "N": 100
+  },
+  "files": {
+    "files_0": {
+      "path": "data/system.csv",
+      "description": "Each row of Table system represents a subsystem, followed by the names of different alternative schemes available for that subsystem. Exactly one scheme must be selected from the several schemes of each subsystem (mutually exclusive constraint)."
+    },
+    "files_1": {
+      "path": "data/test.csv",
+      "description": "The first row of Table test lists the alternative options for all subsystems. Starting from the second row, each row represents a test, presenting the coefficients for the linear combination of each subsystem’s alternative options in that test. The sum of this linear combination must exceed a specific threshold for the test to be deemed compliant."
+    },
+    "files_2": {
+      "path": "data/test2.csv",
+      "description": "Each row of Table test2 represents a test, followed by the threshold that the test needs to meet. For the test to be deemed compliant, the sum of the linear combination of the alternative options for each subsystem in the test must exceed this threshold."
+    }
+  },
+  "optimal_value": 56
+}

@@ -1,0 +1,20 @@
+{
+  "abstract_problem": "This is an intensity-modulated radiation therapy (IMRT) field decomposition problem. A rectangular treatment field is discretized into an {M} by {N} grid of cells, each requiring a prescribed total radiation exposure Intensity[row,col]. The treatment delivery strategy organizes beam apertures (called segments) by their exposure intensity level: for each intensity level ranging from 1 to {max_intensity}, the plan specifies how many distinct segments will operate at that particular intensity. Each segment is a binary aperture shape where horizontal blocking leaves move from both edges to create exposed regions; crucially, within any single row, all exposed cells must form a single contiguous interval. During actual treatment, multiple segments operating at the same intensity level may cover overlapping regions; each cell accumulates dose from all segments that expose it, where a segment operating at intensity level b delivers b dose units each time that cell falls within that segment's aperture. The overall treatment time is determined by summing, across all intensity levels, the product of each intensity level and the count of segments operating at that level. The total count of distinct segments deployed equals the sum of segment counts across all intensity levels. The treatment planning goal follows a hierarchical priority structure: the primary objective is to minimize overall treatment time, while the secondary objective (pursued only after achieving minimal treatment time) is to minimize the total number of distinct segments deployed. This hierarchical optimization can be implemented through sequential phases or via a composite objective function with appropriate weighting. A critical physical constraint requires that for any given intensity level and any given row, the combined coverage pattern of all segments at that intensity level must maintain the property that exposed cells form contiguous intervals.",
+  "parameters": {
+    "M": "40",
+    "N": "40",
+    "max_intensity": "10",
+    "total_intensity": "8016"
+  },
+  "files": {
+    "intensity": {
+      "path": "data/intensity.csv",
+      "description": "Required radiation intensity for each cell of the treatment field with columns: `row`, `col`, `required_intensity`. Rows and columns are 1-based indices from 1 to M and 1 to N. Each record specifies how much total exposure the corresponding cell must receive. Data format: | row | col | required_intensity |\n|-----|-----|--------------------|\n| 1   | 1   | ...                |\n| 1   | 2   | ...                |\n| ... | ... | ...                |"
+    },
+    "parameters": {
+      "path": "data/parameters.csv",
+      "description": "Global problem parameters with columns: `parameter`, `value`. Includes the grid dimensions and basic statistics of the prescribed intensity pattern such as number of rows and columns, maximum cell intensity, and total required intensity. Data format: | parameter       | value |\n|------------------|-------|\n| num_rows         | 40    |\n| num_cols         | 40    |\n| max_intensity    | 10    |\n| total_intensity  | 8016  |"
+    }
+  },
+  "optimal_value": "155393"
+}

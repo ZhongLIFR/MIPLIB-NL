@@ -1,0 +1,20 @@
+{
+  "abstract_problem": "Imagine a logistics distribution company located in the city center. The company plans to go public in 2028. In a specific mission, the company needs to rationally arrange routes among N1 possible paths to transport goods for N2 customers. Each shipment of these goods weighs W, and each delivery generates a revenue of R for the company. It is required that every customer receives a delivery exactly once. The transportation cost for each route is stored in table C1, and the list of customers reachable by each route is stored in table C2. Output the minimum cost.",
+  "parameters": {
+    "N1": 65832,
+    "N2": 100,
+    "W": 30,
+    "R": 2
+  },
+  "files": {
+    "files_1": {
+      "path": "data/C1.csv",
+      "description": "In Table C1, the first column contains route IDs and the second column shows the transportation cost of each corresponding route."
+    },
+    "files_2": {
+      "path": "data/C2.csv",
+      "description": "In Table C2, the first column of each row is a route ID, followed by the IDs of the customers that the route can reach."
+    }
+  },
+  "optimal_value": 880.920108
+}

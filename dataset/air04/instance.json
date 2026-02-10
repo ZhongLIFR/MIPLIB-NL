@@ -1,0 +1,18 @@
+{
+  "abstract_problem": "A logistics conglomerate is finalizing the master transport schedule for its global network, encompassing {n} distinct atomic transport segments. The strategic operations division has pre-compiled {m} potential routing bundles. Each bundle represents a feasible sequence of segments executable by a single logistic unit and acts as a candidate variable in the system. Associated with each bundle is a specific operational expenditure value. The bundles are indexed numerically; it is noted that indices divisible by 7 correspond to high-altitude trajectories involving specialized pressurization protocols which are monitored separately for equipment fatigue. The optimization objective is to identify a subset of these routing bundles to form the schedule such that the summation of their operational expenditure values is minimized. The solution must strictly adhere to the set partition topology: the union of the segment sets from the selected bundles must be exactly equal to the set of all {n} segments, and the intersection of the segment sets of any two selected bundles must be the empty set, preventing resource conflict. Additionally, any selected bundle with an expenditure value falling into the top 10 percent of the cost distribution will be flagged for a secondary safety audit after the schedule is implemented. Determine the minimum total operational expenditure for the valid schedule.",
+  "parameters": {
+    "n": 823,
+    "m": 8904
+  },
+  "files": {
+    "pairing_costs": {
+      "path": "./data/pairing_costs.csv",
+      "description": "A CSV file containing the cost information for each candidate pairing. It contains two columns: `pairing_id` representing the unique identifier of the pairing, and `cost` representing the cost associated with this pairing.\nData format:\n| pairing_id | cost |\n| --- | --- |\n| 1 | 971.0 |\n| 2 | 203.0 |\n| ... | ... |"
+    },
+    "pairing_flights": {
+      "path": "./data/pairing_flights.csv",
+      "description": "A CSV file mapping flights to pairings. It contains two columns: `pairing_id` representing the pairing identifier, and `flight_id` representing the flight identifier, indicating that this flight belongs to this pairing.\nData format:\n| pairing_id | flight_id |\n| --- | --- |\n| 1 | 1 |\n| 1 | 2 |\n| ... | ... |"
+    }
+  },
+  "optimal_value": 56137
+}

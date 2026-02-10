@@ -1,0 +1,14 @@
+{
+  "abstract_problem": "Given I items with weights and a knapsack , the weight of items be put into the knapsack must not smaller than W, select a subset of items to minimize the total value while respecting the capacity constraint",
+  "parameters": {
+    "I": 100,
+    "W": 80424.0
+  },
+  "files": {
+    "files_1": {
+      "path": "data/weight.csv",
+      "description": "The first column is the item ID, and the second column is the weight of the corresponding item"
+    }
+  },
+  "optimal_value": "80431"
+}

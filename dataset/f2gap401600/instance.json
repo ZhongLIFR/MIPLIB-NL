@@ -1,0 +1,24 @@
+{
+  "abstract_problem": "A chemical enterprise needs to neutralize N1 chemical indicators. To achieve this, the company needs to select and use a certain number of raw materials from N2 available options. The procurement cost for each raw material is provided in Table C1; some materials are government-subsidized recycled materials that provide high subsidies (exceeding the purchase price) upon use, resulting in negative costs. The company's business license has been held for N years, and over the past 3 years, the company has established partnerships with N3 large-scale medical enterprises. The effectiveness of each raw material on each chemical indicator is provided in Table C2; some raw materials have side effects on certain indicators (causing the indicators to deteriorate), resulting in negative effectiveness values. The threshold required for each indicator is provided in Table C3. We need to help the enterprise determine a raw material selection scheme that minimizes costs while satisfying all indicator requirements. Output the minimum cost value.",
+  "parameters": {
+    "N1": 40,
+    "N": 5,
+    "N2": 1600,
+    "N3": 120
+  },
+  "files": {
+    "files_1": {
+      "path": "data/C1.csv",
+      "description": "Table C1's first column is the Material ID, and the second column is the cost of that material. Here, some materials are subsidized recycled materials, which generate a high subsidy when used, so the cost is negative."
+    },
+    "files_2": {
+      "path": "data/C2.csv",
+      "description": "Table C2's first column is the Material ID, and the first row is the Indicator ID. The intersection is the efficacy value of that material for that indicator; some materials have side effects on certain indicators, so the efficacy is negative."
+    },
+    "files_3": {
+      "path": "data/C3.csv",
+      "description": "Table C3's first column is the Indicator ID, and the second column is the threshold required to satisfy that indicator."
+    }
+  },
+  "optimal_value": 82307
+}

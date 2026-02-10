@@ -1,0 +1,19 @@
+{
+  "abstract_problem": "In the wake of a recent natural disaster, a central logistics command is coordinating the distribution of emergency relief supplies to affected zones. The command has access to a set of pre-configured supply drops (packages) from various donors. Each supply drop contains a specific mix of essential resources (standardized into 'utility units') allocated to each zone, as detailed in the shipment manifest. Due to the urgency, the command can either accept or reject each supply drop in its entirety; partial acceptance is not possible. Each zone has a critical demand target representing the population's immediate needs. \n\nCrucially, the local distribution centers in each zone have limited capacity matching their demand targets. Any supply exceeding the target would result in spoilage and logistical gridlock, which is strictly prohibited by the 'Zero Waste' protocol (i.e., total supply to any zone must not exceed its target). \n\nThe operation is fully funded by a global relief fund, so the procurement costs of the supply drops (listed in the cost estimates) are covered and should not influence the distribution strategy. The primary objective is to maximize the **Global Service Fulfillment Ratio**, defined as the total utility units successfully delivered to all zones divided by the total demand across all zones.",
+  "parameters": {},
+  "files": {
+    "markets": {
+      "path": "data/markets.csv",
+      "description": "Affected zones registry containing demand targets. \n\nColumns:\n- `market_code` (str): Unique identifier for the zone (e.g., 'MKT-001').\n- `market_name` (str): Name of the zone.\n- `target_units` (int): The strict maximum capacity and demand target for the zone.\n\nData format:\n| market_code | market_name | target_units |\n|---|---|---:|\n| MKT-000 | Zone Alpha | ... |\n"
+    },
+    "package_contents": {
+      "path": "data/package_contents.csv",
+      "description": "Detailed shipment manifest in long format, specifying the contents of each supply drop. Only non-zero allocations are listed.\n\nColumns:\n- `package_code` (str): Unique identifier for the supply drop (e.g., 'PKG-001').\n- `market_code` (str): Identifier of the zone receiving the resources.\n- `exposure_units` (int): Amount of utility units delivered to the specific zone if this package is accepted.\n\nData format:\n| package_code | market_code | exposure_units |\n|---|---|---:|\n| PKG-000 | MKT-001 | 25 |\n"
+    },
+    "costs": {
+      "path": "data/costs.csv",
+      "description": "Estimated procurement costs for each supply drop. Provided for auditing purposes only.\n\nColumns:\n- `package_code` (str): Unique identifier for the supply drop.\n- `package_name` (str): Descriptive label.\n- `estimated_cost` (int): Cost in USD.\n\nData format:\n| package_code | package_name | estimated_cost |\n|---|---|---:|\n| PKG-000 | Drop A | 3500 |\n"
+    }
+  },
+  "optimal_value": "5334"
+}

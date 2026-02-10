@@ -1,0 +1,19 @@
+{
+  "abstract_problem": "The Global Isotope Logistics Authority manages a specialized supply chain network across {n} key regional hubs. These hubs are categorized based on their net inventory position: production sites possess a surplus (negative net requirement) while clinical centers possess a deficit (positive net requirement). The aggregate output across the network matches the aggregate clinical need. Connectivity is provided by {m} dedicated transit vectors. Utilization of a vector in a given direction mandates the payment of a non-recoverable route commissioning fee to local security contractors, alongside a volumetric handling charge applied to each unit of cargo transported. It is noteworthy that hubs with an identification number divisible by three are designated as High-Security Zones, subject to an independent annual radiation safety audit, the results of which are published separately from the logistics budget. Furthermore, to adhere to hazardous material transport regulations, the flow volume on any active vector cannot exceed {capacity} units. Vectors established with a commissioning fee exceeding the 90th percentile of all network fees will be nominated for the 'Infrastructure Excellence Award' at the end of the fiscal year. The organization seeks to calculate the lowest possible total outlay required to balance the inventory across the network, accounting for strictly the route commissioning fees and volumetric handling charges for the current period.",
+  "parameters": {
+    "n": 16,
+    "m": 120,
+    "capacity": 1000.0
+  },
+  "files": {
+    "nodes": {
+      "path": "./data/nodes.csv",
+      "description": "A table of size n*2. `id` is the center index. `demand` is the net requirement (positive for demand, negative for supply).\nData format:\n| id | name | demand |\n| --- | --- | --- |\n| 1 | CNS01 | -402.0 |\n| 2 | CNS02 | 24.0 |\n| ... | ... | ... |"
+    },
+    "edges": {
+      "path": "./data/edges.csv",
+      "description": "A table of size m*6. `source` and `target` are center indices. `var_cost_fwd` and `fixed_cost_fwd` are costs for flow from source to target. `var_cost_bwd` and `fixed_cost_bwd` are costs for flow from target to source.\nData format:\n| edge_id | source | target | var_cost_fwd | fixed_cost_fwd | var_cost_bwd | fixed_cost_bwd |\n| --- | --- | --- | --- | --- | --- | --- |\n| 1 | 2 | 1 | 9.0 | 724.0 | 9.0 | 834.0 |\n| 2 | 3 | 1 | 9.0 | 645.0 | 1.0 | 962.0 |\n| ... | ... | ... | ... | ... | ... | ... |"
+    }
+  },
+  "optimal_value": 11393
+}

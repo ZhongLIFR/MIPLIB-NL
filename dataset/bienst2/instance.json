@@ -1,0 +1,37 @@
+{
+  "abstract_problem": "A company is preparing an operations plan for a fixed planning window and must decide how to allocate limited linehaul capacity between {N_nodes} regional sites. It can activate a set of candidate directed service lanes (for example, a scheduled shuttle from one site to another). Activating a lane by 1 unit means committing one full standard capacity block for that lane during the window; activating it by a fraction means committing only the corresponding fraction of that capacity block (for example by sharing trucks, booking partial space, or running fewer departures).\n\nDuring the same window, the company must move {N_commodities} independent product streams. A product stream represents a group of shipments that must be planned separately (for example a customer segment, a product family, or a handling class). All quantities are measured in a consistent shipment unit (e.g., pallets, roll cages, or standardized containers). Each stream has a designated origin site where its shipments enter the network. For each other site, the stream has a net receipt requirement: by the end of the window, the site must have received a specified number of shipment units of that stream more than it sends onward, so transshipment through intermediate sites is allowed.\n\nTo keep the network easy to operate and resilient, each site must activate exactly {required_outgoing} outgoing lanes and exactly {required_incoming} incoming lanes. After choosing lane activations, the company can route each stream through intermediate sites and can split the stream across multiple lanes.\n\nThe company’s key risk metric is operational congestion: if any one lane carries too much total volume, it becomes the bottleneck for staffing, docking, and dispatch. The model therefore tracks a single congestion indicator, defined as the largest (over all lanes) total shipped volume on that lane when summing across all product streams. The goal is to meet all net receipt requirements while minimizing this congestion indicator, i.e., making the busiest lane as light as possible.",
+  "parameters": {
+    "N_nodes": "8",
+    "N_arcs": "56",
+    "N_commodities": "8",
+    "required_outgoing": "2",
+    "required_incoming": "2"
+  },
+  "files": {
+    "nodes": {
+      "path": "data/nodes.csv",
+      "description": "List of sites in the network. Each row defines one site identifier used consistently by all other tables. The optional name field is a human-friendly label for reports and dashboards.\n\nData format:\n- Header: node_id,node_name\n- node_id: short string identifier\n- node_name: human-readable label\nExample:\nnode_id,node_name\na,Site A\nb,Site B"
+    },
+    "commodities": {
+      "path": "data/commodities.csv",
+      "description": "Definition of product streams that must be moved during the planning window. Each product stream has a designated origin site, meaning the stream’s shipments are injected there and do not need to be routed into the origin from other sites. The optional name field is a human-friendly label.\n\nData format:\n- Header: commodity_id,source_node,commodity_name\n- commodity_id: short string identifier\n- source_node: node_id indicating the origin site for this stream\n- commodity_name: human-readable label\nExample:\ncommodity_id,source_node,commodity_name\na,a,Fresh goods\nb,b,Spare parts"
+    },
+    "arcs": {
+      "path": "data/arcs.csv",
+      "description": "Candidate directed service lanes that may be activated between sites. Each row defines one directed lane from one site to another (no self-loops). The activation amount represents how much of a standardized capacity block is committed to that lane for the planning window. The decision type indicates whether the activation amount must be a whole number (discrete commitment) or may be fractional. The lower and upper bounds define the allowed activation range.\n\nData format:\n- Header: arc_id,from_node,to_node,x_decision_type,x_lb,x_ub\n- arc_id: unique string identifier for the lane\n- from_node,to_node: node_id endpoints of the directed lane\n- x_decision_type: either integer or continuous\n- x_lb,x_ub: numeric lower/upper bounds for the activation amount\nExample:\narc_id,from_node,to_node,x_decision_type,x_lb,x_ub\na_b,a,b,integer,0,1\ne_a,e,a,continuous,0,1"
+    },
+    "degree_requirements": {
+      "path": "data/degree_requirements.csv",
+      "description": "Per-site lane-count requirements. Each row specifies how many outgoing lanes and how many incoming lanes a site must activate. This enforces a fixed number of active connections per site and is used to keep the planned network simple and resilient.\n\nData format:\n- Header: node_id,required_outgoing,required_incoming\n- node_id: site identifier\n- required_outgoing,required_incoming: required counts (numbers)\nExample:\nnode_id,required_outgoing,required_incoming\na,2,2\nb,2,2"
+    },
+    "demands": {
+      "path": "data/demands.csv",
+      "description": "Net receipt requirements for product streams at sites. Each row states the required net receipt at a site for a product stream, expressed as net inflow: total units received into the site minus total units sent onward from the site over the planning window. A positive value means the site must be a net receiver for that stream. A negative value means the site must be a net sender for that stream. The origin site listed for a stream in the commodities table is typically omitted from this table.\n\nData format:\n- Header: commodity_id,node_id,net_inflow\n- commodity_id: product stream identifier\n- node_id: site identifier\n- net_inflow: signed number (shipment units)\nExample:\ncommodity_id,node_id,net_inflow\na,b,10\na,c,7\nc,f,-5"
+    },
+    "capacity_multipliers": {
+      "path": "data/capacity_multipliers.csv",
+      "description": "Carrying capability per unit of lane activation. Each row gives the maximum shipment units of a product stream that can traverse a lane per 1 unit of that lane’s activation. If a lane has activation amount 1 and the multiplier is 74, then up to 74 units of that stream may be carried on that lane; if the activation amount is 0.5, the usable capability scales proportionally. If a (commodity, lane) pair is absent from this table, that stream is not allowed to use that lane in this compact representation.\n\nData format:\n- Header: commodity_id,arc_id,capacity_multiplier\n- commodity_id: product stream identifier\n- arc_id: lane identifier\n- capacity_multiplier: nonnegative number (shipment units per unit activation)\nExample:\ncommodity_id,arc_id,capacity_multiplier\na,a_b,74\na,b_c,64\nh,g_f,41"
+    }
+  },
+  "optimal_value": "54.6"
+}

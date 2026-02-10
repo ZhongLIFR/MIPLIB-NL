@@ -1,0 +1,53 @@
+{
+  "abstract_problem": "A microgrid operator manages a fleet of Distributed Energy Resources (DERs) to balance local demand and maintain islanding capability. The planning horizon consists of T=168 consecutive time intervals (1 week). Each DER has specific technical capabilities (min/max output, ramp rates) and economic parameters. The microgrid must maintain an islanding reserve margin at all times. Operational constraints include battery cycle limits (min up/down times) and inverter synchronization costs. The goal is to minimize the total cost of operation and activation while satisfying all demand and stability requirements.",
+  "parameters": {
+    "unserved_energy_penalty": 15.0
+  },
+  "files": {
+    "units": {
+      "path": "data/units.csv",
+      "description": "Registry of DER assets. Contains string identifiers and metadata.\n- `unit_id`: Unique string identifier (e.g., 'DER_001').\n- `der_type`: Type of resource (decoy).\n- `connection_voltage_kv`: Connection voltage (decoy).\n- `controller_firmware`: Firmware version (decoy)."
+    },
+    "mode_specs": {
+      "path": "data/mode_specs.csv",
+      "description": "Technical specifications for asset operating modes.\n- `unit_id`: Asset identifier.\n- `mode_id`: Mode identifier (integer).\n- `min_output`: Minimum power output (MW).\n- `max_output`: Maximum power output (MW).\n- `ramp_up_rate_mw_per_min`: Maximum ramp-up rate (MW/min). Note: These values are physically present but may be non-binding for hourly dispatch.\n- `ramp_down_rate_mw_per_min`: Maximum ramp-down rate (MW/min)."
+    },
+    "mode_costs": {
+      "path": "data/mode_costs.csv",
+      "description": "Economic parameters for asset operating modes. Note: Marginal and fixed costs are zero here; actual production costs are modeled via `der_production_costs.csv`.\n- `unit_id`: Asset identifier.\n- `mode_id`: Mode identifier.\n- `marginal_cost`: Cost per unit of output ($/MW) (placeholder).\n- `fixed_cost`: Hourly fixed cost when active ($/h) (placeholder)."
+    },
+    "der_production_costs": {
+      "path": "data/der_production_costs.csv",
+      "description": "Piecewise linear production cost segments for DERs. Each row defines a cost segment: cost >= slope * generation + intercept * mode_on.\n- `unit_id`: Asset identifier.\n- `mode_id`: Mode identifier.\n- `time_id`: Time interval index (1-168).\n- `segment_id`: Segment identifier (integer).\n- `slope`: Marginal cost for this segment ($/MW).\n- `intercept`: Fixed cost component for this segment ($/h)."
+    },
+    "system_requirements": {
+      "path": "data/system_requirements.csv",
+      "description": "Microgrid demand and reserve requirements per time interval.\n- `time_id`: Time interval index (1-168).\n- `demand`: System load (MW).\n- `spinning_reserve_requirement`: Required islanding reserve (MW)."
+    },
+    "policy_rules": {
+      "path": "data/policy_rules.csv",
+      "description": "Operational policy rules defining constraints.\n- `rule_id`: Unique rule identifier.\n- `rule_family`: Business category of the rule. Possible values:\n  - `MICROGRID_POWER_BALANCE`: Supply must equal demand.\n  - `ISLANDING_RESERVE_REQ`: Reserve capacity requirement.\n  - `INVERTER_SYNC_COST`: Cost associated with synchronizing inverters (startup).\n  - `BATTERY_CYCLE_LIMIT_UP`: Minimum uptime constraint.\n  - `BATTERY_CYCLE_LIMIT_DOWN`: Minimum downtime constraint.\n  - `CONNECTION_RAMP`: Ramp constraint during connection (startup).\n  - `DISCONNECTION_RAMP`: Ramp constraint during disconnection (shutdown).\n  - `INITIAL_STATE_PATCH`: Initial condition constraints.\n  - `STOP_STAGE_LINK`: Logic linking stop variables to stages.\n  - `EXCLUSIVITY`: Mutually exclusive mode constraints.\n  - `DER_STATUS_LINK`: Logic linking status variables.\n  - `START_STAGE_LINK`: Logic linking start variables to stages.\n- `time_id`: Time interval index.\n- `sense`: Comparison operator (`<=`, `=`, `>=`).\n- `rhs`: Right-hand side value.\n- `gen_scope`: Scope of generation variables involved (e.g., `ALL_DISPATCHABLE_MODES_AT_TIME`).\n- `online_capacity_source`: Source of capacity for online variables (e.g., `MAX_MODE_OUTPUT`)."
+    },
+    "policy_rule_terms": {
+      "path": "data/policy_rule_terms.csv",
+      "description": "Detailed terms for policy rules.\n- `rule_id`: Link to `policy_rules.csv`.\n- `term_type`: Variable type. Possible values:\n  - `STOP`: Binary variable indicating unit stop.\n  - `START`: Binary variable indicating unit start.\n  - `UNSERVED`: Continuous variable for unserved energy (load shedding).\n  - `STARTUP_COST`: Continuous variable for startup cost.\n  - `ONLINE`: Binary variable indicating unit is online.\n  - `STOP_STAGE`: Binary variable for stop stage logic.\n  - `START_STAGE`: Binary variable for start stage logic.\n  - `GEN`: Continuous variable for power generation.\n  - `MODE_ON`: Binary variable indicating specific mode is active.\n- `time_id`: Time interval index.\n- `coef`: Coefficient."
+    },
+    "mode_unavailability_windows": {
+      "path": "data/mode_unavailability_windows.csv",
+      "description": "Periods where specific asset modes are unavailable."
+    },
+    "start_stop_event_cost_windows": {
+      "path": "data/start_stop_event_cost_windows.csv",
+      "description": "Time windows for activation/deactivation surcharges."
+    },
+    "ambient_conditions": {
+      "path": "data/ambient_conditions.csv",
+      "description": "Environmental data (irradiance, wind speed) for renewable forecasting (decoy)."
+    },
+    "asset_registry": {
+      "path": "data/asset_registry.csv",
+      "description": "Additional asset metadata including PCC and ownership (decoy)."
+    }
+  },
+  "optimal_value": "11507.4050616"
+}

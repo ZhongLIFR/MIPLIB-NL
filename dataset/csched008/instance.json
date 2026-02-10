@@ -1,0 +1,21 @@
+{
+  "abstract_problem": "An operations team must launch {num_tasks} independent work orders on one shared facility over a discrete calendar. The facility can provide at most {resource_capacity} units of capacity at any time tick, and each order continuously consumes a fixed amount of that capacity while it is being processed. Each order requires a fixed number of consecutive ticks; once it begins it must proceed without pausing. Every order becomes ready at its own ready time and must be launched no later than its last allowed start time. The plan must choose exactly one start tick for each order within its allowed window. The goal is to finish all orders as early as possible, i.e., minimize the completion tick of the last finished order. The calendar spans ticks {min_time} through {max_time}, which is long enough to cover every order's latest possible completion (a total of {horizon} ticks).",
+  "parameters": {
+    "num_tasks": "50",
+    "resource_capacity": "25",
+    "min_time": "0",
+    "max_time": "200",
+    "horizon": "201"
+  },
+  "files": {
+    "tasks": {
+      "path": "data/tasks.csv",
+      "description": "Job-level data. Each row corresponds to one job. The columns describe how long the job runs, how much shared machine capacity it consumes while running, when it becomes eligible to start, and the last time it is still allowed to start. The allowed start window is defined by `release_time` and `latest_start`; start times outside this window are not permitted.\nData format:\n| task_id | duration | resource_demand | release_time | latest_start |\n|--------|----------|-----------------|--------------|--------------|\n| <int>  | <int>    | <int>           | <int>        | <int>        |"
+    },
+    "parameters": {
+      "path": "data/parameters.csv",
+      "description": "Global scenario settings. Each row defines a single scalar setting that applies to the whole instance, such as the number of jobs, the machine's total capacity, and the bounds of the discrete timeline used to evaluate capacity usage.\nData format:\n| parameter | value |\n|----------|-------|\n| <string> | <string_or_number> |"
+    }
+  },
+  "optimal_value": "173"
+}
